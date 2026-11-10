@@ -1,0 +1,37 @@
+name: Compilar website Bawito
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Compilar React e gerar site estatico
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Obter codigo
+        uses: actions/checkout@v4
+
+      - name: Preparar Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Instalar dependencias
+        run: npm install --no-audit --no-fund
+
+      - name: Validar TypeScript e compilar
+        run: npm run build
+
+      - name: Disponibilizar a pasta dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: bawitomusic-site-estatico
+          path: dist/
+          if-no-files-found: error
+          retention-days: 14
