@@ -1,0 +1,11 @@
+.git
+.github
+node_modules
+dist
+.vite
+.vercel
+.env
+.env.*
+*.log
+*.zip
+.DS_Store

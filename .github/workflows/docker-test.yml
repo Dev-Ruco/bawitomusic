@@ -1,0 +1,39 @@
+name: Testar imagem Docker para Coolify
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - Dockerfile
+      - .dockerignore
+      - deploy/**
+      - package.json
+      - src/**
+      - public/**
+      - index.html
+      - vite.config.ts
+      - tsconfig.json
+      - .github/workflows/docker-test.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compilar imagem
+        run: docker build -t bawitomusic:test .
+      - name: Testar pagina e endpoint de saude
+        run: |
+          set -eu
+          docker run -d --name bawitomusic-test -p 127.0.0.1:8080:80 bawitomusic:test
+          for attempt in 1 2 3 4 5 6 7 8 9 10; do
+            if curl --fail --silent http://127.0.0.1:8080/ -o /tmp/bawito-index.html; then break; fi
+            sleep 2
+          done
+          grep -q 'Bawito Music' /tmp/bawito-index.html
+          curl --fail --silent http://127.0.0.1:8080/healthz | grep -q ok
