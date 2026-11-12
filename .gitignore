@@ -20,3 +20,6 @@ public/images/aluguer/palcos-*.webp
 
 # Imagens adaptativas de portefólio — geradas no build
 public/images/projectos/optimizadas/
+
+# Fotografia dos artistas em WebP, derivada do original em public/images/marca
+public/images/artistas/mr-bow-liloca-*.webp

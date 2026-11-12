@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react'
 import {
   ArrowDown, ArrowUpRight, CalendarDays, Check, ChevronDown, Compass, Target,
   ChevronLeft, ChevronRight, Clapperboard, Headphones, Mail,
-  MapPin, Megaphone, Menu, MessageCircle, Mic2, MonitorPlay, Phone, Radio,
+  MapPin, Megaphone, Menu, MessageCircle, MonitorPlay, Phone, Radio,
   Send, ShieldCheck, Sparkles, X,
   type LucideIcon,
 } from 'lucide-react'
@@ -496,8 +496,30 @@ function App() {
 
       <section id="artistas" className="artist-section" aria-labelledby="artist-title">
         <div className="container artist-inner">
-          <div className="artist-graphic" aria-hidden="true"><div className="artist-ring ring-1" /><div className="artist-ring ring-2" /><div className="artist-ring ring-3" /><Mic2 size={88} strokeWidth={0.75} /></div>
-          <div className="artist-content reveal"><SectionEyebrow light>ENTRETENIMENTO & TALENTO</SectionEyebrow><h2 id="artist-title">Mais do que eventos.<br /><em>Criamos ligação.</em></h2><p>A música faz parte da nossa identidade. A Bawito integra gestão artística e soluções de entretenimento para eventos, campanhas e experiências que aproximam marcas e públicos.</p><div className="artist-buttons"><a href="https://mrbow.co.mz" target="_blank" rel="noopener noreferrer">Mr Bow <ArrowUpRight size={19} /></a><a href="https://liloca.co.mz" target="_blank" rel="noopener noreferrer">Liloca <ArrowUpRight size={19} /></a></div></div>
+          <figure className="artist-visual reveal">
+            <picture>
+              <source media="(max-width: 620px)" srcSet="/images/artistas/mr-bow-liloca-mobile.webp" type="image/webp" />
+              <img src="/images/artistas/mr-bow-liloca-desktop.webp"
+                width={1200} height={675}
+                alt="Mr Bow e Liloca, artistas representados pela Bawito Music & Serviços"
+                loading="lazy" decoding="async"
+                sizes="(max-width: 620px) 92vw, (max-width: 960px) 85vw, 50vw" />
+            </picture>
+            <figcaption className="artist-photo-caption">
+              <span>MR BOW</span>
+              <span className="artist-caption-divider" aria-hidden="true" />
+              <span>LILOCA</span>
+            </figcaption>
+          </figure>
+          <div className="artist-content reveal">
+            <SectionEyebrow light>ENTRETENIMENTO & TALENTO</SectionEyebrow>
+            <h2 id="artist-title">Mais do que eventos.<br /><em>Criamos ligação.</em></h2>
+            <p>A música faz parte da nossa identidade. A Bawito integra gestão artística e soluções de entretenimento para eventos, campanhas e experiências que aproximam marcas e públicos.</p>
+            <div className="artist-buttons">
+              <a href="https://mrbow.co.mz" target="_blank" rel="noopener noreferrer" aria-label="Conhecer o artista Mr Bow no seu website oficial">Conhecer Mr Bow <ArrowUpRight size={19} aria-hidden="true" /></a>
+              <a href="https://liloca.co.mz" target="_blank" rel="noopener noreferrer" aria-label="Conhecer a artista Liloca no seu website oficial">Conhecer Liloca <ArrowUpRight size={19} aria-hidden="true" /></a>
+            </div>
+          </div>
         </div>
       </section>
 

@@ -46,6 +46,12 @@ assert.ok(html.includes('Sanitários Móveis para Eventos'), 'O aluguer de sanit
 assert.ok(html.includes('PROJECTOS &amp; REALIZAÇÕES') || html.includes('PROJECTOS & REALIZAÇÕES'), 'Portefólio não identificado')
 assert.equal((html.match(/class="gallery-item reveal"/g) || []).length, 8, 'O portefólio deve ter oito imagens locais')
 assert.ok(html.includes('Conferências institucionais'), 'Portefólio de conferências em falta')
+assert.ok(html.includes('mr-bow-liloca-desktop.webp'), 'Fotografia dos artistas ausente da secção de entretenimento')
+assert.ok(html.includes('mr-bow-liloca-mobile.webp'), 'Versão móvel dos artistas ausente')
+for (const variant of ['mobile','desktop']) {
+  assert.ok(existsSync('dist/images/artistas/mr-bow-liloca-' + variant + '.webp'), 'Imagem dos artistas não encontrada: ' + variant)
+}
+assert.ok(html.includes('Conhecer Mr Bow') && html.includes('Conhecer Liloca'), 'Ligações aos artistas ausentes')
 assert.ok(html.includes('Grandes palcos'), 'Portefólio de palcos em falta')
 assert.ok(!html.includes('A galeria de projectos reais será actualizada'), 'Texto antigo do portefólio detectado')
 for (const id of ["conferencias-institucionais","eventos-empresariais","bastidores-tecnicos","reunioes-direccao","cerimonias-publicas","tendas-e-estruturas","espectaculos-ao-vivo","grandes-palcos"]) {
