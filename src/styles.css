@@ -269,3 +269,29 @@ html{scroll-padding-top:100px}
 @media(prefers-reduced-motion:reduce){
  .site-header.header-light,.site-header.header-light *,.menu-backdrop{animation:none!important;transition:none!important}
 }
+
+
+/* Secção Sobre — agência de comunicação, marketing e produção técnica */
+.about .about-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(32px,5vw,78px);align-items:center}
+.about .about-visual{position:relative;aspect-ratio:1.42;height:auto;max-width:none;min-width:0;margin:0;overflow:hidden;border-radius:12px;background:#112f4b;isolation:isolate}
+.about .about-picture{display:block;position:absolute;inset:0}
+.about .about-picture img{width:100%;height:100%;display:block;object-fit:cover;object-position:center}
+.about .about-visual:after{content:'';position:absolute;inset:48% 0 0;background:linear-gradient(0deg,rgba(3,18,34,.73),transparent);pointer-events:none;z-index:1}
+.about-tenure{position:absolute;bottom:22px;left:24px;z-index:2;display:flex;align-items:center;gap:12px;color:#fff}
+.about-tenure strong{font:800 clamp(43px,4vw,59px)/1 Manrope,sans-serif;letter-spacing:-.06em}
+.about-tenure strong span{color:#6ad4fa}
+.about-tenure>span{font-size:11px;line-height:1.45;letter-spacing:.07em;font-weight:800;text-transform:uppercase}
+.about .about-copy{min-width:0;padding:0}
+.about .about-copy .eyebrow{margin-bottom:18px;line-height:1.5}
+.about .about-copy h2{font-size:clamp(31px,3.15vw,48px);letter-spacing:-.045em;line-height:1.2;margin-bottom:18px}
+.about .about-copy .lead{font-size:clamp(15px,1.25vw,17px);font-weight:600;color:#23425a;line-height:1.7;margin-bottom:12px}
+.about .about-copy>p:not(.lead){font-size:14px;line-height:1.76;color:#526879;max-width:560px;margin-bottom:0}
+.about-values{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px;margin-top:30px}
+.about-value{display:grid;grid-template-columns:48px minmax(0,1fr);gap:16px;padding:22px 23px;background:#f7fafc;border:1px solid #e2edf2;border-radius:12px;min-width:0;transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease}
+.about-value-icon{width:46px;height:46px;display:grid;place-items:center;border-radius:10px;background:#e3f2fb;color:#0a82ba}
+.about-value h3{font:800 15px/1.4 Manrope,sans-serif;color:#15314a;margin:0 0 7px}
+.about-value p{font-size:13px;line-height:1.68;color:#516a7e;margin:0}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){.about-value:hover{transform:translateY(-3px);box-shadow:0 13px 26px rgba(14,61,100,.08);border-color:#cfe4ef}}
+@media(max-width:780px){.about .about-grid{grid-template-columns:1fr;gap:22px}.about .about-copy{order:-1}.about .about-copy h2{font-size:clamp(31px,5.8vw,43px)}.about .about-visual{aspect-ratio:1.6;margin:0;max-width:none}.about-values{margin-top:18px}}
+@media(max-width:620px){.about .about-copy .eyebrow{font-size:10px;letter-spacing:1.45px;margin-bottom:12px}.about .about-copy h2{font-size:clamp(30px,7.6vw,39px);margin-bottom:12px}.about .about-copy .lead{font-size:15px;line-height:1.6;margin-bottom:8px}.about .about-copy>p:not(.lead){font-size:13px;line-height:1.7}.about .about-visual{aspect-ratio:1.32;border-radius:10px}.about-tenure{left:16px;bottom:15px;gap:10px}.about-tenure strong{font-size:45px}.about-tenure>span{font-size:9px}.about-values{grid-template-columns:1fr;gap:10px;margin-top:16px}.about-value{grid-template-columns:40px minmax(0,1fr);gap:12px;padding:16px}.about-value-icon{width:40px;height:40px}.about-value-icon svg{width:21px;height:21px}.about-value h3{font-size:14px;margin-bottom:4px}.about-value p{font-size:12.5px;line-height:1.65}}
+@media(prefers-reduced-motion:reduce){.about-value{transform:none!important;transition:none!important}}

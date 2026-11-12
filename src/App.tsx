@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import {
-  ArrowDown, ArrowUpRight, CalendarDays, Check, ChevronDown,
+  ArrowDown, ArrowUpRight, CalendarDays, Check, ChevronDown, Compass, Target,
   ChevronRight, Clapperboard, Headphones, Layers3, Mail,
   MapPin, Menu, MessageCircle, Mic2, MonitorPlay, Phone, Radio,
   Send, ShieldCheck, Sparkles, SunMedium, Volume2, X, Zap,
@@ -288,29 +288,39 @@ function App() {
         {['EVENTOS CORPORATIVOS', 'TELAS LED', 'SOM PROFISSIONAL', 'ILUMINAÇÃO', 'PALCOS', 'LIVE STREAMING', 'PRODUÇÃO TÉCNICA', 'EVENTOS CORPORATIVOS', 'TELAS LED', 'SOM PROFISSIONAL'].map((item, index) =>
           <span key={`${item}-${index}`}><span className="ribbon-star">✳</span>{item}</span>,
         )}
-      </div></div>
-
-      <section id="sobre" className="about section-pad">
-        <div className="container about-grid">
-          <div className="about-visual reveal">
-            <img src={photos.about} srcSet={imageSet(photos.about)} sizes="(max-width: 900px) 100vw, 45vw" width={1100} height={900} alt="Conferência e produção de eventos, fotografia ilustrativa" loading="lazy" decoding="async" />
-            <div className="about-visual-bottom"><span>BAWITO</span><span>EVENT PRODUCTION · MOZAMBIQUE</span></div>
-            <div className="about-experience"><span className="about-experience-label">ACTIVIDADE DESDE</span><strong>2014</strong><span>Experiência que conta.</span></div>
-          </div>
-          <div className="about-copy reveal">
-            <SectionEyebrow>QUEM SOMOS</SectionEyebrow>
-            <h2>O parceiro por detrás de <em>cada grande momento.</em></h2>
-            <p className="lead">Produzir um evento é muito mais do que montar um palco. É fazer com que tudo funcione, com rigor, criatividade e confiança.</p>
-            <p>A Bawito Music & Serviços é uma empresa moçambicana que integra produção técnica, soluções audiovisuais, logística e entretenimento. Trabalhamos para que cada projecto tenha a estrutura, a equipa e a atenção que merece.</p>
-            <div className="about-perks">
-              <div><ShieldCheck size={21} /><span>Planeamento e coordenação</span></div>
-              <div><Headphones size={21} /><span>Equipas técnicas especializadas</span></div>
-              <div><Zap size={21} /><span>Soluções à medida do evento</span></div>
+         <section id="sobre" className="about section-pad" aria-labelledby="about-title">
+        <div className="container">
+          <div className="about-grid">
+            <div className="about-visual reveal">
+              <picture className="about-picture">
+                <source media="(max-width: 680px)" srcSet="/images/equipa/about-bawito-mobile.webp" />
+                <img src="/images/equipa/about-bawito-desktop.webp" width={1100} height={760}
+                  alt="Composição ilustrativa de um centro de produção audiovisual, com mesas de controlo, câmaras e palco."
+                  loading="lazy" decoding="async" />
+              </picture>
+              <div className="about-tenure" aria-label="Mais de dez anos no mercado"><strong>10<span>+</span></strong><span>anos de actividade<br />no mercado</span></div>
             </div>
-            <a href="#contactos" className="text-link">Vamos criar algo juntos <ArrowUpRight size={20} /></a>
+            <div className="about-copy reveal">
+              <SectionEyebrow>UMA AGÊNCIA, SOLUÇÕES INTEGRADAS</SectionEyebrow>
+              <h2 id="about-title">Estratégia, comunicação e <em>produção de eventos.</em></h2>
+              <p className="lead">Com mais de 10 anos de actividade, a Bawito Music & Serviços é uma agência moçambicana de comunicação e produção de eventos.</p>
+              <p>Desenvolvemos projectos de comunicação e marketing, planeamos conferências e eventos institucionais e asseguramos a respectiva produção técnica. Da concepção à execução, articulamos estratégia, criatividade, logística, som, iluminação, telas LED e transmissão em directo para oferecer soluções integradas a cada cliente.</p>
+            </div>
+          </div>
+          <div className="about-values" aria-label="Missão e objectivo da Bawito">
+            <article className="about-value reveal">
+              <span className="about-value-icon" aria-hidden="true"><Compass size={24} strokeWidth={1.8} /></span>
+              <div><h3>A nossa missão</h3><p>Valorizar marcas e instituições através de comunicação eficaz, experiências bem concebidas e execução técnica rigorosa.</p></div>
+            </article>
+            <article className="about-value reveal">
+              <span className="about-value-icon" aria-hidden="true"><Target size={24} strokeWidth={1.8} /></span>
+              <div><h3>O nosso objectivo</h3><p>Reunir estratégia, marketing e produção numa resposta coordenada, adaptada às necessidades e aos resultados pretendidos por cada cliente.</p></div>
+            </article>
           </div>
         </div>
       </section>
+
+     </section>
 
       <section id="servicos" className="services section-pad" aria-labelledby="services-title">
         <div className="container">

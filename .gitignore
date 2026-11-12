@@ -9,3 +9,6 @@ dist
 
 # Variantes geradas do original carregado no Hero
 public/images/hero/hero-bawito-*.webp
+
+# Variações geradas para a secção Sobre
+public/images/equipa/about-bawito-*.webp
