@@ -13,10 +13,15 @@ const EMAIL = 'comercial@bawitomusic.co.mz'
 const ADDRESS = 'Av. Paulo Samuel Kamkhomba, n.º 1441, 1.º Andar, Malhangalene, Maputo, Moçambique'
 
 const image = (id: string, width = 1200) =>
-  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=82`
+  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=72`
+
+// Responsive photos: mobile devices do not download desktop-sized images.
+const imageAt = (url: string, width: number) => url.replace(/([?&])w=\d+/, `$1w=${width}`)
+const imageSet = (url: string) => [400, 680, 960, 1280].map(width => `${imageAt(url, width)} ${width}w`).join(', ')
 
 const photos = {
-  hero: image('photo-1505373877841-8d25f7d46678', 1800),
+  hero: image('photo-1505373877841-8d25f7d46678', 1600),
+  heroMobile: image('photo-1505373877841-8d25f7d46678', 760),
   about: image('photo-1540575467063-178a50c2df87', 1100),
   conference: image('photo-1475721027785-f74eccf877e2', 850),
   screens: image('photo-1505373877841-8d25f7d46678', 850),
@@ -118,6 +123,7 @@ function SectionEyebrow({ children, light = false }: { children: string; light?:
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState('inicio')
   const [scrolled, setScrolled] = useState(false)
   const [filter, setFilter] = useState<GalleryFilter>('todos')
   const [selectedServices, setSelectedServices] = useState<string[]>([])
@@ -125,6 +131,7 @@ function App() {
   const [formNotice, setFormNotice] = useState('')
   const [form, setForm] = useState({ name: '', phone: '', email: '', event: '', date: '', city: '', message: '' })
   const modalCloseRef = useRef<HTMLButtonElement | null>(null)
+  const lastFocusedElement = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 28)
@@ -134,27 +141,49 @@ function App() {
   }, [])
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => entries.forEach((entry) => {
+    // Content is visible by default; reveal animations are progressive enhancement.
+    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('is-visible')
           observer.unobserve(entry.target)
         }
-      }),
-      { threshold: 0.10, rootMargin: '0px 0px -24px 0px' },
-    )
-    document.querySelectorAll('.reveal').forEach((element) => observer.observe(element))
+      })
+    }, { threshold: 0.07, rootMargin: '0px 0px -8px 0px' })
+    const targets = document.querySelectorAll('.reveal:not(.is-visible)')
+    targets.forEach(target => observer.observe(target))
+    document.documentElement.classList.add('enhanced-motion')
     return () => observer.disconnect()
   }, [filter])
+
+  useEffect(() => {
+    const ids = ['inicio', 'sobre', 'servicos', 'solucoes', 'artistas', 'contactos']
+    if (!('IntersectionObserver' in window)) return
+    const spy = new IntersectionObserver(entries => {
+      const visible = entries.filter(entry => entry.isIntersecting)
+      if (visible.length) setActiveSection(visible[0].target.id)
+    }, { rootMargin: '-22% 0px -63% 0px', threshold: 0 })
+    ids.forEach(id => { const node = document.getElementById(id); if (node) spy.observe(node) })
+    return () => spy.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!menuOpen) return
+    const onKey = (event: KeyboardEvent) => { if (event.key === 'Escape') setMenuOpen(false) }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [menuOpen])
 
   useEffect(() => {
     if (!activeImage) return
     const previous = document.body.style.overflow
     document.body.style.overflow = 'hidden'
+    lastFocusedElement.current = document.activeElement instanceof HTMLElement ? document.activeElement : null
     modalCloseRef.current?.focus()
     const onKey = (event: KeyboardEvent) => { if (event.key === 'Escape') setActiveImage(null) }
     window.addEventListener('keydown', onKey)
-    return () => { document.body.style.overflow = previous; window.removeEventListener('keydown', onKey) }
+    return () => { document.body.style.overflow = previous; window.removeEventListener('keydown', onKey); lastFocusedElement.current?.focus() }
   }, [activeImage])
 
   const toggleService = (name: string) => setSelectedServices((current) =>
@@ -169,7 +198,7 @@ function App() {
   const submitQuote = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (!form.name.trim() || !form.phone.trim() || !form.city.trim() || !form.event || form.message.trim().length < 10) {
-      setFormNotice('Preencha os campos obrigatórios e descreva o seu projecto com pelo menos 10 caracteres.')
+      setFormNotice('Por favor, verifique os campos obrigatórios antes de continuar.')
       return
     }
     const lines = [
@@ -186,7 +215,7 @@ function App() {
     ]
     const url = `https://wa.me/${PHONE}?text=${encodeURIComponent(lines.join('\n'))}`
     window.open(url, '_blank', 'noopener,noreferrer')
-    setFormNotice('O seu pedido foi preparado. Conclua o envio na conversa do WhatsApp que foi aberta.')
+    setFormNotice('O seu pedido foi preparado. Confirme o envio na conversa do WhatsApp que foi aberta.')
   }
 
   const goTo = () => setMenuOpen(false)
@@ -198,12 +227,12 @@ function App() {
       <div className="header-inner container">
         <WaveMark />
         <nav className={`main-nav ${menuOpen ? 'nav-open' : ''}`} aria-label="Navegação principal" id="main-navigation">
-          <a href="#inicio" onClick={goTo}>Início</a>
-          <a href="#sobre" onClick={goTo}>A Bawito</a>
-          <a href="#servicos" onClick={goTo}>Serviços</a>
-          <a href="#solucoes" onClick={goTo}>Soluções</a>
-          <a href="#artistas" onClick={goTo}>Artistas</a>
-          <a href="#contactos" className="nav-mobile-cta" onClick={goTo}>Pedir orçamento <ArrowUpRight size={16} /></a>
+          <a href="#inicio" aria-current={activeSection === 'inicio' ? 'location' : undefined} onClick={goTo}>Início</a>
+          <a href="#sobre" aria-current={activeSection === 'sobre' ? 'location' : undefined} onClick={goTo}>A Bawito</a>
+          <a href="#servicos" aria-current={activeSection === 'servicos' ? 'location' : undefined} onClick={goTo}>Serviços</a>
+          <a href="#solucoes" aria-current={activeSection === 'solucoes' ? 'location' : undefined} onClick={goTo}>Soluções</a>
+          <a href="#artistas" aria-current={activeSection === 'artistas' ? 'location' : undefined} onClick={goTo}>Artistas</a>
+          <a href="#contactos" className="nav-mobile-cta" aria-current={activeSection === 'contactos' ? 'location' : undefined} onClick={goTo}>Pedir orçamento <ArrowUpRight size={16} /></a>
         </nav>
         <a className="btn btn-header" href="#contactos">Solicitar orçamento <ArrowUpRight size={17} /></a>
         <button className="menu-button" type="button" aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'} aria-controls="main-navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X size={26} /> : <Menu size={26} />}</button>
@@ -212,7 +241,10 @@ function App() {
 
     <main id="principal">
       <section className="hero" id="inicio" aria-labelledby="hero-title">
-        <div className="hero-photo" style={{ backgroundImage: `url('${photos.hero}')` }} role="img" aria-label="Ambiente ilustrativo de conferência com produção audiovisual" />
+        <picture className="hero-photo" aria-hidden="true">
+          <source media="(max-width: 620px)" srcSet={photos.heroMobile} />
+          <img src={photos.hero} alt="" width={1600} height={1050} fetchPriority="high" loading="eager" decoding="async" />
+        </picture>
         <div className="hero-glow" />
         <div className="hero-grid container">
           <div className="hero-main reveal is-visible">
@@ -243,7 +275,7 @@ function App() {
       <section id="sobre" className="about section-pad">
         <div className="container about-grid">
           <div className="about-visual reveal">
-            <img src={photos.about} alt="Conferência e produção de eventos, fotografia ilustrativa" loading="lazy" />
+            <img src={photos.about} srcSet={imageSet(photos.about)} sizes="(max-width: 900px) 100vw, 45vw" width={1100} height={900} alt="Conferência e produção de eventos, fotografia ilustrativa" loading="lazy" decoding="async" />
             <div className="about-visual-bottom"><span>BAWITO</span><span>EVENT PRODUCTION · MOZAMBIQUE</span></div>
             <div className="about-experience"><span className="about-experience-label">ACTIVIDADE DESDE</span><strong>2014</strong><span>Experiência que conta.</span></div>
           </div>
@@ -272,7 +304,7 @@ function App() {
             {services.map((service, index) => {
               const Icon = service.icon
               return <a key={service.id} className="service-card reveal" href="#contactos" onClick={() => setSelectedServices((current) => current.includes(service.title) ? current : [...current, service.title])}>
-                <div className="service-image"><img src={service.picture} alt={`Imagem ilustrativa de ${service.title.toLowerCase()}`} loading="lazy" /><span className="service-count">{String(index + 1).padStart(2, '0')}</span><span className="service-image-icon"><Icon size={22} strokeWidth={1.8} /></span></div>
+                <div className="service-image"><img src={service.picture} srcSet={imageSet(service.picture)} sizes="(max-width: 620px) 100vw, (max-width: 1160px) 50vw, 25vw" width={850} height={530} alt={`Imagem ilustrativa de ${service.title.toLowerCase()}`} loading="lazy" decoding="async" /><span className="service-count">{String(index + 1).padStart(2, '0')}</span><span className="service-image-icon"><Icon size={22} strokeWidth={1.8} /></span></div>
                 <div className="service-card-body"><span className="service-label">{service.label}</span><h3>{service.title}</h3><p>{service.description}</p><span className="service-card-link">Solicitar solução <ArrowUpRight size={18} /></span></div>
               </a>
             })}
@@ -296,7 +328,7 @@ function App() {
               ].map(([number, title, desc]) => <div className="step" key={number}><span className="step-num">{number}</span><div><strong>{title}</strong><p>{desc}</p></div><ChevronRight size={21} /></div>)}
             </div>
           </div>
-          <div className="approach-photo reveal"><img src={photos.process} alt="Equipa em ambiente profissional de produção de eventos, fotografia ilustrativa" loading="lazy" /><div className="approach-card"><span className="approach-card-icon"><Check size={25} /></span><span><strong>Do início ao fim.</strong><small>O seu projecto acompanhado em todas as etapas.</small></span></div></div>
+          <div className="approach-photo reveal"><img src={photos.process} srcSet={imageSet(photos.process)} sizes="(max-width: 900px) 100vw, 46vw" width={1100} height={800} alt="Equipa em ambiente profissional de produção de eventos, fotografia ilustrativa" loading="lazy" decoding="async" /><div className="approach-card"><span className="approach-card-icon"><Check size={25} /></span><span><strong>Do início ao fim.</strong><small>O seu projecto acompanhado em todas as etapas.</small></span></div></div>
         </div>
       </section>
 
@@ -311,7 +343,7 @@ function App() {
           </div><span className="gallery-count">{String(visibleGallery.length).padStart(2, '0')} FORMATOS</span></div>
           <div className="gallery-grid">
             {visibleGallery.map((item) => <button type="button" onClick={() => setActiveImage(item)} className="gallery-item reveal" key={item.title} aria-label={`Ver imagem ilustrativa de ${item.title}`}>
-              <img src={item.src} alt={item.title} loading="lazy" /><span className="gallery-shade" /><span className="gallery-info"><small>{item.type}</small><strong>{item.title}</strong></span><span className="gallery-open"><ArrowUpRight size={22} /></span>
+              <img src={item.src} srcSet={imageSet(item.src)} sizes="(max-width: 620px) 100vw, (max-width: 900px) 50vw, 33vw" width={850} height={600} alt={`Imagem ilustrativa: ${item.title}`} loading="lazy" decoding="async" /><span className="gallery-shade" /><span className="gallery-info"><small>{item.type}</small><strong>{item.title}</strong></span><span className="gallery-open"><ArrowUpRight size={22} /></span>
             </button>)}
           </div>
           <p className="gallery-disclaimer">Imagens ilustrativas dos formatos de eventos. A galeria de projectos reais será actualizada com o portefólio fotográfico da Bawito.</p>
@@ -348,11 +380,11 @@ function App() {
           </div>
           <div className="contact-note"><MessageCircle size={21} /> Os pedidos são encaminhados directamente para a nossa equipa comercial pelo WhatsApp.</div>
         </div>
-        <form className="quote-form reveal" onSubmit={submitQuote} noValidate>
+        <form className="quote-form reveal" onSubmit={submitQuote}>
           <div className="form-top"><div><span className="form-top-kicker">PEDIDO DE ORÇAMENTO</span><h3>Vamos dar vida ao seu evento.</h3></div><span className="form-top-icon"><Send size={25} /></span></div>
           <div className="form-columns">
             <label>Nome completo <span>*</span><input autoComplete="name" placeholder="O seu nome" type="text" required value={form.name} onChange={e => setField('name', e.target.value)} /></label>
-            <label>Contacto telefónico <span>*</span><input autoComplete="tel" inputMode="tel" placeholder="+258 8X XXX XXXX" type="tel" required value={form.phone} onChange={e => setField('phone', e.target.value)} /></label>
+            <label>Contacto telefónico <span>*</span><input autoComplete="tel" inputMode="tel" minLength={9} placeholder="+258 8X XXX XXXX" type="tel" required value={form.phone} onChange={e => setField('phone', e.target.value)} /></label>
             <label>E-mail (opcional)<input autoComplete="email" placeholder="oseuemail@exemplo.com" type="email" value={form.email} onChange={e => setField('email', e.target.value)} /></label>
             <label>Tipo de evento <span>*</span><span className="select-wrap"><select required value={form.event} onChange={e => setField('event', e.target.value)}><option value="" disabled>Seleccione uma opção</option>{eventTypes.map(x => <option key={x}>{x}</option>)}</select><ChevronDown size={16} /></span></label>
             <label>Data prevista <span className="optional">(opcional)</span><span className="date-wrap"><input type="date" value={form.date} onChange={e => setField('date', e.target.value)} /><CalendarDays size={17} /></span></label>
@@ -371,7 +403,7 @@ function App() {
 
     <a className="whatsapp-float" href={`https://wa.me/${PHONE}?text=${encodeURIComponent('Olá, Bawito Music & Serviços! Gostaria de obter informações sobre os vossos serviços.')}`} target="_blank" rel="noopener noreferrer" aria-label="Contactar a Bawito pelo WhatsApp"><MessageCircle size={27} /><span>Vamos conversar</span></a>
 
-    {activeImage && <div className="lightbox" role="dialog" aria-modal="true" aria-label={`Imagem: ${activeImage.title}`} onMouseDown={(event) => { if (event.target === event.currentTarget) setActiveImage(null) }}><button ref={modalCloseRef} type="button" className="lightbox-close" onClick={() => setActiveImage(null)} aria-label="Fechar imagem"><X size={25} /></button><div className="lightbox-content"><img src={activeImage.src} alt={activeImage.title} /><div><span>{activeImage.type} · IMAGEM ILUSTRATIVA</span><h3>{activeImage.title}</h3></div></div></div>}
+    {activeImage && <div className="lightbox" role="dialog" aria-modal="true" aria-label={`Imagem: ${activeImage.title}`} onMouseDown={(event) => { if (event.target === event.currentTarget) setActiveImage(null) }}><button ref={modalCloseRef} type="button" className="lightbox-close" onClick={() => setActiveImage(null)} aria-label="Fechar imagem"><X size={25} /></button><div className="lightbox-content"><img src={imageAt(activeImage.src, 1280)} alt={`Imagem ilustrativa: ${activeImage.title}`} width={1280} height={850} /><div><span>{activeImage.type} · IMAGEM ILUSTRATIVA</span><h3>{activeImage.title}</h3></div></div></div>}
   </>
 }
 

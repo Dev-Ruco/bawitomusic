@@ -48,3 +48,33 @@
 @media(max-width:620px){.container{width:calc(100% - 38px)}.section-pad{padding:75px 0}.site-header,.site-header.header-scrolled,.site-header.menu-active{height:73px}.brand-symbol{height:33px;gap:3px}.brand-symbol i{width:4px}.brand-symbol i:nth-child(1){height:13px}.brand-symbol i:nth-child(2){height:19px}.brand-symbol i:nth-child(3){height:28px}.brand-symbol i:nth-child(4){height:19px}.brand-symbol i:nth-child(5){height:13px}.brand-words strong{font-size:22px}.brand-words small{font-size:6.7px;letter-spacing:2.55px}.btn-header{display:none}.hero{height:auto;min-height:760px}.hero:before{background:linear-gradient(90deg,#061527ec,rgba(6,21,39,.78) 72%,rgba(6,21,39,.55))}.hero-photo{background-position:63% center}.hero-main{padding-top:80px;margin-bottom:100px}.hero-kicker{font-size:9px;letter-spacing:1.35px;margin-bottom:25px}.hero h1{font-size:clamp(43px,11.2vw,60px);letter-spacing:-2.9px;line-height:1.17;margin-bottom:19px}.hero-main>p{font-size:14px;line-height:1.9;max-width:420px;margin-bottom:31px}.hero-buttons{gap:11px;align-items:stretch}.btn-primary,.btn-ghost{padding:17px 18px;font-size:11px;gap:11px}.hero-side{display:none}.hero-bottom{bottom:35px;gap:14px;align-items:end}.hero-bottom-intro{font-size:8px;letter-spacing:.5px;max-width:195px;line-height:1.7}.tiny-blue-line{width:12px;flex-shrink:0}.hero-pill{right:68px;bottom:0;gap:7px;font-size:9px}.hero-pill-number{font-size:28px}.hero-scroll{width:43px;height:43px;flex-shrink:0}.hero-index{display:none}.service-ribbon{height:48px}.ribbon-content>span{font-size:9px}.about-grid{gap:38px}.about-visual{height:390px;margin-right:13px}.about-experience{right:-13px;top:22px;padding:16px 18px}.about-experience strong{font-size:35px}.about-visual-bottom span:first-child{font-size:19px}.about-visual-bottom span:last-child{font-size:6px;max-width:120px}.about-copy h2,h2{font-size:clamp(33px,8vw,43px);letter-spacing:-1.7px}.lead{font-size:16px}.about-copy>p:not(.lead){font-size:13px}.section-heading{flex-direction:column;align-items:flex-start;gap:15px;margin-bottom:30px}.section-heading>p{font-size:13px}.service-grid{grid-template-columns:1fr;gap:16px}.service-image{height:220px}.service-card-body{padding:23px 22px}.service-card p{margin-bottom:19px}.services-foot{flex-direction:column;align-items:flex-start;gap:12px}.approach-inner{gap:35px}.approach-copy h2{font-size:35px}.approach-copy>p{font-size:13px}.approach-photo{height:360px;margin-left:19px}.approach-card{left:-19px;bottom:20px;padding:15px;max-width:265px}.gallery-toolbar{align-items:flex-start;flex-direction:column;gap:10px}.gallery-filters{gap:6px}.gallery-filters button{font-size:10px;padding:9px 10px}.gallery-grid{grid-template-columns:1fr;gap:14px}.gallery-item{height:270px}.gallery-disclaimer{text-align:left}.artist-inner{display:flex;flex-direction:column;gap:0;align-items:stretch}.artist-graphic{height:165px;order:2;margin-bottom:45px}.artist-graphic>svg{width:57px;height:57px}.artist-ring{width:140px;height:140px}.artist-ring.ring-2{width:205px;height:205px}.artist-ring.ring-3{width:270px;height:270px}.artist-content{padding:75px 0 20px}.artist-content p{font-size:13px}.why-grid{grid-template-columns:1fr 1fr}.why-card{padding:24px 17px;min-height:240px}.why-card>svg{margin-bottom:20px}.why-card h3{font-size:13px}.why-card p{font-size:11px}.quote-banner-inner{padding:69px 0;flex-direction:column;align-items:flex-start;gap:30px}.quote-banner h2{font-size:38px}.contact-copy>p{font-size:13px}.contact-details strong{font-size:12px}.contact-note{font-size:11px}.quote-form{padding:25px 19px}.form-top h3{font-size:17px}.form-top-icon{width:43px;height:43px}.form-columns{grid-template-columns:1fr;gap:16px}.form-submit{font-size:12px}.footer{padding-top:58px}.footer-main{grid-template-columns:1fr 1fr;gap:31px 22px;padding-bottom:55px}.footer-brand{grid-column:1/-1}.footer-col:last-child{grid-column:1/-1}.footer-bottom{flex-direction:column;align-items:flex-start;gap:12px}.whatsapp-float{padding:13px;right:17px;bottom:17px;box-shadow:0 9px 25px #001e1938}.whatsapp-float span{display:none}.lightbox{padding:70px 14px}.lightbox-close{top:17px;right:17px}}
 @media(max-width:365px){.hero h1{font-size:42px}.hero-pill{display:none}.hero-main>p{font-size:13px}.hero-buttons{flex-direction:column;align-items:flex-start}.about-visual{height:310px}.why-grid{grid-template-columns:1fr}.why-card{min-height:auto}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.ribbon-content{animation:none}.service-card:hover,.btn:hover,.whatsapp-float:hover{transform:none}*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+
+/* Melhorias de desempenho e experiência — Novembro 2026 */
+.hero-photo{display:block;overflow:hidden}
+.hero-photo img{width:100%;height:100%;object-fit:cover;object-position:66% 40%;display:block}
+.main-nav a[aria-current="location"]{color:#85d9ff}
+.main-nav a[aria-current="location"]:after{content:'';display:block;height:2px;background:#46c0ef;margin-top:7px}
+@media(min-width:901px){.main-nav a[aria-current="location"]:after{margin-bottom:-9px}}
+@media(max-width:900px){.main-nav a[aria-current="location"]:after{margin-top:3px}}
+/* O conteúdo nunca fica oculto sem JavaScript ou para quem reduz movimento. */
+.reveal{opacity:1;transform:none}
+@media(prefers-reduced-motion:no-preference){
+  .enhanced-motion .reveal:not(.is-visible){opacity:0;transform:translateY(14px)}
+  .enhanced-motion .reveal{transition:opacity .48s ease-out,transform .48s cubic-bezier(.2,.6,.2,1)}
+}
+@media(max-width:620px){
+  .hero-photo img{object-position:63% center}
+  .gallery-filters{flex-wrap:nowrap;max-width:100%;overflow-x:auto;scrollbar-width:thin;overscroll-behavior-inline:contain;padding-bottom:5px}
+  .gallery-filters button{flex:none;min-height:44px;font-size:12px;padding:11px 13px}
+  .main-nav>a{min-height:48px;display:flex;align-items:center}
+  .hero-main>p,.about-copy>p:not(.lead),.section-heading>p,.approach-copy>p,.artist-content p,.contact-copy>p{font-size:14px}
+  .why-card p{font-size:12px}
+  .why-card h3{font-size:14px}
+  .form-columns input,.form-columns select,.message-label textarea{font-size:16px}
+  .service-card-link,.text-link{min-height:44px;display:inline-flex;align-items:center}
+}
+@media(prefers-reduced-motion:reduce){
+  .enhanced-motion .reveal:not(.is-visible){opacity:1;transform:none}
+  .main-nav a[aria-current="location"]:after{transition:none}
+}
