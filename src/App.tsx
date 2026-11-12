@@ -246,7 +246,7 @@ function App() {
         <picture className="hero-photo" aria-hidden="true">
           <source media="(max-width: 620px)" srcSet={photos.heroMobile} />
           <source media="(max-width: 1100px)" srcSet={photos.heroTablet} />
-          <img src={photos.hero} alt="" width={1600} height={900} fetchPriority="high" loading="eager" decoding="async" />
+          <img src={photos.hero} alt="" width={1600} height={900} loading="eager" decoding="async" />
         </picture>
         <div className="hero-grid container">
           <div className="hero-main">
