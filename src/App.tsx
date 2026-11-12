@@ -288,7 +288,9 @@ function App() {
         {['EVENTOS CORPORATIVOS', 'TELAS LED', 'SOM PROFISSIONAL', 'ILUMINAÇÃO', 'PALCOS', 'LIVE STREAMING', 'PRODUÇÃO TÉCNICA', 'EVENTOS CORPORATIVOS', 'TELAS LED', 'SOM PROFISSIONAL'].map((item, index) =>
           <span key={`${item}-${index}`}><span className="ribbon-star">✳</span>{item}</span>,
         )}
-         <section id="sobre" className="about section-pad" aria-labelledby="about-title">
+      </div></div>
+
+      <section id="sobre" className="about section-pad" aria-labelledby="about-title">
         <div className="container">
           <div className="about-grid">
             <div className="about-visual reveal">
@@ -319,8 +321,6 @@ function App() {
           </div>
         </div>
       </section>
-
-     </section>
 
       <section id="servicos" className="services section-pad" aria-labelledby="services-title">
         <div className="container">
