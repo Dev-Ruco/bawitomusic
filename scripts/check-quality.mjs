@@ -32,6 +32,15 @@ assert.ok(html.includes('Estratégia e activação de marcas'), 'Falta estratég
 assert.ok(html.includes('id="aluguer"'), 'Secção de aluguer em falta')
 assert.ok(html.includes('Ar condicionado vertical'), 'Ar condicionado vertical em falta')
 assert.ok(html.includes('Geradores industriais'), 'Geradores industriais em falta')
+for (const name of [
+  'tendas-480.webp', 'tendas-820.webp',
+  'geradores-480.webp', 'geradores-820.webp',
+  'palcos-480.webp', 'palcos-820.webp',
+  'ar-condicionado-vertical.webp'
+]) assert.ok(existsSync('dist/images/aluguer/' + name), 'Fotografia de aluguer em falta: ' + name)
+assert.equal((html.match(/class="rental-card reveal"/g) || []).length, 4, 'A secção de aluguer deve apresentar exactamente quatro cartões')
+assert.ok(!html.includes('Aluguer — Mesas e mobiliário'), 'Equipamento removido ainda aparece no site')
+
 assert.ok(html.includes('/illustrations/servicos/comunicacao.svg'), 'SVG de comunicação não referenciado')
 const illustrations = readdirSync('dist/illustrations/servicos').filter(name => name.endsWith('.svg'))
 assert.equal(illustrations.length, 10, 'O catálogo deve ter 10 ilustrações SVG locais')

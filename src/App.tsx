@@ -65,20 +65,38 @@ type RentalItem = {
   tag: string
   description: string
   image: string
-  fallback: string
+  srcSet?: string
   alt: string
-  illustrative?: boolean
 }
 
 const rentals: RentalItem[] = [
-  { id: 'tendas', title: 'Tendas para eventos', tag: 'Estruturas', description: 'Tendas para conferências, cerimónias e eventos ao ar livre, com soluções de montagem adaptadas ao espaço.', image: 'https://images.pexels.com/photos/8392460/pexels-photo-8392460.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=820&h=560', fallback: '/illustrations/aluguer/tendas.svg', alt: 'Tenda branca montada para um evento com mesas e cadeiras' },
-  { id: 'geradores', title: 'Geradores industriais', tag: 'Energia', description: 'Grupos geradores para assegurar alimentação eléctrica e apoio operacional durante o evento.', image: 'https://images.pexels.com/photos/18816918/pexels-photo-18816918.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=820&h=560', fallback: '/illustrations/servicos/energia.svg', alt: 'Gerador eléctrico profissional em ambiente de trabalho' },
-  { id: 'ac', title: 'Ar condicionado vertical', tag: 'Climatização', description: 'Unidades verticais de climatização destinadas a salões, tendas e salas de conferência.', image: '/illustrations/aluguer/ar-condicionado-vertical.svg', fallback: '/illustrations/aluguer/ar-condicionado-vertical.svg', alt: 'Ilustração de unidade vertical de ar condicionado para sala de eventos', illustrative: true },
-  { id: 'mesas', title: 'Mesas e mobiliário', tag: 'Mobiliário', description: 'Mesas e soluções de mobiliário para reuniões, conferências, recepção e áreas de apoio.', image: 'https://images.pexels.com/photos/16985120/pexels-photo-16985120.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=820&h=560', fallback: '/illustrations/aluguer/mesas.svg', alt: 'Mesas e cadeiras organizadas num espaço de eventos' },
-  { id: 'som', title: 'Equipamentos de som', tag: 'Sonorização', description: 'Colunas, microfones, mesas de mistura e sistemas de áudio para diferentes dimensões de evento.', image: 'https://images.pexels.com/photos/34585137/pexels-photo-34585137.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=820&h=560', fallback: '/illustrations/servicos/som.svg', alt: 'Sistema profissional de colunas suspensas em estrutura de evento' },
-  { id: 'luz', title: 'Equipamentos de iluminação', tag: 'Luz cénica', description: 'Projectores, moving heads e iluminação de palco, ambiente e arquitectura de eventos.', image: 'https://images.pexels.com/photos/10809862/pexels-photo-10809862.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=820&h=560', fallback: '/illustrations/servicos/luz.svg', alt: 'Projectores de palco com feixes de iluminação colorida' },
-  { id: 'led', title: 'Telas LED e projecção', tag: 'Visual', description: 'Painéis LED, projectores e ecrãs para apresentações e conteúdos visuais de eventos.', image: 'https://images.pexels.com/photos/7513419/pexels-photo-7513419.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=820&h=560', fallback: '/illustrations/servicos/led.svg', alt: 'Técnico a preparar um ecrã digital num palco' },
-  { id: 'palcos', title: 'Palcos e estruturas', tag: 'Montagem', description: 'Palcos modulares, estruturas de suporte e coberturas para eventos corporativos e espectáculos.', image: 'https://images.pexels.com/photos/32284221/pexels-photo-32284221.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=820&h=560', fallback: '/illustrations/servicos/palcos.svg', alt: 'Montagem de um palco de concerto ao ar livre' },
+  {
+    id: 'tendas', title: 'Tendas para eventos', tag: 'Estruturas',
+    description: 'Tendas para eventos empresariais, institucionais e sociais.',
+    image: '/images/aluguer/tendas-820.webp',
+    srcSet: '/images/aluguer/tendas-480.webp 480w, /images/aluguer/tendas-820.webp 820w',
+    alt: 'Tenda branca montada para um evento ao ar livre, em imagem ilustrativa.'
+  },
+  {
+    id: 'geradores', title: 'Geradores industriais', tag: 'Energia',
+    description: 'Energia de apoio para eventos e montagens técnicas.',
+    image: '/images/aluguer/geradores-820.webp',
+    srcSet: '/images/aluguer/geradores-480.webp 480w, /images/aluguer/geradores-820.webp 820w',
+    alt: 'Geradores industriais brancos de grande dimensão num cenário de evento, em imagem ilustrativa.'
+  },
+  {
+    id: 'ac', title: 'Ar condicionado vertical', tag: 'Climatização',
+    description: 'Climatização móvel para tendas, salões e conferências.',
+    image: '/images/aluguer/ar-condicionado-vertical.webp',
+    alt: 'Unidades de ar condicionado verticais no interior de uma sala de conferência, em imagem ilustrativa.'
+  },
+  {
+    id: 'palcos', title: 'Palcos e estruturas', tag: 'Montagem',
+    description: 'Palcos, coberturas e estruturas para diferentes eventos.',
+    image: '/images/aluguer/palcos-820.webp',
+    srcSet: '/images/aluguer/palcos-480.webp 480w, /images/aluguer/palcos-820.webp 820w',
+    alt: 'Palco exterior coberto com estrutura metálica, som e iluminação, em imagem ilustrativa.'
+  }
 ]
 
 const gallery = [
@@ -348,7 +366,7 @@ function App() {
           <div className="section-heading reveal">
             <div><SectionEyebrow>EQUIPAMENTOS E ESTRUTURAS</SectionEyebrow>
               <h2 id="rentals-title">Equipamentos para <em>aluguer.</em></h2></div>
-            <p>Equipamentos e estruturas para eventos de diferentes dimensões. Consulte a nossa equipa para confirmar características, montagem e disponibilidade.</p>
+            <p>Tendas, geradores, climatização e palcos para eventos. Montagem e disponibilidade mediante orçamento.</p>
           </div>
           <div className="rental-grid">
             {rentals.map((item) => (
@@ -357,26 +375,19 @@ function App() {
                 onClick={() => setSelectedServices(current => current.includes('Aluguer — ' + item.title) ? current : [...current, 'Aluguer — ' + item.title])}>
                 <div className="rental-media">
                   <img src={item.image}
-                    srcSet={item.illustrative ? undefined : [360, 560, 820].map(width => `${item.image.replace('w=820', 'w=' + width)} ${width}w`).join(', ')}
+                    srcSet={item.srcSet}
                     sizes="(max-width: 620px) 46vw, (max-width: 1100px) 46vw, 23vw"
-                    alt={item.alt} width={820} height={560} loading="lazy" decoding="async"
-                    onError={(event) => {
-                      const image = event.currentTarget
-                      if (image.src !== new URL(item.fallback, window.location.origin).href) {
-                        image.removeAttribute('srcset')
-                        image.src = item.fallback
-                      }
-                    }} />
+                    alt={item.alt} width={820} height={560} loading="lazy" decoding="async" />
                   <span className="rental-category">{item.tag}</span>
                 </div>
                 <div className="rental-body">
                   <h3>{item.title}</h3><p>{item.description}</p>
-                  <span className="rental-action">Pedir proposta de aluguer <ArrowUpRight size={18} aria-hidden="true" /></span>
+                  <span className="rental-action">Pedir aluguer <ArrowUpRight size={18} aria-hidden="true" /></span>
                 </div>
               </a>
             ))}
           </div>
-          <p className="rental-disclaimer">Imagens de referência ilustrativas, não correspondendo necessariamente aos modelos disponíveis. Características e disponibilidade sujeitas a confirmação no orçamento.</p>
+          <p className="rental-disclaimer">Imagens ilustrativas. Características e disponibilidade confirmadas no orçamento.</p>
         </div>
       </section>
 

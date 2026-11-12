@@ -368,3 +368,18 @@ html{scroll-padding-top:100px}
 .rental-choice-note{margin:0 0 16px;padding:10px 14px;background:#eaf6fd;border-left:3px solid #118ac1;color:#214a66;font-size:12px;line-height:1.5}
 .rental-chooser summary:focus-visible{outline:3px solid #118ac1;outline-offset:-3px}
 @media(max-width:620px){.rental-chooser summary{padding:10px 12px;min-height:48px;font-size:12px}.rental-chooser summary span{font-size:10px}.rental-chooser .form-services{padding:0 11px 12px}}
+
+
+/* Aluguer conciso: quatro categorias com fotografia em destaque. */
+.rentals .rental-grid{gap:16px}
+.rentals .rental-body{padding:18px 17px 16px}
+.rentals .rental-body h3{font-size:16px;margin-bottom:8px}
+.rentals .rental-body p{font-size:12px;line-height:1.6;margin-bottom:12px}
+.rentals .rental-action{min-height:39px;padding-top:10px}
+@media(max-width:620px){
+  .rentals .rental-grid{gap:10px}
+  .rentals .rental-body{padding:13px 11px 12px}
+  .rentals .rental-body h3{font-size:14px;margin-bottom:5px}
+  .rentals .rental-body p{font-size:11px;line-height:1.5;margin-bottom:9px}
+  .rentals .rental-action{font-size:11px;min-height:35px}
+}

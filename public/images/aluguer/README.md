@@ -1,18 +1,13 @@
-# Banco de imagens — aluguer Bawito
+# Imagens de aluguer — Bawito Music & Serviços
 
-A secção "Aluguer" mostra fotografias ilustrativas de referência. Estas NÃO representam necessariamente equipamentos da Bawito e NÃO garantem disponibilidade, modelo ou características.
+O website apresenta apenas quatro categorias de aluguer: tendas, geradores industriais, ar condicionado vertical e palcos e estruturas.
 
-Fotografias Pexels (licença gratuita, seleccionar substituição por imagens oficiais da Bawito quando disponíveis):
-- Tendas para eventos: https://www.pexels.com/photo/tables-and-chairs-under-a-tent-8392460/
-- Geradores industriais: https://www.pexels.com/photo/technicians-tinkering-with-a-power-generator-18816918/
-- Mesas e mobiliário: https://www.pexels.com/photo/chairs-and-tables-in-restaurant-16985120/
-- Equipamentos de som: https://www.pexels.com/photo/outdoor-concert-speaker-system-setup-34585137/
-- Equipamentos de iluminação: https://www.pexels.com/photo/lighted-lighting-equipments-10809862/
-- Telas LED e projecção: https://www.pexels.com/photo/unrecognizable-workman-installing-digital-screen-on-stage-7513419/
-- Palcos e estruturas: https://www.pexels.com/photo/aerial-view-of-outdoor-concert-stage-setup-32284221/
+Origem das imagens:
+- **Tendas**: `public/images/servicos/Golden-Hour Garden Marquee_Easy-Resize.com.jpg`
+- **Geradores**: `public/images/servicos/Golden-Hour Bawito Event Generators_Easy-Resize.com.jpg`
+- **Palcos**: `public/images/servicos/Bawito Music Sunset Stage_Easy-Resize.com.jpg`
+- **Ar condicionado vertical**: `public/images/aluguer/ar-condicionado-vertical.webp`, versão compacta produzida a partir da imagem fornecida na conversa.
 
-Ar condicionado vertical: ilustração vectorial de referência, porque ainda não foi fornecida uma fotografia autorizada das unidades utilizadas pela Bawito. Deve ser substituída pela fotografia real da unidade vertical de salão.
+As três fotografias originais permanecem intactas. No build, `scripts/optimize-rentals.mjs` produz variantes WebP de 480 e 820 píxeis para adaptação ao ecrã. As quatro imagens são composições ilustrativas, não provas documentais de inventário ou disponibilidade. Confirmar condições no orçamento.
 
-As fotografias são servidas remotamente em tamanhos limitados, com lazy loading e fallback SVG local nos casos de falha de ligação.
-
-**Actualização futura:** criar imagens WebP próprias (800x560 e 480x336) em public/images/aluguer/ e alterar a propriedade image dos objectos rentals no App.tsx; guardar a versão original apenas na biblioteca.
+Não reintroduzir cartões de mobiliário, som, iluminação ou telas LED na área de aluguer sem validação da oferta comercial. Os serviços técnicos e de produção mantêm-se na secção «Soluções Integradas».

@@ -8,8 +8,8 @@
     "build": "tsc -b && vite build && node scripts/prerender.mjs",
     "preview": "vite preview --host 0.0.0.0",
     "check:site": "node scripts/check-quality.mjs",
-    "prebuild": "node scripts/optimize-hero.mjs && node scripts/optimize-about.mjs",
-    "predev": "node scripts/optimize-hero.mjs && node scripts/optimize-about.mjs"
+    "prebuild": "node scripts/optimize-hero.mjs && node scripts/optimize-about.mjs && node scripts/optimize-rentals.mjs",
+    "predev": "node scripts/optimize-hero.mjs && node scripts/optimize-about.mjs && node scripts/optimize-rentals.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",

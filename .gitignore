@@ -12,3 +12,8 @@ public/images/hero/hero-bawito-*.webp
 
 # Variações geradas para a secção Sobre
 public/images/equipa/about-bawito-*.webp
+
+# Imagens WebP geradas no build para a secção Aluguer
+public/images/aluguer/tendas-*.webp
+public/images/aluguer/geradores-*.webp
+public/images/aluguer/palcos-*.webp
