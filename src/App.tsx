@@ -113,8 +113,15 @@ const filters: Array<{ id: GalleryFilter; text: string }> = [
 const eventTypes = ['Conferência / Seminário', 'Evento corporativo', 'Lançamento de produto', 'Gala / Cerimónia', 'Concerto / Festival', 'Casamento / Evento social', 'Campanha / Activação', 'Outro']
 
 function WaveMark({ light = false }: { light?: boolean }) {
-  return <a href="#inicio" className={`brand brand-image ${light ? 'brand-light' : ''}`} aria-label="Bawito Music & Serviços — voltar ao início">
-    <img className="brand-logo" src="/images/marca/logo-bawito-header.webp" alt="Bawito Music & Serviços" width={360} height={140} decoding="async" />
+  return <a href="#inicio" className={`brand ${light ? 'brand-light' : 'brand-image'}`} aria-label="Bawito Music & Serviços — voltar ao início">
+    {light ? (
+      <>
+        <span className="brand-symbol" aria-hidden="true"><i /><i /><i /><i /><i /></span>
+        <span className="brand-words"><strong>BAWITO</strong><small>MUSIC <span>&</span> SERVIÇOS</small></span>
+      </>
+    ) : (
+      <img className="brand-logo" src="/images/marca/logo-bawito-header.webp" alt="Bawito Music & Serviços" width={360} height={140} decoding="async" />
+    )}
   </a>
 }
 
