@@ -10,7 +10,9 @@ mkdirSync(outputFolder, { recursive: true })
 const sources = [
   { name: 'tendas', source: 'Golden-Hour Garden Marquee_Easy-Resize.com.jpg' },
   { name: 'geradores', source: 'Golden-Hour Bawito Event Generators_Easy-Resize.com.jpg' },
-  { name: 'palcos', source: 'Bawito Music Sunset Stage_Easy-Resize.com.jpg' }
+  { name: 'palcos', source: 'Bawito Music Sunset Stage_Easy-Resize.com.jpg' },
+  { name: 'ecras', source: 'Telas_bawito music.jpg' },
+  { name: 'sanitarios', source: 'Casa de banho movel bawito music_Easy-Resize.com.jpg' }
 ]
 for (const item of sources) {
   const original = join(originalFolder, item.source)

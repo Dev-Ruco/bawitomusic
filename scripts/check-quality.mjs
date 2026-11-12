@@ -36,9 +36,13 @@ for (const name of [
   'tendas-480.webp', 'tendas-820.webp',
   'geradores-480.webp', 'geradores-820.webp',
   'palcos-480.webp', 'palcos-820.webp',
+  'ecras-480.webp', 'ecras-820.webp',
+  'sanitarios-480.webp', 'sanitarios-820.webp',
   'ar-condicionado-vertical.webp'
 ]) assert.ok(existsSync('dist/images/aluguer/' + name), 'Fotografia de aluguer em falta: ' + name)
-assert.equal((html.match(/class="rental-card reveal"/g) || []).length, 4, 'A secção de aluguer deve apresentar exactamente quatro cartões')
+assert.equal((html.match(/class="rental-card reveal"/g) || []).length, 6, 'A secção de aluguer deve apresentar exactamente seis cartões')
+assert.ok(html.includes('Ecrãs LED e Monitores'), 'O aluguer de ecrãs está ausente')
+assert.ok(html.includes('Sanitários Móveis para Eventos'), 'O aluguer de sanitários está ausente')
 assert.ok(!html.includes('Aluguer — Mesas e mobiliário'), 'Equipamento removido ainda aparece no site')
 
 assert.ok(html.includes('/illustrations/servicos/comunicacao.svg'), 'SVG de comunicação não referenciado')

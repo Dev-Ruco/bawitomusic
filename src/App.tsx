@@ -96,6 +96,20 @@ const rentals: RentalItem[] = [
     image: '/images/aluguer/palcos-820.webp',
     srcSet: '/images/aluguer/palcos-480.webp 480w, /images/aluguer/palcos-820.webp 820w',
     alt: 'Palco exterior coberto com estrutura metálica, som e iluminação, em imagem ilustrativa.'
+  },
+  {
+    id: 'ecras', title: 'Ecrãs LED e Monitores', tag: 'Audiovisuais',
+    description: 'Ecrãs e monitores para conferências, apresentações e eventos.',
+    image: '/images/aluguer/ecras-820.webp',
+    srcSet: '/images/aluguer/ecras-480.webp 480w, /images/aluguer/ecras-820.webp 820w',
+    alt: 'Ecrãs e monitores instalados numa sala de conferências, em imagem ilustrativa.'
+  },
+  {
+    id: 'sanitarios', title: 'Sanitários Móveis para Eventos', tag: 'Apoio logístico',
+    description: 'Cabines sanitárias portáteis e módulos móveis para eventos.',
+    image: '/images/aluguer/sanitarios-820.webp',
+    srcSet: '/images/aluguer/sanitarios-480.webp 480w, /images/aluguer/sanitarios-820.webp 820w',
+    alt: 'Cabines sanitárias portáteis azuis e módulos sanitários móveis brancos, em imagem ilustrativa.'
   }
 ]
 
@@ -366,7 +380,7 @@ function App() {
           <div className="section-heading reveal">
             <div><SectionEyebrow>EQUIPAMENTOS E ESTRUTURAS</SectionEyebrow>
               <h2 id="rentals-title">Equipamentos para <em>aluguer.</em></h2></div>
-            <p>Tendas, geradores, climatização e palcos para eventos. Montagem e disponibilidade mediante orçamento.</p>
+            <p>Tendas, geradores, climatização, palcos, ecrãs e sanitários móveis. Condições e disponibilidade mediante orçamento.</p>
           </div>
           <div className="rental-grid">
             {rentals.map((item) => (
@@ -376,7 +390,7 @@ function App() {
                 <div className="rental-media">
                   <img src={item.image}
                     srcSet={item.srcSet}
-                    sizes="(max-width: 620px) 46vw, (max-width: 1100px) 46vw, 23vw"
+                    sizes="(max-width: 620px) 46vw, (max-width: 1100px) 46vw, 31vw"
                     alt={item.alt} width={820} height={560} loading="lazy" decoding="async" />
                   <span className="rental-category">{item.tag}</span>
                 </div>
