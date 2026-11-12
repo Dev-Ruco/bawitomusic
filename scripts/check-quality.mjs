@@ -12,6 +12,9 @@ for (const fragment of [
   'application/ld+json',
   'name="description"',
   'fetchpriority="high"',
+  '<h1',
+  'id="contactos"',
+  'Eventos corporativos',
 ]) assert.ok(html.includes(fragment), `Falta elemento SEO/performance: ${fragment}`)
 assert.ok(robots.includes('Sitemap: https://bawitomusic.co.mz/sitemap.xml'))
 assert.ok(sitemap.includes('<loc>https://bawitomusic.co.mz/</loc>'))

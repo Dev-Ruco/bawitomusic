@@ -11,6 +11,7 @@ Oferecer uma experiência profissional, rápida e acessível em dispositivos mó
 - Filtros da galeria com deslocação horizontal e áreas de toque superiores no telemóvel.
 - Texto móvel mais legível e campos de formulário com tamanho de letra que evita zoom involuntário no iOS.
 - URL canónica, OG URL absoluto, sitemap, robots e dados estruturados de empresa e serviços.
+- Pré-renderização do conteúdo React em HTML para melhorar a leitura por motores de pesquisa e o carregamento inicial.
 - Validação nativa de formulário e alternativa de abertura do WhatsApp.
 
 ## A confirmar em produção
