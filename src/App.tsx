@@ -3,7 +3,7 @@ import {
   ArrowDown, ArrowUpRight, CalendarDays, Check, ChevronDown, Compass, Target,
   ChevronLeft, ChevronRight, Clapperboard, Headphones, Mail,
   MapPin, Megaphone, Menu, MessageCircle, MonitorPlay, Phone, Radio,
-  Send, ShieldCheck, Sparkles, X,
+  Send, ShieldCheck, X,
   type LucideIcon,
 } from 'lucide-react'
 
