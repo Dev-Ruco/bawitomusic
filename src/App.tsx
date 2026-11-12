@@ -250,11 +250,11 @@ function App() {
         </picture>
         <div className="hero-grid container">
           <div className="hero-main">
-            <h1 id="hero-title">Grandes eventos.<br /><span>Produção à altura.</span></h1>
-            <p>Som, iluminação, telas LED, transmissão em directo e coordenação técnica para conferências e eventos corporativos em Moçambique.</p>
+            <h1 id="hero-title">Produção técnica<br /><span>para eventos corporativos.</span></h1>
+            <p>Soluções integradas de som, iluminação, telas LED, transmissão em directo e coordenação técnica para conferências, eventos empresariais e institucionais.</p>
             <div className="hero-buttons">
-              <a href="#contactos" className="btn btn-primary">Pedir orçamento <ArrowUpRight size={18} aria-hidden="true" /></a>
-              <a href="#servicos" className="btn btn-ghost">Ver serviços <ArrowDown size={17} aria-hidden="true" /></a>
+              <a href="#contactos" className="btn btn-primary">Solicitar orçamento <ArrowUpRight size={18} aria-hidden="true" /></a>
+              <a href="#servicos" className="btn btn-ghost">Conhecer serviços <ArrowDown size={17} aria-hidden="true" /></a>
             </div>
           </div>
         </div>

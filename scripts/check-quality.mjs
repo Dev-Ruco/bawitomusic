@@ -22,7 +22,7 @@ assert.ok(existsSync('dist/favicon.svg'))
 for (const imageName of ['hero-bawito-desktop.webp','hero-bawito-tablet.webp','hero-bawito-mobile.webp']) {
   assert.ok(existsSync(`dist/images/hero/${imageName}`), `Falta fotografia hero: ${imageName}`)
 }
-assert.ok(html.includes('Grandes eventos.'), 'Título principal do Hero em falta')
+assert.ok(html.includes('Produção técnica'), 'Título principal do Hero em falta')
 const assets = readdirSync('dist/assets')
 assert.ok(assets.some(name => name.endsWith('.css')), 'CSS em falta')
 assert.ok(assets.some(name => name.endsWith('.js')), 'JavaScript em falta')
