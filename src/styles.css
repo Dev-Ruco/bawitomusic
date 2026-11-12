@@ -355,3 +355,16 @@ html{scroll-padding-top:100px}
 @media(max-width:620px){.rentals .section-heading{margin-bottom:24px}.rental-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.rental-media{aspect-ratio:1.08}.rental-body{padding:13px 12px 12px}.rental-body h3{font-size:14px;margin-bottom:6px}.rental-body p{font-size:11.5px;line-height:1.5;margin-bottom:10px}.rental-action{font-size:11px;line-height:1.35;gap:4px;min-height:33px;padding-top:8px}.rental-action svg{width:15px;height:15px}.rental-category{top:7px;left:7px;font-size:9px;padding:5px 6px}.rental-disclaimer{font-size:10px;margin-top:14px}}
 @media(max-width:365px){.rental-grid{grid-template-columns:1fr}.rental-media{aspect-ratio:1.7}.rental-body h3{font-size:16px}.rental-body p{font-size:12px}}
 @media(prefers-reduced-motion:reduce){.rental-card,.rental-media img,.rental-action svg{transition:none!important;transform:none!important}}
+
+/* Seleção de aluguer no pedido de orçamento. */
+.rental-chooser{margin:16px 0 19px;border:1px solid #d7e7ef;background:#f8fbfd;border-radius:9px;overflow:hidden}
+.rental-chooser summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:49px;padding:12px 16px;font-size:13px;font-weight:800;color:#173e5e;cursor:pointer;list-style:none}
+.rental-chooser summary::-webkit-details-marker{display:none}
+.rental-chooser summary::after{content:'+';color:#0b84bc;font-size:23px;line-height:1}
+.rental-chooser[open] summary::after{content:'−'}
+.rental-chooser summary span{font-size:11px;font-weight:500;color:#6d8191;margin-left:auto}
+.rental-chooser .form-services{padding:0 15px 16px;margin:0;border:0}
+.rental-chooser .form-services legend{font-size:12px;color:#49667a;padding:5px 0 10px}
+.rental-choice-note{margin:0 0 16px;padding:10px 14px;background:#eaf6fd;border-left:3px solid #118ac1;color:#214a66;font-size:12px;line-height:1.5}
+.rental-chooser summary:focus-visible{outline:3px solid #118ac1;outline-offset:-3px}
+@media(max-width:620px){.rental-chooser summary{padding:10px 12px;min-height:48px;font-size:12px}.rental-chooser summary span{font-size:10px}.rental-chooser .form-services{padding:0 11px 12px}}
