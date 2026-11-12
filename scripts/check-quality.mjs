@@ -47,18 +47,22 @@ assert.ok(html.includes('Sanitários Móveis para Eventos'), 'O aluguer de sanit
 assert.ok(html.includes('PROJECTOS &amp; REALIZAÇÕES') || html.includes('PROJECTOS & REALIZAÇÕES'), 'Portefólio não identificado')
 assert.equal((html.match(/class="gallery-item reveal"/g) || []).length, 8, 'O portefólio deve ter oito imagens locais')
 assert.ok(html.includes('Conferências institucionais'), 'Portefólio de conferências em falta')
-assert.ok(html.includes('mr-bow-liloca-desktop.webp'), 'Fotografia dos artistas ausente da secção de entretenimento')
+assert.ok(html.includes('mr-bow-liloca-recorte-desktop.webp'), 'Fotografia dos artistas ausente da secção de entretenimento')
 assert.ok(html.includes('artist-visual artist-cutout'), 'Artistas não integrados na secção azul')
 assert.ok(!html.includes('artist-photo-caption'), 'Legenda duplicada não removida')
 
-assert.ok(html.includes('mr-bow-liloca-mobile.webp'), 'Versão móvel dos artistas ausente')
+assert.ok(html.includes('mr-bow-liloca-recorte-mobile.webp'), 'Versão móvel dos artistas ausente')
 for (const variant of ['mobile','desktop']) {
-  assert.ok(existsSync('dist/images/artistas/mr-bow-liloca-' + variant + '.webp'), 'Imagem dos artistas não encontrada: ' + variant)
+  assert.ok(existsSync('dist/images/artistas/mr-bow-liloca-recorte-' + variant + '.webp'), 'Imagem dos artistas não encontrada: ' + variant)
 }
 assert.ok(html.includes('Conhecer Mr Bow') && html.includes('Conhecer Liloca'), 'Ligações aos artistas ausentes')
 for (const variant of ['mobile', 'desktop']) {
-  const metadata = await sharp('dist/images/artistas/mr-bow-liloca-' + variant + '.webp').metadata()
+  const metadata = await sharp('dist/images/artistas/mr-bow-liloca-recorte-' + variant + '.webp').metadata()
   assert.ok(metadata.hasAlpha, 'A fotografia dos artistas deve ter fundo transparente: ' + variant)
+  const { data: pixels, info } = await sharp('dist/images/artistas/mr-bow-liloca-recorte-' + variant + '.webp').ensureAlpha().raw().toBuffer({ resolveWithObject: true })
+  let transparentPixels = 0
+  for (let i = 3; i < pixels.length; i += info.channels) if (pixels[i] === 0) transparentPixels++
+  assert.ok(transparentPixels / (info.width * info.height) > 0.14, 'Fundo não removido da fotografia dos artistas: ' + variant)
 }
 
 assert.ok(html.includes('Grandes palcos'), 'Portefólio de palcos em falta')
