@@ -1,39 +1,49 @@
-import { existsSync, readdirSync, statSync } from 'node:fs'
+import { existsSync, mkdirSync, readdirSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 import sharp from 'sharp'
 
-// Procura automaticamente a nova imagem original carregada no GitHub.
-// Aceita JPG, JPEG, PNG, WebP e AVIF; exclui as variantes produzidas neste script.
+// Original fotográfico e logótipo são ficheiros distintos: nunca misturar imagens.
 const folder = 'public/images/hero'
+const allImages = readdirSync(folder).filter(name => /\.(jpe?g|png|webp|avif)$/i.test(name))
 const generated = /^hero-bawito-(desktop|tablet|mobile)\.webp$/i
-const originals = readdirSync(folder)
-  .filter(name => /\.(jpg|jpeg|png|webp|avif)$/i.test(name) && !generated.test(name))
-  .sort((a, b) => a.localeCompare(b))
+const isLogo = name => /(logo|logotipo|logotype|waveform|marca)/i.test(name)
+const photographs = allImages.filter(name => !generated.test(name) && !isLogo(name))
+const photo =
+  photographs.find(name => /^hero-original\.(jpe?g|png|webp|avif)$/i.test(name)) ||
+  photographs.find(name => /(auditorium|conference|conferencia|conferência|palco|cenário|cenario|rehearsal)/i.test(name)) ||
+  (photographs.length === 1 ? photographs[0] : null)
 
-if (originals.length === 0) {
-  throw new Error('Nenhuma imagem encontrada em public/images/hero. Carregue a fotografia, confirme o Commit changes no ramo main e volte a compilar.')
+if (!photo) {
+  throw new Error(`Fotografia do Hero não identificada. Ficheiros: ${allImages.join(', ')}. Renomeie o ficheiro desejado para hero-original.jpg ou hero-original.webp.`)
 }
-
-const marked = originals.find(name => /^hero-original\.(jpg|jpeg|png|webp|avif)$/i.test(name))
-if (originals.length > 1 && !marked) {
-  throw new Error(`Existem várias imagens originais (${originals.join(', ')}). Indique a escolhida renomeando-a para hero-original.webp, ou deixe apenas uma imagem original na pasta.`)
-}
-
-const sourceName = marked || originals[0]
-const source = join(folder, sourceName)
-if (!existsSync(source)) throw new Error(`Ficheiro em falta: ${source}`)
-
-const variants = [
+const srcPhoto = join(folder, photo)
+for (const variant of [
   { name: 'hero-bawito-desktop.webp', width: 1600 },
   { name: 'hero-bawito-tablet.webp', width: 1000 },
   { name: 'hero-bawito-mobile.webp', width: 700, height: 900 },
-]
-
-for (const item of variants) {
-  const target = join(folder, item.name)
-  const resized = item.height
-    ? sharp(source).rotate().resize(item.width, item.height, { fit: 'cover', position: 'centre', withoutEnlargement: true })
-    : sharp(source).rotate().resize({ width: item.width, withoutEnlargement: true })
-  await resized.webp({ quality: 77, effort: 5 }).toFile(target)
-  console.log(`${item.name}: ${Math.round(statSync(target).size / 1024)} KB | origem: ${sourceName}`)
+]) {
+  const target = join(folder, variant.name)
+  const pipeline = sharp(srcPhoto).rotate()
+  const resized = variant.height
+    ? pipeline.resize(variant.width, variant.height, { fit: 'cover', position: 'centre', withoutEnlargement: true })
+    : pipeline.resize({ width: variant.width, withoutEnlargement: true })
+  await resized.webp({ quality: 78, effort: 5 }).toFile(target)
+  console.log(`Hero ${variant.name}: ${Math.round(statSync(target).size / 1024)} KB, original: ${photo}`)
 }
+
+// A imagem azul sobre fundo branco permanece na biblioteca e é transformada
+// em versão compacta para a navegação; nunca é usada como fundo do Hero.
+const logo = allImages.find(name => /^BAWITO-Blue-Waveform-Logo\.(jpe?g|png|webp|avif)$/i.test(name)) ||
+  allImages.find(name => /(logo|logotipo|logotype|waveform)/i.test(name))
+if (!logo) throw new Error('Logótipo azul em falta. Carregue BAWITO-Blue-Waveform-Logo.webp na pasta public/images/hero.')
+const logoFolder = 'public/images/marca'
+mkdirSync(logoFolder, { recursive: true })
+const logoOutput = join(logoFolder, 'logo-bawito-header.webp')
+await sharp(join(folder, logo))
+  .rotate()
+  .flatten({ background: '#ffffff' })
+  .trim({ background: '#ffffff', threshold: 15 })
+  .resize({ width: 420, withoutEnlargement: true })
+  .webp({ quality: 85, effort: 5 })
+  .toFile(logoOutput)
+console.log(`Logótipo para o header: ${Math.round(statSync(logoOutput).size / 1024)} KB, origem: ${logo}`)

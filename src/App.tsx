@@ -113,9 +113,8 @@ const filters: Array<{ id: GalleryFilter; text: string }> = [
 const eventTypes = ['Conferência / Seminário', 'Evento corporativo', 'Lançamento de produto', 'Gala / Cerimónia', 'Concerto / Festival', 'Casamento / Evento social', 'Campanha / Activação', 'Outro']
 
 function WaveMark({ light = false }: { light?: boolean }) {
-  return <a href="#inicio" className={`brand ${light ? 'brand-light' : ''}`} aria-label="Bawito Music & Serviços — início">
-    <span className="brand-symbol" aria-hidden="true"><i /><i /><i /><i /><i /></span>
-    <span className="brand-words"><strong>BAWITO</strong><small>MUSIC <span>&</span> SERVIÇOS</small></span>
+  return <a href="#inicio" className={`brand brand-image ${light ? 'brand-light' : ''}`} aria-label="Bawito Music & Serviços — voltar ao início">
+    <img className="brand-logo" src="/images/marca/logo-bawito-header.webp" alt="Bawito Music & Serviços" width={360} height={140} decoding="async" />
   </a>
 }
 
@@ -134,6 +133,7 @@ function App() {
   const [form, setForm] = useState({ name: '', phone: '', email: '', event: '', date: '', city: '', message: '' })
   const modalCloseRef = useRef<HTMLButtonElement | null>(null)
   const lastFocusedElement = useRef<HTMLElement | null>(null)
+  const menuToggleRef = useRef<HTMLButtonElement | null>(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 28)
@@ -172,9 +172,23 @@ function App() {
 
   useEffect(() => {
     if (!menuOpen) return
-    const onKey = (event: KeyboardEvent) => { if (event.key === 'Escape') setMenuOpen(false) }
+    const previousOverflow = document.body.style.overflow
+    if (window.matchMedia('(max-width: 1050px)').matches) document.body.style.overflow = 'hidden'
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMenuOpen(false)
+        menuToggleRef.current?.focus()
+      }
+    }
+    const desktop = window.matchMedia('(min-width: 1051px)')
+    const onResize = () => { if (desktop.matches) setMenuOpen(false) }
     window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+    desktop.addEventListener('change', onResize)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', onKey)
+      desktop.removeEventListener('change', onResize)
+    }
   }, [menuOpen])
 
   useEffect(() => {
@@ -225,21 +239,24 @@ function App() {
 
   return <>
     <a className="skip-link" href="#principal">Saltar para o conteúdo</a>
-    <header className={`site-header ${scrolled ? 'header-scrolled' : ''} ${menuOpen ? 'menu-active' : ''}`}>
+    <header className={`site-header header-light ${scrolled ? 'header-scrolled' : ''} ${menuOpen ? 'menu-active' : ''}`}>
       <div className="header-inner container">
         <WaveMark />
         <nav className={`main-nav ${menuOpen ? 'nav-open' : ''}`} aria-label="Navegação principal" id="main-navigation">
           <a href="#inicio" aria-current={activeSection === 'inicio' ? 'location' : undefined} onClick={goTo}>Início</a>
           <a href="#sobre" aria-current={activeSection === 'sobre' ? 'location' : undefined} onClick={goTo}>A Bawito</a>
           <a href="#servicos" aria-current={activeSection === 'servicos' ? 'location' : undefined} onClick={goTo}>Serviços</a>
-          <a href="#solucoes" aria-current={activeSection === 'solucoes' ? 'location' : undefined} onClick={goTo}>Soluções</a>
+          <a href="#solucoes" aria-current={activeSection === 'solucoes' ? 'location' : undefined} onClick={goTo}>Eventos</a>
           <a href="#artistas" aria-current={activeSection === 'artistas' ? 'location' : undefined} onClick={goTo}>Artistas</a>
-          <a href="#contactos" className="nav-mobile-cta" aria-current={activeSection === 'contactos' ? 'location' : undefined} onClick={goTo}>Pedir orçamento <ArrowUpRight size={16} /></a>
+          <a href="#contactos" className="nav-mobile-cta" aria-current={activeSection === 'contactos' ? 'location' : undefined} onClick={goTo}>Solicitar orçamento <ArrowUpRight size={17} aria-hidden="true" /></a>
         </nav>
-        <a className="btn btn-header" href="#contactos">Solicitar orçamento <ArrowUpRight size={17} /></a>
-        <button className="menu-button" type="button" aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'} aria-controls="main-navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X size={26} /> : <Menu size={26} />}</button>
+        <a className="btn btn-header" href="#contactos">Solicitar orçamento <ArrowUpRight size={18} aria-hidden="true" /></a>
+        <button ref={menuToggleRef} className="menu-button" type="button" aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'} aria-controls="main-navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(open => !open)}>
+          {menuOpen ? <X size={25} aria-hidden="true" /> : <Menu size={25} aria-hidden="true" />}
+        </button>
       </div>
     </header>
+    <button type="button" aria-label="Fechar navegação" aria-hidden={!menuOpen} tabIndex={menuOpen ? 0 : -1} className={`menu-backdrop ${menuOpen ? 'is-open' : ''}`} onClick={() => setMenuOpen(false)} />
 
     <main id="principal">
       <section className="hero hero-clean" id="inicio" aria-labelledby="hero-title">
