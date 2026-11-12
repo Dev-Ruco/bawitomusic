@@ -496,20 +496,15 @@ function App() {
 
       <section id="artistas" className="artist-section" aria-labelledby="artist-title">
         <div className="container artist-inner">
-          <figure className="artist-visual reveal">
+          <figure className="artist-visual artist-cutout reveal">
             <picture>
               <source media="(max-width: 620px)" srcSet="/images/artistas/mr-bow-liloca-mobile.webp" type="image/webp" />
               <img src="/images/artistas/mr-bow-liloca-desktop.webp"
-                width={1200} height={675}
+                width={1200} height={925}
                 alt="Mr Bow e Liloca, artistas representados pela Bawito Music & Serviços"
                 loading="lazy" decoding="async"
                 sizes="(max-width: 620px) 92vw, (max-width: 960px) 85vw, 50vw" />
             </picture>
-            <figcaption className="artist-photo-caption">
-              <span>MR BOW</span>
-              <span className="artist-caption-divider" aria-hidden="true" />
-              <span>LILOCA</span>
-            </figcaption>
           </figure>
           <div className="artist-content reveal">
             <SectionEyebrow light>ENTRETENIMENTO & TALENTO</SectionEyebrow>

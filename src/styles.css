@@ -560,3 +560,61 @@ html{scroll-padding-top:100px}
 @media(prefers-reduced-motion:reduce){
   .artist-section .artist-visual img,.artist-section .artist-buttons a{transition:none!important;transform:none!important}
 }
+
+
+/* Retrato integrado no azul institucional — sem cartão, moldura ou fundo fotográfico. */
+.artist-section{
+  background:radial-gradient(ellipse 65% 100% at 26% 66%,#14577f 0%,#0d3554 49%,transparent 82%),
+    linear-gradient(112deg,#071d34 0%,#0b2a47 58%,#123e5d 100%)
+}
+.artist-section:before{
+  inset:auto auto -190px -130px;width:min(55vw,740px);height:620px;aspect-ratio:auto;
+  background:radial-gradient(ellipse,rgba(35,157,218,.19) 0%,transparent 67%);
+  z-index:-1
+}
+.artist-section .artist-inner{
+  grid-template-columns:minmax(0,1.12fr) minmax(0,1fr);
+  min-height:540px;align-items:center;
+  padding-top:34px;padding-bottom:0;gap:clamp(26px,3.5vw,64px)
+}
+.artist-section .artist-visual.artist-cutout{
+  align-self:end;position:relative;
+  width:100%;height:clamp(360px,39vw,555px);
+  max-height:none;aspect-ratio:auto;min-height:0;
+  border:0;border-radius:0;background:none;box-shadow:none;
+  overflow:hidden;isolation:auto;
+  display:flex;align-items:flex-end;justify-content:center;
+  margin:0;padding:0
+}
+.artist-section .artist-visual.artist-cutout picture{
+  position:absolute;inset:0;display:block;width:100%;height:100%
+}
+.artist-section .artist-visual.artist-cutout img{
+  width:100%;height:100%;max-width:none;object-fit:contain;object-position:center bottom;
+  filter:drop-shadow(0 10px 22px rgba(4,12,23,.16));
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 72%,transparent 100%);
+  mask-image:linear-gradient(to bottom,#000 0%,#000 72%,transparent 100%);
+  transition:transform .65s ease
+}
+.artist-section .artist-visual.artist-cutout:after{display:none}
+.artist-section .artist-content{position:relative;z-index:1;padding:35px 0 58px}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+  .artist-section .artist-visual.artist-cutout:hover img{transform:scale(1.022)}
+}
+@media(max-width:960px){
+  .artist-section .artist-inner{max-width:700px;gap:12px;padding-top:28px;padding-bottom:56px}
+  .artist-section .artist-visual.artist-cutout{align-self:center;width:100%;height:clamp(280px,59vw,470px);max-height:none;order:0}
+  .artist-section .artist-content{padding:0;order:1}
+}
+@media(max-width:620px){
+  .artist-section .artist-inner{gap:5px;padding-top:22px;padding-bottom:46px}
+  .artist-section .artist-visual.artist-cutout{order:0;height:clamp(235px,68vw,360px);max-height:none;aspect-ratio:auto;width:100%;border-radius:0}
+  .artist-section .artist-visual.artist-cutout img{
+    -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 73%,transparent 100%);
+    mask-image:linear-gradient(to bottom,#000 0%,#000 73%,transparent 100%)
+  }
+  .artist-section .artist-content{padding:0 2px;order:1}
+}
+@media(prefers-reduced-motion:reduce){
+  .artist-section .artist-visual.artist-cutout img{transition:none!important;transform:none!important}
+}
