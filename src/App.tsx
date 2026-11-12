@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import {
   ArrowDown, ArrowUpRight, CalendarDays, Check, ChevronDown, Compass, Target,
-  ChevronRight, Clapperboard, Headphones, Mail,
+  ChevronLeft, ChevronRight, Clapperboard, Headphones, Mail,
   MapPin, Megaphone, Menu, MessageCircle, Mic2, MonitorPlay, Phone, Radio,
   Send, ShieldCheck, Sparkles, X,
   type LucideIcon,
@@ -113,22 +113,36 @@ const rentals: RentalItem[] = [
   }
 ]
 
-const gallery = [
-  { title: 'Conferências e seminários', kind: 'corporativos', type: 'EVENTOS CORPORATIVOS', src: photos.conference },
-  { title: 'Espectáculos ao vivo', kind: 'espectaculos', type: 'ENTRETENIMENTO', src: photos.concerts },
-  { title: 'Galas e cerimónias', kind: 'corporativos', type: 'EVENTOS ESPECIAIS', src: photos.gala },
-  { title: 'Activações de marca', kind: 'activacoes', type: 'EXPERIÊNCIAS DE MARCA', src: photos.activation },
-  { title: 'Produção audiovisual', kind: 'corporativos', type: 'SOM, LUZ E VÍDEO', src: photos.event },
-  { title: 'Palcos e festivais', kind: 'espectaculos', type: 'PRODUÇÃO DE ESPECTÁCULOS', src: photos.stages },
+type GalleryFilter = 'todos' | 'conferencias' | 'producao' | 'espectaculos'
+
+type GalleryProject = {
+  id: string
+  title: string
+  type: string
+  kind: Exclude<GalleryFilter, 'todos'>
+  src: string
+  alt: string
+}
+
+const projectImage = (id: string, width: 400 | 800 | 1200) => `/images/projectos/optimizadas/${id}-${width}.webp`
+const projectImageSet = (id: string) => [400, 800, 1200].map(width => `${projectImage(id, width as 400 | 800 | 1200)} ${width}w`).join(', ')
+
+const gallery: GalleryProject[] = [
+  { id: 'conferencias-institucionais', title: 'Conferências institucionais', type: 'CONFERÊNCIAS', kind: 'conferencias', src: projectImage('conferencias-institucionais', 800), alt: 'Conferência institucional sob cobertura branca e azul, com orador, público e dois ecrãs LED.' },
+  { id: 'eventos-empresariais', title: 'Encontros empresariais', type: 'CONFERÊNCIAS', kind: 'conferencias', src: projectImage('eventos-empresariais', 800), alt: 'Grande conferência em Maputo, com plateia, palco, ecrãs e equipas de filmagem.' },
+  { id: 'bastidores-tecnicos', title: 'Bastidores da produção', type: 'PRODUÇÃO TÉCNICA', kind: 'producao', src: projectImage('bastidores-tecnicos', 800), alt: 'Equipa técnica a operar realização de vídeo e som numa celebração sob tenda iluminada.' },
+  { id: 'reunioes-direccao', title: 'Reuniões de direcção', type: 'CONFERÊNCIAS', kind: 'conferencias', src: projectImage('reunioes-direccao', 800), alt: 'Reunião institucional com mesas em U, participantes e ecrãs laterais sob tenda branca.' },
+  { id: 'cerimonias-publicas', title: 'Cerimónias institucionais', type: 'PRODUÇÃO E MONTAGEM', kind: 'producao', src: projectImage('cerimonias-publicas', 800), alt: 'Cerimónia ao ar livre com palco coberto, ecrãs e filas de cadeiras brancas.' },
+  { id: 'tendas-e-estruturas', title: 'Montagem de tendas', type: 'PRODUÇÃO E MONTAGEM', kind: 'producao', src: projectImage('tendas-e-estruturas', 800), alt: 'Grande tenda para eventos com cobertura branca e laranja e cadeiras organizadas.' },
+  { id: 'espectaculos-ao-vivo', title: 'Espectáculos ao vivo', type: 'PALCOS E ESPECTÁCULOS', kind: 'espectaculos', src: projectImage('espectaculos-ao-vivo', 800), alt: 'Banda a actuar em palco modular com iluminação colorida, som e grande ecrã LED.' },
+  { id: 'grandes-palcos', title: 'Grandes palcos', type: 'PALCOS E ESPECTÁCULOS', kind: 'espectaculos', src: projectImage('grandes-palcos', 800), alt: 'Grande palco exterior nocturno com estrutura metálica, ecrã e público.' },
 ]
 
-type GalleryFilter = 'todos' | 'corporativos' | 'espectaculos' | 'activacoes'
-
 const filters: Array<{ id: GalleryFilter; text: string }> = [
-  { id: 'todos', text: 'Todos os formatos' },
-  { id: 'corporativos', text: 'Corporativos' },
+  { id: 'todos', text: 'Todos os projectos' },
+  { id: 'conferencias', text: 'Conferências' },
+  { id: 'producao', text: 'Produção e montagem' },
   { id: 'espectaculos', text: 'Espectáculos' },
-  { id: 'activacoes', text: 'Activações' },
 ]
 
 const eventTypes = ['Aluguer de equipamentos', 'Conferência / Seminário', 'Evento corporativo', 'Lançamento de produto', 'Gala / Cerimónia', 'Concerto / Festival', 'Casamento / Evento social', 'Campanha / Activação', 'Outro']
@@ -225,10 +239,27 @@ function App() {
     document.body.style.overflow = 'hidden'
     lastFocusedElement.current = document.activeElement instanceof HTMLElement ? document.activeElement : null
     modalCloseRef.current?.focus()
-    const onKey = (event: KeyboardEvent) => { if (event.key === 'Escape') setActiveImage(null) }
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setActiveImage(null)
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+        event.preventDefault()
+        const items = filter === 'todos' ? gallery : gallery.filter(item => item.kind === filter)
+        setActiveImage(current => {
+          const index = items.findIndex(item => item.id === current?.id)
+          return items[(index + (event.key === 'ArrowRight' ? 1 : -1) + items.length) % items.length] ?? current
+        })
+      }
+      if (event.key === 'Tab') {
+        const controls = Array.from(document.querySelectorAll<HTMLButtonElement>('.portfolio-lightbox button'))
+        if (!controls.length) return
+        const first = controls[0], last = controls[controls.length - 1]
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus() }
+        if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus() }
+      }
+    }
     window.addEventListener('keydown', onKey)
     return () => { document.body.style.overflow = previous; window.removeEventListener('keydown', onKey); lastFocusedElement.current?.focus() }
-  }, [activeImage])
+  }, [Boolean(activeImage), filter])
 
   const toggleService = (name: string) => setSelectedServices((current) =>
     current.includes(name) ? current.filter((item) => item !== name) : [...current, name],
@@ -264,6 +295,11 @@ function App() {
 
   const goTo = () => setMenuOpen(false)
   const visibleGallery = filter === 'todos' ? gallery : gallery.filter((item) => item.kind === filter)
+  const navigateGallery = (step: number) => setActiveImage(current => {
+    if (!current || !visibleGallery.length) return current
+    const index = visibleGallery.findIndex(item => item.id === current.id)
+    return visibleGallery[(index + step + visibleGallery.length) % visibleGallery.length]
+  })
 
   return <>
     <a className="skip-link" href="#principal">Saltar para o conteúdo</a>
@@ -427,18 +463,34 @@ function App() {
       <section id="solucoes" className="gallery-section section-pad" aria-labelledby="gallery-title">
         <div className="container">
           <div className="section-heading section-heading-tight reveal">
-            <div><SectionEyebrow>FORMATOS & EXPERIÊNCIAS</SectionEyebrow><h2 id="gallery-title">Cada evento tem<br />a sua <em>dimensão.</em></h2></div>
-            <p>Dos encontros corporativos aos grandes palcos, adaptamos a produção à dimensão e à identidade de cada ocasião.</p>
+            <div>
+              <SectionEyebrow>PROJECTOS & REALIZAÇÕES</SectionEyebrow>
+              <h2 id="gallery-title">Cada evento tem<br />a sua <em>dimensão.</em></h2>
+            </div>
+            <p>Uma selecção de trabalhos em conferências, eventos institucionais e espectáculos. Conheça os ambientes, os bastidores e as soluções técnicas.</p>
           </div>
-          <div className="gallery-toolbar reveal"><div className="gallery-filters" role="group" aria-label="Filtrar formatos de eventos">
-            {filters.map(({ id, text }) => <button type="button" key={id} className={filter === id ? 'active' : ''} aria-pressed={filter === id} onClick={() => setFilter(id)}>{text}</button>)}
-          </div><span className="gallery-count">{String(visibleGallery.length).padStart(2, '0')} FORMATOS</span></div>
-          <div className="gallery-grid">
-            {visibleGallery.map((item) => <button type="button" onClick={() => setActiveImage(item)} className="gallery-item reveal" key={item.title} aria-label={`Ver imagem ilustrativa de ${item.title}`}>
-              <img src={item.src} srcSet={imageSet(item.src)} sizes="(max-width: 620px) 100vw, (max-width: 900px) 50vw, 33vw" width={850} height={600} alt={`Imagem ilustrativa: ${item.title}`} loading="lazy" decoding="async" /><span className="gallery-shade" /><span className="gallery-info"><small>{item.type}</small><strong>{item.title}</strong></span><span className="gallery-open"><ArrowUpRight size={22} /></span>
+          <div className="gallery-toolbar reveal">
+            <div className="gallery-filters" role="group" aria-label="Filtrar projectos">
+              {filters.map(({ id, text }) => <button type="button" key={id} className={filter === id ? 'active' : ''} aria-pressed={filter === id} onClick={() => setFilter(id)}>{text}</button>)}
+            </div>
+            <span className="gallery-count" aria-live="polite">{String(visibleGallery.length).padStart(2, '0')} {visibleGallery.length === 1 ? 'PROJECTO' : 'PROJECTOS'}</span>
+          </div>
+          <div className={`gallery-grid portfolio-grid ${filter !== 'todos' ? 'is-filtered' : ''}`} aria-label="Fotografias de projectos da Bawito">
+            {visibleGallery.map((item, index) => <button type="button" key={item.id}
+              className="gallery-item reveal" onClick={() => setActiveImage(item)}
+              aria-label={`Ampliar fotografia: ${item.title}`}>
+              <img src={item.src} srcSet={projectImageSet(item.id)}
+                sizes={filter !== 'todos' ? '(max-width: 620px) 46vw, (max-width: 900px) 50vw, 33vw' : index === 0 ? '(max-width: 620px) 92vw, (max-width: 900px) 92vw, 60vw' : '(max-width: 620px) 46vw, (max-width: 900px) 46vw, 43vw'}
+                width={1200} height={800} alt={item.alt} loading="lazy" decoding="async" />
+              <span className="gallery-shade" aria-hidden="true" />
+              <span className="gallery-info">
+                <small>{item.type}</small>
+                <strong>{item.title}</strong>
+              </span>
+              <span className="gallery-open" aria-hidden="true"><ArrowUpRight size={21} /></span>
             </button>)}
           </div>
-          <p className="gallery-disclaimer">Imagens ilustrativas dos formatos de eventos. A galeria de projectos reais será actualizada com o portefólio fotográfico da Bawito.</p>
+          <p className="portfolio-footnote">Uma amostra visual das nossas produções e das soluções aplicadas em diferentes formatos de eventos.</p>
         </div>
       </section>
 
@@ -508,7 +560,20 @@ function App() {
 
     <a className={`whatsapp-float ${activeSection === 'inicio' ? 'is-hidden-over-hero' : ''}`} href={`https://wa.me/${PHONE}?text=${encodeURIComponent('Olá, Bawito Music & Serviços! Gostaria de obter informações sobre os vossos serviços.')}`} target="_blank" rel="noopener noreferrer" aria-label="Contactar a Bawito pelo WhatsApp"><MessageCircle size={27} /><span>Vamos conversar</span></a>
 
-    {activeImage && <div className="lightbox" role="dialog" aria-modal="true" aria-label={`Imagem: ${activeImage.title}`} onMouseDown={(event) => { if (event.target === event.currentTarget) setActiveImage(null) }}><button ref={modalCloseRef} type="button" className="lightbox-close" onClick={() => setActiveImage(null)} aria-label="Fechar imagem"><X size={25} /></button><div className="lightbox-content"><img src={imageAt(activeImage.src, 1280)} alt={`Imagem ilustrativa: ${activeImage.title}`} width={1280} height={850} /><div><span>{activeImage.type} · IMAGEM ILUSTRATIVA</span><h3>{activeImage.title}</h3></div></div></div>}
+    {activeImage && <div className="lightbox portfolio-lightbox" role="dialog" aria-modal="true" aria-labelledby="portfolio-modal-title" onMouseDown={(event) => { if (event.target === event.currentTarget) setActiveImage(null) }}>
+      <button ref={modalCloseRef} type="button" className="lightbox-close" onClick={() => setActiveImage(null)} aria-label="Fechar fotografia"><X size={25} /></button>
+      <div className="lightbox-content">
+        <img src={projectImage(activeImage.id, 1200)} alt={activeImage.alt} width={1200} height={800} decoding="async" />
+        <div className="portfolio-lightbox-caption">
+          <div><span>{activeImage.type} · PORTFÓLIO BAWITO</span><h3 id="portfolio-modal-title">{activeImage.title}</h3></div>
+          <div className="portfolio-lightbox-navigation">
+            <span className="portfolio-lightbox-counter">{String(visibleGallery.findIndex(item => item.id === activeImage.id) + 1).padStart(2, '0')} / {String(visibleGallery.length).padStart(2, '0')}</span>
+            <button type="button" aria-label="Fotografia anterior" onClick={() => navigateGallery(-1)}><ChevronLeft size={23} /></button>
+            <button type="button" aria-label="Fotografia seguinte" onClick={() => navigateGallery(1)}><ChevronRight size={23} /></button>
+          </div>
+        </div>
+      </div>
+    </div>}
   </>
 }
 

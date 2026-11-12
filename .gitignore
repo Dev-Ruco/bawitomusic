@@ -17,3 +17,6 @@ public/images/equipa/about-bawito-*.webp
 public/images/aluguer/tendas-*.webp
 public/images/aluguer/geradores-*.webp
 public/images/aluguer/palcos-*.webp
+
+# Imagens adaptativas de portefólio — geradas no build
+public/images/projectos/optimizadas/

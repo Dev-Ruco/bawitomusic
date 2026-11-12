@@ -43,6 +43,16 @@ for (const name of [
 assert.equal((html.match(/class="rental-card reveal"/g) || []).length, 6, 'A secção de aluguer deve apresentar exactamente seis cartões')
 assert.ok(html.includes('Ecrãs LED e Monitores'), 'O aluguer de ecrãs está ausente')
 assert.ok(html.includes('Sanitários Móveis para Eventos'), 'O aluguer de sanitários está ausente')
+assert.ok(html.includes('PROJECTOS &amp; REALIZAÇÕES') || html.includes('PROJECTOS & REALIZAÇÕES'), 'Portefólio não identificado')
+assert.equal((html.match(/class="gallery-item reveal"/g) || []).length, 8, 'O portefólio deve ter oito imagens locais')
+assert.ok(html.includes('Conferências institucionais'), 'Portefólio de conferências em falta')
+assert.ok(html.includes('Grandes palcos'), 'Portefólio de palcos em falta')
+assert.ok(!html.includes('A galeria de projectos reais será actualizada'), 'Texto antigo do portefólio detectado')
+for (const id of ["conferencias-institucionais","eventos-empresariais","bastidores-tecnicos","reunioes-direccao","cerimonias-publicas","tendas-e-estruturas","espectaculos-ao-vivo","grandes-palcos"]) {
+  for (const width of [400, 800, 1200])
+    assert.ok(existsSync('dist/images/projectos/optimizadas/' + id + '-' + width + '.webp'), 'Imagem optimizada em falta: ' + id + '-' + width)
+}
+
 assert.ok(!html.includes('Aluguer — Mesas e mobiliário'), 'Equipamento removido ainda aparece no site')
 
 assert.ok(html.includes('/illustrations/servicos/comunicacao.svg'), 'SVG de comunicação não referenciado')
