@@ -356,10 +356,14 @@ function App() {
                 aria-label={`Pedir proposta de aluguer: ${item.title}`}
                 onClick={() => setSelectedServices(current => current.includes('Aluguer — ' + item.title) ? current : [...current, 'Aluguer — ' + item.title])}>
                 <div className="rental-media">
-                  <img src={item.image} alt={item.alt} width={820} height={560} loading="lazy" decoding="async"
+                  <img src={item.image}
+                    srcSet={item.illustrative ? undefined : [360, 560, 820].map(width => `${item.image.replace('w=820', 'w=' + width)} ${width}w`).join(', ')}
+                    sizes="(max-width: 620px) 46vw, (max-width: 1100px) 46vw, 23vw"
+                    alt={item.alt} width={820} height={560} loading="lazy" decoding="async"
                     onError={(event) => {
                       const image = event.currentTarget
                       if (image.src !== new URL(item.fallback, window.location.origin).href) {
+                        image.removeAttribute('srcset')
                         image.src = item.fallback
                       }
                     }} />
