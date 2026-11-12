@@ -403,7 +403,13 @@ function App() {
             </article>
             <article className="about-value reveal">
               <span className="about-value-icon" aria-hidden="true"><Target size={24} strokeWidth={1.8} /></span>
-              <div><h3>O nosso objectivo</h3><p>Reunir estratégia, marketing e produção numa resposta coordenada, adaptada às necessidades e aos resultados pretendidos por cada cliente.<      <section id="servicos" className="services section-pad" aria-labelledby="services-title">
+              <div><h3>O nosso objectivo</h3><p>Reunir estratégia, marketing e produção numa resposta coordenada, adaptada às necessidades e aos resultados pretendidos por cada cliente.</p></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="servicos" className="services section-pad" aria-labelledby="services-title">
         <div className="container">
           <div className="section-heading services-heading reveal">
             <div>
@@ -450,12 +456,6 @@ function App() {
             <a href="#contactos" className="services-conclusion-cta">
               Solicitar proposta integrada <ArrowUpRight size={19} aria-hidden="true" />
             </a>
-          </div>
-        </div>
-      </section>
-
-            </a>
-            })}
           </div>
         </div>
       </section>
