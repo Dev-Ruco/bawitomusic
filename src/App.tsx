@@ -45,18 +45,47 @@ type Service = {
   title: string
   description: string
   icon: LucideIcon
-  illustration: string
-  label: string
-  featured?: boolean
 }
 
 const services: Service[] = [
-  { id: 'comunicacao', title: 'Comunicação e marketing', label: 'Comunicação estratégica', description: 'Campanhas, conteúdos e estratégias que aproximam as marcas dos seus públicos.', icon: Megaphone, illustration: '/illustrations/servicos/comunicacao.svg', featured: true },
-  { id: 'estrategia', title: 'Estratégia e activação de marcas', label: 'Experiências de marca', description: 'Concepção de lançamentos, acções promocionais e experiências de marca.', icon: Target, illustration: '/illustrations/servicos/estrategia.svg', featured: true },
-  { id: 'eventos', title: 'Eventos corporativos', label: 'Organização de eventos', description: 'Conferências, fóruns, seminários e cerimónias, do planeamento à realização.', icon: Sparkles, illustration: '/illustrations/servicos/eventos.svg' },
-  { id: 'producao', title: 'Produção e coordenação', label: 'Gestão de projecto', description: 'Planeamento, logística, equipas e acompanhamento de cada etapa do evento.', icon: Clapperboard, illustration: '/illustrations/servicos/coordenacao.svg' },
-  { id: 'streaming', title: 'Transmissão em directo', label: 'Live streaming', description: 'Captação multicâmara e transmissão de eventos para públicos presenciais e remotos.', icon: Radio, illustration: '/illustrations/servicos/streaming.svg' },
-  { id: 'audiovisual', title: 'Produção audiovisual', label: 'Conteúdos e imagem', description: 'Captação, realização e suporte audiovisual para apresentações, conferências e campanhas.', icon: MonitorPlay, illustration: '/illustrations/servicos/led.svg' },
+  { id: 'comunicacao', title: 'Comunicação e marketing', description: 'Campanhas, conteúdos e comunicação para marcas e instituições.', icon: Megaphone },
+  { id: 'estrategia', title: 'Estratégia e activação de marcas', description: 'Lançamentos, acções promocionais e experiências de marca.', icon: Target },
+  { id: 'eventos', title: 'Eventos corporativos', description: 'Conferências, fóruns, seminários e cerimónias, do plano à realização.', icon: CalendarDays },
+  { id: 'producao', title: 'Produção e coordenação', description: 'Planeamento técnico, logística, equipas e acompanhamento do evento.', icon: Clapperboard },
+  { id: 'streaming', title: 'Transmissão em directo', description: 'Captação multicâmara e transmissão online de conferências e eventos.', icon: Radio },
+  { id: 'audiovisual', title: 'Produção audiovisual', description: 'Vídeo, realização e apoio visual para apresentações e campanhas.', icon: MonitorPlay },
+]
+
+type ServiceArea = {
+  id: string
+  title: string
+  summary: string
+  icon: LucideIcon
+  serviceIds: string[]
+}
+
+const serviceAreas: ServiceArea[] = [
+  {
+    id: 'comunicacao',
+    title: 'Comunicação & Marcas',
+    summary: 'Ideias e estratégias para comunicar com impacto.',
+    icon: Megaphone,
+    serviceIds: ['comunicacao', 'estrategia'],
+  },
+  {
+    id: 'eventos',
+    title: 'Eventos & Coordenação',
+    summary: 'Do planeamento à execução, com rigor em cada etapa.',
+    icon: CalendarDays,
+    serviceIds: ['eventos', 'producao'],
+  },
+  {
+    id: 'audiovisual',
+    title: 'Audiovisual & Transmissões',
+    summary: 'Imagem e tecnologia ao serviço de cada projecto.',
+    icon: MonitorPlay,
+    serviceIds: ['streaming', 'audiovisual'],
+  },
 ]
 
 type RentalItem = {
@@ -374,38 +403,58 @@ function App() {
             </article>
             <article className="about-value reveal">
               <span className="about-value-icon" aria-hidden="true"><Target size={24} strokeWidth={1.8} /></span>
-              <div><h3>O nosso objectivo</h3><p>Reunir estratégia, marketing e produção numa resposta coordenada, adaptada às necessidades e aos resultados pretendidos por cada cliente.</p></div>
-            </article>
+              <div><h3>O nosso objectivo</h3><p>Reunir estratégia, marketing e produção numa resposta coordenada, adaptada às necessidades e aos resultados pretendidos por cada cliente.<      <section id="servicos" className="services section-pad" aria-labelledby="services-title">
+        <div className="container">
+          <div className="section-heading services-heading reveal">
+            <div>
+              <SectionEyebrow>SOLUÇÕES INTEGRADAS</SectionEyebrow>
+              <h2 id="services-title">Da estratégia à <em>execução.</em></h2>
+            </div>
+            <p>Comunicação, organização de eventos e produção audiovisual. Três áreas que trabalhamos de forma coordenada para concretizar cada projecto.</p>
+          </div>
+          <div className="service-areas" aria-label="Áreas de actuação da Bawito">
+            {serviceAreas.map((area, index) => {
+              const AreaIcon = area.icon
+              return <article key={area.id} className={`service-area service-area-${area.id} reveal`}>
+                <header className="service-area-heading">
+                  <div className="service-area-top">
+                    <span className="service-area-index">{String(index + 1).padStart(2, '0')} / 03</span>
+                    <span className="service-area-emblem" aria-hidden="true"><AreaIcon size={23} strokeWidth={1.75} /></span>
+                  </div>
+                  <h3>{area.title}</h3>
+                  <p>{area.summary}</p>
+                </header>
+                <div className="service-area-items">
+                  {services.filter(service => area.serviceIds.includes(service.id)).map(service => {
+                    const Icon = service.icon
+                    return <a key={service.id} href="#contactos" className="service-option"
+                      aria-label={`Solicitar orçamento para ${service.title}`}
+                      onClick={() => setSelectedServices(current => current.includes(service.title) ? current : [...current, service.title])}>
+                      <span className="service-option-icon" aria-hidden="true"><Icon size={21} strokeWidth={1.8} /></span>
+                      <span className="service-option-copy">
+                        <strong>{service.title}</strong>
+                        <small>{service.description}</small>
+                      </span>
+                      <span className="service-option-arrow" aria-hidden="true"><ArrowUpRight size={18} strokeWidth={2} /></span>
+                    </a>
+                  })}
+                </div>
+              </article>
+            })}
+          </div>
+          <div className="services-conclusion reveal">
+            <div>
+              <strong>Um projecto. Várias soluções.</strong>
+              <p>Precisa de comunicação, produção e acompanhamento técnico no mesmo evento? Planeamos a resposta em conjunto.</p>
+            </div>
+            <a href="#contactos" className="services-conclusion-cta">
+              Solicitar proposta integrada <ArrowUpRight size={19} aria-hidden="true" />
+            </a>
           </div>
         </div>
       </section>
 
-      <section id="servicos" className="services section-pad" aria-labelledby="services-title">
-        <div className="container">
-          <div className="section-heading reveal">
-            <div><SectionEyebrow>SOLUÇÕES INTEGRADAS</SectionEyebrow>
-              <h2 id="services-title">Comunicação, estratégia e <em>produção de eventos.</em></h2></div>
-            <p>Da ideia à concretização, reunimos criatividade, planeamento e capacidade técnica numa resposta integrada.</p>
-          </div>
-          <div className="service-grid service-grid-six">
-            {services.map((service, index) => {
-              const Icon = service.icon
-              return <a key={service.id}
-                className={`service-card reveal ${service.featured ? 'service-card-featured' : ''}`}
-                href="#contactos"
-                aria-label={`Solicitar serviço de ${service.title}`}
-                onClick={() => setSelectedServices(current => current.includes(service.title) ? current : [...current, service.title])}>
-                <div className="service-illustration">
-                  <img src={service.illustration} width={480} height={260} alt="" loading="lazy" decoding="async" />
-                  <span className="service-count" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-                  <span className="service-illustration-icon" aria-hidden="true"><Icon size={20} strokeWidth={1.8} /></span>
-                </div>
-                <div className="service-card-body">
-                  <span className="service-label">{service.label}</span><h3>{service.title}</h3>
-                  <p>{service.description}</p>
-                  <span className="service-card-link">Solicitar serviço <ArrowUpRight size={18} aria-hidden="true" /></span>
-                </div>
-              </a>
+            </a>
             })}
           </div>
         </div>

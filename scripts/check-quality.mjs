@@ -74,7 +74,13 @@ for (const id of ["conferencias-institucionais","eventos-empresariais","bastidor
 
 assert.ok(!html.includes('Aluguer — Mesas e mobiliário'), 'Equipamento removido ainda aparece no site')
 
-assert.ok(html.includes('/illustrations/servicos/comunicacao.svg'), 'SVG de comunicação não referenciado')
+assert.ok(html.includes('Comunicação &amp; Marcas') || html.includes('Comunicação & Marcas'), 'Área de comunicação não encontrada')
+assert.ok(html.includes('Eventos &amp; Coordenação') || html.includes('Eventos & Coordenação'), 'Área de eventos não encontrada')
+assert.ok(html.includes('Audiovisual &amp; Transmissões') || html.includes('Audiovisual & Transmissões'), 'Área audiovisual não encontrada')
+assert.equal((html.match(/class="service-option"/g) || []).length, 6, 'Devem existir seis serviços seleccionáveis')
+assert.equal((html.match(/class="service-area service-area-/g) || []).length, 3, 'Devem existir três grupos de serviços')
+assert.ok(html.includes('Solicitar proposta integrada'), 'Falta acção para proposta integrada')
+assert.ok(!html.includes('class="service-illustration"'), 'Ilustrações repetitivas não devem ocupar os cartões')
 const illustrations = readdirSync('dist/illustrations/servicos').filter(name => name.endsWith('.svg'))
 assert.equal(illustrations.length, 10, 'O catálogo deve ter 10 ilustrações SVG locais')
 for (const name of ['about-bawito-desktop.webp','about-bawito-mobile.webp']) {
