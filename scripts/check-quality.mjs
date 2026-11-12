@@ -27,6 +27,11 @@ assert.ok(html.includes('Produção técnica'), 'Título principal do Hero em fa
 assert.ok(html.includes('Estratégia, comunicação'), 'Título Sobre em falta')
 assert.ok(html.includes('A nossa missão'), 'Missão em falta')
 assert.ok(html.includes('O nosso objectivo'), 'Objectivo em falta')
+assert.ok(html.includes('Comunicação e marketing'), 'Falta o serviço de comunicação')
+assert.ok(html.includes('Estratégia e activação de marcas'), 'Falta estratégia e activação')
+assert.ok(html.includes('/illustrations/servicos/comunicacao.svg'), 'SVG de comunicação não referenciado')
+const illustrations = readdirSync('dist/illustrations/servicos').filter(name => name.endsWith('.svg'))
+assert.equal(illustrations.length, 10, 'O catálogo deve ter 10 ilustrações SVG locais')
 for (const name of ['about-bawito-desktop.webp','about-bawito-mobile.webp']) {
  assert.ok(existsSync('dist/images/equipa/'+name),'Imagem Sobre não encontrada: '+name)
 }

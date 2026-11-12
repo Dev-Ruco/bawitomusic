@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react'
 import {
   ArrowDown, ArrowUpRight, CalendarDays, Check, ChevronDown, Compass, Target,
   ChevronRight, Clapperboard, Headphones, Layers3, Mail,
-  MapPin, Menu, MessageCircle, Mic2, MonitorPlay, Phone, Radio,
+  MapPin, Megaphone, Menu, MessageCircle, Mic2, MonitorPlay, Phone, Radio,
   Send, ShieldCheck, Sparkles, SunMedium, Volume2, X, Zap,
   type LucideIcon,
 } from 'lucide-react'
@@ -45,51 +45,32 @@ type Service = {
   title: string
   description: string
   icon: LucideIcon
-  picture: string
+  illustration: string
   label: string
+  featured?: boolean
 }
 
 const services: Service[] = [
-  {
-    id: 'eventos', title: 'Eventos corporativos', label: 'Produção integral',
-    description: 'Conferências, fóruns, seminários, cerimónias e eventos empresariais, do conceito à execução.',
-    icon: Sparkles, picture: photos.conference,
-  },
-  {
-    id: 'led', title: 'Telas LED e projecção', label: 'Soluções audiovisuais',
-    description: 'Soluções visuais de alto impacto para apresentações, cenários e comunicação de marca.',
-    icon: MonitorPlay, picture: photos.screens,
-  },
-  {
-    id: 'som', title: 'Sonorização profissional', label: 'Áudio',
-    description: 'Sistemas de som dimensionados para a dimensão, a acústica e as exigências de cada evento.',
-    icon: Volume2, picture: photos.sound,
-  },
-  {
-    id: 'luz', title: 'Iluminação cenográfica', label: 'Ambientes',
-    description: 'Concepção de ambientes, luz cénica e efeitos que valorizam o palco e a identidade visual.',
-    icon: SunMedium, picture: photos.lights,
-  },
-  {
-    id: 'palcos', title: 'Palcos e estruturas', label: 'Montagem técnica',
-    description: 'Palcos, estruturas modulares e soluções de suporte adequadas a diferentes formatos.',
-    icon: Layers3, picture: photos.stages,
-  },
-  {
-    id: 'streaming', title: 'Transmissão em directo', label: 'Live streaming',
-    description: 'Captação, realização e transmissão profissional para audiências presenciais e remotas.',
-    icon: Radio, picture: photos.streaming,
-  },
-  {
-    id: 'energia', title: 'Geradores e energia', label: 'Continuidade',
-    description: 'Soluções de alimentação eléctrica e apoio operacional para eventos e acções no terreno.',
-    icon: Zap, picture: photos.energy,
-  },
-  {
-    id: 'producao', title: 'Produção e coordenação', label: 'Gestão de projecto',
-    description: 'Planeamento, logística, montagem, acompanhamento e coordenação técnica de ponta a ponta.',
-    icon: Clapperboard, picture: photos.production,
-  },
+  { id: 'comunicacao', title: 'Comunicação e marketing', label: 'Comunicação estratégica',
+    description: 'Campanhas, conteúdos e estratégias que aproximam marcas dos seus públicos.', icon: Megaphone, illustration: '/illustrations/servicos/comunicacao.svg', featured: true },
+  { id: 'estrategia', title: 'Estratégia e activação de marcas', label: 'Experiências de marca',
+    description: 'Concepção de campanhas, lançamentos e experiências de comunicação no terreno.', icon: Target, illustration: '/illustrations/servicos/estrategia.svg', featured: true },
+  { id: 'eventos', title: 'Eventos corporativos', label: 'Organização de eventos',
+    description: 'Conferências, fóruns, seminários e cerimónias, do planeamento à realização.', icon: Sparkles, illustration: '/illustrations/servicos/eventos.svg' },
+  { id: 'led', title: 'Telas LED e projecção', label: 'Soluções audiovisuais',
+    description: 'Ecrãs, conteúdos e soluções visuais para eventos e apresentações.', icon: MonitorPlay, illustration: '/illustrations/servicos/led.svg' },
+  { id: 'som', title: 'Sonorização profissional', label: 'Áudio',
+    description: 'Sistemas de som adequados à dimensão, à acústica e às exigências do evento.', icon: Volume2, illustration: '/illustrations/servicos/som.svg' },
+  { id: 'luz', title: 'Iluminação cenográfica', label: 'Ambientes',
+    description: 'Iluminação cénica e ambientes que valorizam a experiência e a identidade visual.', icon: SunMedium, illustration: '/illustrations/servicos/luz.svg' },
+  { id: 'palcos', title: 'Palcos e estruturas', label: 'Montagem técnica',
+    description: 'Palcos, coberturas e estruturas modulares para diferentes formatos de eventos.', icon: Layers3, illustration: '/illustrations/servicos/palcos.svg' },
+  { id: 'streaming', title: 'Transmissão em directo', label: 'Live streaming',
+    description: 'Captação, realização e transmissão para públicos presenciais e remotos.', icon: Radio, illustration: '/illustrations/servicos/streaming.svg' },
+  { id: 'energia', title: 'Geradores e energia', label: 'Apoio operacional',
+    description: 'Soluções de alimentação eléctrica e continuidade para produções e eventos.', icon: Zap, illustration: '/illustrations/servicos/energia.svg' },
+  { id: 'producao', title: 'Produção e coordenação', label: 'Gestão de projecto',
+    description: 'Planeamento, logística e articulação técnica, da preparação à execução.', icon: Clapperboard, illustration: '/illustrations/servicos/coordenacao.svg' },
 ]
 
 const gallery = [
@@ -325,19 +306,40 @@ function App() {
       <section id="servicos" className="services section-pad" aria-labelledby="services-title">
         <div className="container">
           <div className="section-heading reveal">
-            <div><SectionEyebrow>O QUE FAZEMOS</SectionEyebrow><h2 id="services-title">Tudo o que o seu<br />evento <em>precisa.</em></h2></div>
-            <p>Uma solução integrada, diferentes especialidades e uma só equipa focada no sucesso do seu projecto.</p>
+            <div>
+              <SectionEyebrow>AS NOSSAS SOLUÇÕES</SectionEyebrow>
+              <h2 id="services-title">Da estratégia à execução.<br /><em>Um só parceiro.</em></h2>
+            </div>
+            <p>Comunicação, marketing, organização e produção técnica: competências complementares para transformar ideias em projectos concretos.</p>
           </div>
           <div className="service-grid">
             {services.map((service, index) => {
               const Icon = service.icon
-              return <a key={service.id} className="service-card reveal" href="#contactos" onClick={() => setSelectedServices((current) => current.includes(service.title) ? current : [...current, service.title])}>
-                <div className="service-image"><img src={service.picture} srcSet={imageSet(service.picture)} sizes="(max-width: 620px) 100vw, (max-width: 1160px) 50vw, 25vw" width={850} height={530} alt={`Imagem ilustrativa de ${service.title.toLowerCase()}`} loading="lazy" decoding="async" /><span className="service-count">{String(index + 1).padStart(2, '0')}</span><span className="service-image-icon"><Icon size={22} strokeWidth={1.8} /></span></div>
-                <div className="service-card-body"><span className="service-label">{service.label}</span><h3>{service.title}</h3><p>{service.description}</p><span className="service-card-link">Solicitar solução <ArrowUpRight size={18} /></span></div>
-              </a>
+              return (
+                <a key={service.id}
+                   className={`service-card reveal ${service.featured ? 'service-card-featured' : ''}`}
+                   href="#contactos"
+                   aria-label={`Solicitar orçamento para ${service.title}`}
+                   onClick={() => setSelectedServices(current => current.includes(service.title) ? current : [...current, service.title])}>
+                  <div className="service-illustration">
+                    <img src={service.illustration} width={480} height={260} alt="" loading="lazy" decoding="async" />
+                    <span className="service-count" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                    <span className="service-illustration-icon" aria-hidden="true"><Icon size={20} strokeWidth={1.8} /></span>
+                  </div>
+                  <div className="service-card-body">
+                    <span className="service-label">{service.label}</span>
+                    <h3>{service.title}</h3>
+                    <p>{service.description}</p>
+                    <span className="service-card-link">Pedir orçamento <ArrowUpRight size={18} aria-hidden="true" /></span>
+                  </div>
+                </a>
+              )
             })}
           </div>
-          <div className="services-foot reveal"><span>Não encontrou o que procura? Desenvolvemos soluções adaptadas ao seu projecto.</span><a href="#contactos">Fale com a nossa equipa <ArrowUpRight size={18} /></a></div>
+          <div className="services-foot reveal">
+            <span>Precisa de uma solução diferente? Adaptamos cada projecto às suas necessidades.</span>
+            <a href="#contactos">Fale com a nossa equipa <ArrowUpRight size={18} aria-hidden="true" /></a>
+          </div>
         </div>
       </section>
 
