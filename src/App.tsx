@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import {
   ArrowDown, ArrowUpRight, CalendarDays, Check, ChevronDown, Compass, Target,
-  ChevronRight, Clapperboard, Headphones, Layers3, Mail,
+  ChevronRight, Clapperboard, Headphones, Mail,
   MapPin, Megaphone, Menu, MessageCircle, Mic2, MonitorPlay, Phone, Radio,
-  Send, ShieldCheck, Sparkles, SunMedium, Volume2, X, Zap,
+  Send, ShieldCheck, Sparkles, X,
   type LucideIcon,
 } from 'lucide-react'
 
