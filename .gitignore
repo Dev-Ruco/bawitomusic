@@ -6,3 +6,6 @@ dist
 .DS_Store
 .vscode
 *.log
+
+# Variantes geradas do original carregado no Hero
+public/images/hero/hero-bawito-*.webp

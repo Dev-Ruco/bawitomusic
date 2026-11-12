@@ -19,6 +19,10 @@ for (const fragment of [
 assert.ok(robots.includes('Sitemap: https://bawitomusic.co.mz/sitemap.xml'))
 assert.ok(sitemap.includes('<loc>https://bawitomusic.co.mz/</loc>'))
 assert.ok(existsSync('dist/favicon.svg'))
+for (const imageName of ['hero-bawito-desktop.webp','hero-bawito-tablet.webp','hero-bawito-mobile.webp']) {
+  assert.ok(existsSync(`dist/images/hero/${imageName}`), `Falta fotografia hero: ${imageName}`)
+}
+assert.ok(html.includes('Grandes eventos.'), 'Título principal do Hero em falta')
 const assets = readdirSync('dist/assets')
 assert.ok(assets.some(name => name.endsWith('.css')), 'CSS em falta')
 assert.ok(assets.some(name => name.endsWith('.js')), 'JavaScript em falta')

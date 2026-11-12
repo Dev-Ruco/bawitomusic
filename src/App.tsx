@@ -20,8 +20,10 @@ const imageAt = (url: string, width: number) => url.replace(/([?&])w=\d+/, `$1w=
 const imageSet = (url: string) => [400, 680, 960, 1280].map(width => `${imageAt(url, width)} ${width}w`).join(', ')
 
 const photos = {
-  hero: image('photo-1505373877841-8d25f7d46678', 1600),
-  heroMobile: image('photo-1505373877841-8d25f7d46678', 760),
+  // Geradas a partir da imagem original da Bawito carregada em public/images/hero.
+  hero: '/images/hero/hero-bawito-desktop.webp',
+  heroTablet: '/images/hero/hero-bawito-tablet.webp',
+  heroMobile: '/images/hero/hero-bawito-mobile.webp',
   about: image('photo-1540575467063-178a50c2df87', 1100),
   conference: image('photo-1475721027785-f74eccf877e2', 850),
   screens: image('photo-1505373877841-8d25f7d46678', 850),
@@ -240,30 +242,22 @@ function App() {
     </header>
 
     <main id="principal">
-      <section className="hero" id="inicio" aria-labelledby="hero-title">
+      <section className="hero hero-clean" id="inicio" aria-labelledby="hero-title">
         <picture className="hero-photo" aria-hidden="true">
           <source media="(max-width: 620px)" srcSet={photos.heroMobile} />
-          <img src={photos.hero} alt="" width={1600} height={1050} fetchPriority="high" loading="eager" decoding="async" />
+          <source media="(max-width: 1100px)" srcSet={photos.heroTablet} />
+          <img src={photos.hero} alt="" width={1600} height={900} fetchPriority="high" loading="eager" decoding="async" />
         </picture>
-        <div className="hero-glow" />
         <div className="hero-grid container">
-          <div className="hero-main reveal is-visible">
-            <div className="hero-kicker"><span className="pulse-dot" /> PRODUÇÃO DE EVENTOS EM MOÇAMBIQUE</div>
-            <h1 id="hero-title">Eventos à altura<br />de <span>grandes ideias.</span></h1>
-            <p>Da primeira ideia ao último detalhe. Criamos soluções técnicas e experiências marcantes para empresas, instituições e grandes eventos.</p>
+          <div className="hero-main">
+            <h1 id="hero-title">Grandes eventos.<br /><span>Produção à altura.</span></h1>
+            <p>Som, iluminação, telas LED, transmissão em directo e coordenação técnica para conferências e eventos corporativos em Moçambique.</p>
             <div className="hero-buttons">
-              <a href="#contactos" className="btn btn-primary">Fale-nos do seu evento <ArrowUpRight size={19} /></a>
-              <a href="#servicos" className="btn btn-ghost">Explorar serviços <ArrowDown size={17} /></a>
+              <a href="#contactos" className="btn btn-primary">Pedir orçamento <ArrowUpRight size={18} aria-hidden="true" /></a>
+              <a href="#servicos" className="btn btn-ghost">Ver serviços <ArrowDown size={17} aria-hidden="true" /></a>
             </div>
           </div>
-          <div className="hero-side" aria-hidden="true"><span>ESTRATÉGIA</span><span className="hero-side-line" /><span>PRODUÇÃO</span><span className="hero-side-line" /><span>EXECUÇÃO</span></div>
-          <div className="hero-bottom">
-            <div className="hero-bottom-intro"><span className="tiny-blue-line" /> PENSAMOS NO TODO. CUIDAMOS DE CADA DETALHE.</div>
-            <div className="hero-pill"><span className="hero-pill-number">360°</span><span>Do conceito<br />à execução</span></div>
-            <a href="#sobre" className="hero-scroll" aria-label="Descobrir a Bawito"><ArrowDown size={20} /></a>
-          </div>
         </div>
-        <div className="hero-index" aria-hidden="true">01 / 06</div>
       </section>
 
       <div className="service-ribbon" aria-label="Áreas de actuação"><div className="ribbon-content">
@@ -401,7 +395,7 @@ function App() {
 
     <footer className="footer"><div className="container"><div className="footer-main"><div className="footer-brand"><WaveMark light /><p>Soluções integradas para eventos, espectáculos e experiências memoráveis.</p></div><div className="footer-col"><h4>EXPLORE</h4><a href="#sobre">A Bawito</a><a href="#servicos">Serviços</a><a href="#solucoes">Formatos de eventos</a><a href="#artistas">Artistas</a></div><div className="footer-col"><h4>SERVIÇOS</h4><a href="#servicos">Produção corporativa</a><a href="#servicos">Som e iluminação</a><a href="#servicos">LED e vídeo</a><a href="#servicos">Palcos e estruturas</a></div><div className="footer-col"><h4>CONTACTOS</h4><a href={`tel:+${PHONE}`}>{PHONE_DISPLAY}</a><a href={`mailto:${EMAIL}`}>{EMAIL}</a><span>Malhangalene, Maputo<br />Moçambique</span></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Bawito Music & Serviços. Todos os direitos reservados.</span><a href="#inicio">Voltar ao topo <ArrowUpRight size={15} /></a></div></div></footer>
 
-    <a className="whatsapp-float" href={`https://wa.me/${PHONE}?text=${encodeURIComponent('Olá, Bawito Music & Serviços! Gostaria de obter informações sobre os vossos serviços.')}`} target="_blank" rel="noopener noreferrer" aria-label="Contactar a Bawito pelo WhatsApp"><MessageCircle size={27} /><span>Vamos conversar</span></a>
+    <a className={`whatsapp-float ${activeSection === 'inicio' ? 'is-hidden-over-hero' : ''}`} href={`https://wa.me/${PHONE}?text=${encodeURIComponent('Olá, Bawito Music & Serviços! Gostaria de obter informações sobre os vossos serviços.')}`} target="_blank" rel="noopener noreferrer" aria-label="Contactar a Bawito pelo WhatsApp"><MessageCircle size={27} /><span>Vamos conversar</span></a>
 
     {activeImage && <div className="lightbox" role="dialog" aria-modal="true" aria-label={`Imagem: ${activeImage.title}`} onMouseDown={(event) => { if (event.target === event.currentTarget) setActiveImage(null) }}><button ref={modalCloseRef} type="button" className="lightbox-close" onClick={() => setActiveImage(null)} aria-label="Fechar imagem"><X size={25} /></button><div className="lightbox-content"><img src={imageAt(activeImage.src, 1280)} alt={`Imagem ilustrativa: ${activeImage.title}`} width={1280} height={850} /><div><span>{activeImage.type} · IMAGEM ILUSTRATIVA</span><h3>{activeImage.title}</h3></div></div></div>}
   </>
