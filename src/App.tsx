@@ -220,7 +220,7 @@ function App() {
   }, [filter])
 
   useEffect(() => {
-    const ids = ['inicio', 'sobre', 'servicos', 'aluguer', 'solucoes', 'artistas', 'contactos']
+    const ids = ['inicio', 'sobre', 'servicos', 'solucoes', 'aluguer', 'artistas', 'contactos']
     if (!('IntersectionObserver' in window)) return
     const spy = new IntersectionObserver(entries => {
       const visible = entries.filter(entry => entry.isIntersecting)
@@ -328,8 +328,8 @@ function App() {
           <a href="#inicio" aria-current={activeSection === 'inicio' ? 'location' : undefined} onClick={goTo}>Início</a>
           <a href="#sobre" aria-current={activeSection === 'sobre' ? 'location' : undefined} onClick={goTo}>A Bawito</a>
           <a href="#servicos" aria-current={activeSection === 'servicos' ? 'location' : undefined} onClick={goTo}>Serviços</a>
+          <a href="#solucoes" aria-current={activeSection === 'solucoes' ? 'location' : undefined} onClick={goTo}>Projectos</a>
           <a href="#aluguer" aria-current={activeSection === 'aluguer' ? 'location' : undefined} onClick={goTo}>Aluguer</a>
-          <a href="#solucoes" aria-current={activeSection === 'solucoes' ? 'location' : undefined} onClick={goTo}>Eventos</a>
           <a href="#artistas" aria-current={activeSection === 'artistas' ? 'location' : undefined} onClick={goTo}>Artistas</a>
           <a href="#contactos" className="nav-mobile-cta" aria-current={activeSection === 'contactos' ? 'location' : undefined} onClick={goTo}>Solicitar orçamento <ArrowUpRight size={17} aria-hidden="true" /></a>
         </nav>
@@ -350,21 +350,24 @@ function App() {
         </picture>
         <div className="hero-grid container">
           <div className="hero-main">
-            <h1 id="hero-title">Produção técnica<br /><span>para eventos corporativos.</span></h1>
-            <p>Soluções integradas de som, iluminação, telas LED, transmissão em directo e coordenação técnica para conferências, eventos empresariais e institucionais.</p>
+            <span className="hero-kicker">AGÊNCIA DE COMUNICAÇÃO E PRODUÇÃO DE EVENTOS</span>
+            <h1 id="hero-title">Comunicação e eventos.<br /><span>Da estratégia à execução.</span></h1>
+            <p className="hero-description">Criamos soluções de comunicação, planeamos eventos e asseguramos produção audiovisual e técnica para marcas, empresas e instituições em Moçambique.</p>
             <div className="hero-buttons">
-              <a href="#contactos" className="btn btn-primary">Solicitar orçamento <ArrowUpRight size={18} aria-hidden="true" /></a>
-              <a href="#servicos" className="btn btn-ghost">Conhecer serviços <ArrowDown size={17} aria-hidden="true" /></a>
+              <a href="#contactos" className="btn btn-primary">Solicitar proposta <ArrowUpRight size={18} aria-hidden="true" /></a>
+              <a href="#solucoes" className="btn btn-ghost">Ver projectos <ArrowDown size={17} aria-hidden="true" /></a>
             </div>
           </div>
         </div>
       </section>
 
-      <div className="service-ribbon" aria-label="Áreas de actuação"><div className="ribbon-content">
-        {['EVENTOS CORPORATIVOS', 'TELAS LED', 'SOM PROFISSIONAL', 'ILUMINAÇÃO', 'PALCOS', 'LIVE STREAMING', 'PRODUÇÃO TÉCNICA', 'EVENTOS CORPORATIVOS', 'TELAS LED', 'SOM PROFISSIONAL'].map((item, index) =>
-          <span key={`${item}-${index}`}><span className="ribbon-star">✳</span>{item}</span>,
-        )}
-      </div></div>
+      <div className="service-ribbon competencies-band">
+        <div className="container competencies-list" role="list" aria-label="Principais áreas de actuação">
+          <div className="competency" role="listitem"><Megaphone size={20} aria-hidden="true" /><span>Comunicação</span></div>
+          <div className="competency" role="listitem"><CalendarDays size={20} aria-hidden="true" /><span>Eventos</span></div>
+          <div className="competency" role="listitem"><MonitorPlay size={20} aria-hidden="true" /><span>Audiovisual</span></div>
+        </div>
+      </div>
 
       <section id="sobre" className="about section-pad" aria-labelledby="about-title">
         <div className="container">
@@ -379,10 +382,10 @@ function App() {
               <div className="about-tenure" aria-label="Mais de dez anos no mercado"><strong>10<span>+</span></strong><span>anos de actividade<br />no mercado</span></div>
             </div>
             <div className="about-copy reveal">
-              <SectionEyebrow>UMA AGÊNCIA, SOLUÇÕES INTEGRADAS</SectionEyebrow>
-              <h2 id="about-title">Estratégia, comunicação e <em>produção de eventos.</em></h2>
-              <p className="lead">Com mais de 10 anos de actividade, a Bawito Music & Serviços é uma agência moçambicana de comunicação e produção de eventos.</p>
-              <p>Desenvolvemos projectos de comunicação e marketing, planeamos conferências e eventos institucionais e asseguramos a respectiva produção técnica. Da concepção à execução, articulamos estratégia, criatividade, logística, som, iluminação, telas LED e transmissão em directo para oferecer soluções integradas a cada cliente.</p>
+              <SectionEyebrow>QUEM SOMOS</SectionEyebrow>
+              <h2 id="about-title">Uma agência. <em>Competências que se complementam.</em></h2>
+              <p className="lead">A Bawito Music & Serviços é uma agência moçambicana com mais de dez anos de experiência nas áreas da comunicação, marketing e produção de eventos.</p>
+              <p>Combinamos planeamento estratégico, criatividade e capacidade técnica para desenvolver projectos de marcas, empresas e instituições, da concepção à execução.</p>
             </div>
           </div>
           <div className="about-values" aria-label="Missão e objectivo da Bawito">
@@ -403,9 +406,9 @@ function App() {
           <div className="section-heading services-heading reveal">
             <div>
               <SectionEyebrow>SOLUÇÕES INTEGRADAS</SectionEyebrow>
-              <h2 id="services-title">Da estratégia à <em>execução.</em></h2>
+              <h2 id="services-title">Três áreas de actuação.<br /><em>Uma resposta coordenada.</em></h2>
             </div>
-            <p>Comunicação, organização de eventos e produção audiovisual. Três áreas que trabalhamos de forma coordenada para concretizar cada projecto.</p>
+            <p>Da estratégia de comunicação à organização do evento e à execução técnica, reunimos as competências necessárias para cada projecto.</p>
           </div>
           <div className="service-areas" aria-label="Áreas de actuação da Bawito">
             {serviceAreas.map((area, index) => {
@@ -446,84 +449,6 @@ function App() {
               Solicitar proposta integrada <ArrowUpRight size={19} aria-hidden="true" />
             </a>
           </div>
-        </div>
-      </section>
-
-      <section id="aluguer" className="rentals section-pad" aria-labelledby="rentals-title">
-        <div className="container">
-          <div className="section-heading reveal">
-            <div><SectionEyebrow>EQUIPAMENTOS E ESTRUTURAS</SectionEyebrow>
-              <h2 id="rentals-title">Equipamentos para <em>aluguer.</em></h2></div>
-            <p>Tendas, geradores, climatização, palcos, ecrãs e sanitários móveis. Condições e disponibilidade mediante orçamento.</p>
-          </div>
-          <div className="rental-grid">
-            {rentals.map((item) => (
-              <a key={item.id} className="rental-card reveal" href="#contactos"
-                aria-label={`Pedir proposta de aluguer: ${item.title}`}
-                onClick={() => setSelectedServices(current => current.includes('Aluguer — ' + item.title) ? current : [...current, 'Aluguer — ' + item.title])}>
-                <div className="rental-media">
-                  <img src={item.image}
-                    srcSet={item.srcSet}
-                    sizes="(max-width: 620px) 46vw, (max-width: 1100px) 46vw, 31vw"
-                    alt={item.alt} width={820} height={560} loading="lazy" decoding="async" />
-                  <span className="rental-category">{item.tag}</span>
-                </div>
-                <div className="rental-body">
-                  <h3>{item.title}</h3><p>{item.description}</p>
-                  <span className="rental-action">Pedir aluguer <ArrowUpRight size={18} aria-hidden="true" /></span>
-                </div>
-              </a>
-            ))}
-          </div>
-          <p className="rental-disclaimer">Imagens ilustrativas. Características e disponibilidade confirmadas no orçamento.</p>
-        </div>
-      </section>
-
-      <section className="approach method-section section-pad" aria-labelledby="approach-title">
-        <div className="container method-shell">
-          <header className="method-heading reveal">
-            <div className="method-heading-primary">
-              <SectionEyebrow light>O NOSSO MÉTODO</SectionEyebrow>
-              <h2 id="approach-title">Nos bastidores,<br /><em>cada detalhe conta.</em></h2>
-            </div>
-            <p>Do primeiro briefing à operação no terreno, articulamos equipas, recursos e tecnologia para transformar cada projecto numa experiência bem executada.</p>
-          </header>
-
-          <figure className="method-feature reveal">
-            <picture>
-              <source media="(max-width: 640px)"
-                srcSet="/images/projectos/optimizadas/event-production-command-center-400.webp 400w, /images/projectos/optimizadas/event-production-command-center-800.webp 800w"
-                sizes="(max-width: 640px) 94vw, 100vw"
-                type="image/webp" />
-              <img src="/images/projectos/optimizadas/event-production-command-center-1200.webp"
-                srcSet="/images/projectos/optimizadas/event-production-command-center-800.webp 800w, /images/projectos/optimizadas/event-production-command-center-1200.webp 1200w"
-                sizes="(max-width: 900px) 94vw, 1200px"
-                width={1200} height={800}
-                alt="Imagem conceptual de uma central de coordenação técnica de eventos, com mesas de mistura, monitores de vídeo, iluminação e equipamentos de produção, sem pessoas."
-                loading="lazy" decoding="async" />
-            </picture>
-            <figcaption className="method-photo-note">
-              <span className="method-photo-marker" aria-hidden="true" />
-              COORDENAÇÃO TÉCNICA DE EVENTOS
-            </figcaption>
-          </figure>
-
-          <ol className="method-stages" aria-label="Etapas de trabalho da Bawito">
-            {[
-              ['01', 'Escuta e briefing', 'Compreendemos os objectivos, o público e as necessidades.'],
-              ['02', 'Planeamento técnico', 'Definimos recursos, equipas e logística.'],
-              ['03', 'Montagem e ensaios', 'Preparamos os espaços e testamos cada solução.'],
-              ['04', 'Operação e acompanhamento', 'Coordenamos o evento até ao encerramento.'],
-            ].map(([number, title, desc]) => (
-              <li className="method-stage reveal" key={number}>
-                <span className="method-stage-number">{number}</span>
-                <div className="method-stage-copy">
-                  <h3>{title}</h3>
-                  <p>{desc}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
         </div>
       </section>
 
@@ -578,6 +503,84 @@ function App() {
             ))}
           </div>
           <p className="portfolio-footnote">Fotografias de projectos e soluções técnicas. Seleccione qualquer imagem para a visualizar em grande.</p>
+        </div>
+      </section>
+
+      <section className="approach method-section section-pad" aria-labelledby="approach-title">
+        <div className="container method-shell">
+          <header className="method-heading reveal">
+            <div className="method-heading-primary">
+              <SectionEyebrow light>O NOSSO MÉTODO</SectionEyebrow>
+              <h2 id="approach-title">Nos bastidores,<br /><em>cada detalhe conta.</em></h2>
+            </div>
+            <p>Do primeiro briefing à operação no terreno, articulamos equipas, recursos e tecnologia para transformar cada projecto numa experiência bem executada.</p>
+          </header>
+
+          <figure className="method-feature reveal">
+            <picture>
+              <source media="(max-width: 640px)"
+                srcSet="/images/projectos/optimizadas/event-production-command-center-400.webp 400w, /images/projectos/optimizadas/event-production-command-center-800.webp 800w"
+                sizes="(max-width: 640px) 94vw, 100vw"
+                type="image/webp" />
+              <img src="/images/projectos/optimizadas/event-production-command-center-1200.webp"
+                srcSet="/images/projectos/optimizadas/event-production-command-center-800.webp 800w, /images/projectos/optimizadas/event-production-command-center-1200.webp 1200w"
+                sizes="(max-width: 900px) 94vw, 1200px"
+                width={1200} height={800}
+                alt="Imagem conceptual de uma central de coordenação técnica de eventos, com mesas de mistura, monitores de vídeo, iluminação e equipamentos de produção, sem pessoas."
+                loading="lazy" decoding="async" />
+            </picture>
+            <figcaption className="method-photo-note">
+              <span className="method-photo-marker" aria-hidden="true" />
+              COORDENAÇÃO TÉCNICA DE EVENTOS
+            </figcaption>
+          </figure>
+
+          <ol className="method-stages" aria-label="Etapas de trabalho da Bawito">
+            {[
+              ['01', 'Escuta e briefing', 'Compreendemos os objectivos, o público e as necessidades.'],
+              ['02', 'Planeamento técnico', 'Definimos recursos, equipas e logística.'],
+              ['03', 'Montagem e ensaios', 'Preparamos os espaços e testamos cada solução.'],
+              ['04', 'Operação e acompanhamento', 'Coordenamos o evento até ao encerramento.'],
+            ].map(([number, title, desc]) => (
+              <li className="method-stage reveal" key={number}>
+                <span className="method-stage-number">{number}</span>
+                <div className="method-stage-copy">
+                  <h3>{title}</h3>
+                  <p>{desc}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section id="aluguer" className="rentals section-pad" aria-labelledby="rentals-title">
+        <div className="container">
+          <div className="section-heading reveal">
+            <div><SectionEyebrow>EQUIPAMENTOS E ESTRUTURAS</SectionEyebrow>
+              <h2 id="rentals-title">Equipamentos para <em>aluguer.</em></h2></div>
+            <p>Tendas, geradores, climatização, palcos, ecrãs e sanitários móveis. Condições e disponibilidade mediante orçamento.</p>
+          </div>
+          <div className="rental-grid">
+            {rentals.map((item) => (
+              <a key={item.id} className="rental-card reveal" href="#contactos"
+                aria-label={`Pedir proposta de aluguer: ${item.title}`}
+                onClick={() => setSelectedServices(current => current.includes('Aluguer — ' + item.title) ? current : [...current, 'Aluguer — ' + item.title])}>
+                <div className="rental-media">
+                  <img src={item.image}
+                    srcSet={item.srcSet}
+                    sizes="(max-width: 620px) 46vw, (max-width: 1100px) 46vw, 31vw"
+                    alt={item.alt} width={820} height={560} loading="lazy" decoding="async" />
+                  <span className="rental-category">{item.tag}</span>
+                </div>
+                <div className="rental-body">
+                  <h3>{item.title}</h3><p>{item.description}</p>
+                  <span className="rental-action">Pedir aluguer <ArrowUpRight size={18} aria-hidden="true" /></span>
+                </div>
+              </a>
+            ))}
+          </div>
+          <p className="rental-disclaimer">Imagens ilustrativas. Características e disponibilidade confirmadas no orçamento.</p>
         </div>
       </section>
 
@@ -660,7 +663,7 @@ function App() {
       </div></section>
     </main>
 
-    <footer className="footer"><div className="container"><div className="footer-main"><div className="footer-brand"><p>Soluções integradas para eventos, espectáculos e experiências memoráveis.</p></div><div className="footer-col"><h4>EXPLORE</h4><a href="#sobre">A Bawito</a><a href="#servicos">Serviços</a><a href="#aluguer">Aluguer</a><a href="#solucoes">Formatos de eventos</a><a href="#artistas">Artistas</a></div><div className="footer-col"><h4>SERVIÇOS</h4><a href="#servicos">Produção corporativa</a><a href="#servicos">Som e iluminação</a><a href="#servicos">LED e vídeo</a><a href="#servicos">Palcos e estruturas</a></div><div className="footer-col"><h4>CONTACTOS</h4><a href={`tel:+${PHONE}`}>{PHONE_DISPLAY}</a><a href={`mailto:${EMAIL}`}>{EMAIL}</a><span>Malhangalene, Maputo<br />Moçambique</span></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Bawito Music & Serviços. Todos os direitos reservados.</span><a href="#inicio">Voltar ao topo <ArrowUpRight size={15} /></a></div></div></footer>
+    <footer className="footer"><div className="container"><div className="footer-main"><div className="footer-brand"><p>Soluções integradas para eventos, espectáculos e experiências memoráveis.</p></div><div className="footer-col"><h4>EXPLORE</h4><a href="#sobre">A Bawito</a><a href="#servicos">Serviços</a><a href="#solucoes">Projectos</a><a href="#aluguer">Aluguer</a><a href="#artistas">Artistas</a></div><div className="footer-col"><h4>SERVIÇOS</h4><a href="#servicos">Produção corporativa</a><a href="#servicos">Som e iluminação</a><a href="#servicos">LED e vídeo</a><a href="#servicos">Palcos e estruturas</a></div><div className="footer-col"><h4>CONTACTOS</h4><a href={`tel:+${PHONE}`}>{PHONE_DISPLAY}</a><a href={`mailto:${EMAIL}`}>{EMAIL}</a><span>Malhangalene, Maputo<br />Moçambique</span></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Bawito Music & Serviços. Todos os direitos reservados.</span><a href="#inicio">Voltar ao topo <ArrowUpRight size={15} /></a></div></div></footer>
 
     <a className={`whatsapp-float ${activeSection === 'inicio' ? 'is-hidden-over-hero' : ''}`} href={`https://wa.me/${PHONE}?text=${encodeURIComponent('Olá, Bawito Music & Serviços! Gostaria de obter informações sobre os vossos serviços.')}`} target="_blank" rel="noopener noreferrer" aria-label="Contactar a Bawito pelo WhatsApp"><MessageCircle size={27} /><span>Vamos conversar</span></a>
 

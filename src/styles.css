@@ -912,3 +912,69 @@ html{scroll-padding-top:100px}
   .gallery-section .portfolio-card-zoom,
   .gallery-section .portfolio-card-arrow{transition:none!important;transform:none!important}
 }
+
+/* Redesign aprovado: apenas Hero, competências, Sobre e Serviços. */
+.hero.hero-clean{min-height:clamp(650px,84svh,820px)}
+.hero-clean .hero-main{width:min(100%,700px);max-width:700px}
+.hero.hero-clean:before{background:linear-gradient(90deg,rgba(3,14,27,.95),rgba(3,14,27,.9) 28%,rgba(3,14,27,.7) 47%,rgba(3,14,27,.16) 82%)}
+.hero-clean .hero-grid{padding-block:112px 88px}
+.hero-clean .hero-main>.hero-kicker{display:inline-flex;align-items:center;gap:10px;margin:0 0 22px;color:#95dcfc;font-size:11px;letter-spacing:.12em;font-weight:800;line-height:1.5}
+.hero-clean .hero-main>.hero-kicker:before{content:"";width:24px;height:2px;flex:0 0 24px;background:#69c9f2}
+.hero-clean h1{font-size:clamp(51px,5.25vw,76px);max-width:710px;line-height:1.13;margin-bottom:22px}
+.hero-clean h1 span{color:#69c9f2}
+.hero-clean .hero-main>.hero-description{max-width:570px;font-size:clamp(15px,1.3vw,18px);line-height:1.72;margin-bottom:28px;color:#e0edf7}
+.hero-clean .hero-buttons .btn{min-height:53px;font-size:14px}
+.hero-clean .hero-buttons .btn:focus-visible{outline:3px solid #80d7f5;outline-offset:3px}
+.service-ribbon.competencies-band{height:auto;min-height:74px;overflow:visible;background:#0b2943}
+.competencies-band .competencies-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%}
+.competencies-band .competency{display:flex;justify-content:center;align-items:center;gap:12px;padding:18px 8px;min-width:0;color:#def1fc;font-size:13px;font-weight:700}
+.competencies-band .competency:not(:last-child){border-right:1px solid #ffffff28}
+.competencies-band .competency svg{color:#72cff4;flex:none}
+.about .about-grid{grid-template-areas:"copy visual";grid-template-columns:minmax(0,.94fr) minmax(0,1.06fr);gap:clamp(30px,5vw,80px)}
+.about .about-copy{grid-area:copy}.about .about-visual{grid-area:visual}
+.about .about-copy>p:not(.lead){font-size:15px;line-height:1.75}
+.about .about-copy h2{font-size:clamp(32px,3.4vw,49px);line-height:1.2}
+.services .services-heading{max-width:1050px;margin-bottom:34px}
+.services .services-heading h2{font-size:clamp(33px,3.7vw,52px);line-height:1.16}
+.services .services-heading>p{max-width:700px}
+.services .service-area-heading{min-height:148px}
+.services .service-area-heading>p{font-size:13px}
+.services .service-option-copy small{font-size:12.5px}
+@media(max-width:900px){
+ .hero.hero-clean{min-height:700px}
+ .hero-clean .hero-main{max-width:590px}
+ .hero-clean h1{font-size:clamp(45px,7vw,62px)}
+ .about .about-grid{grid-template-columns:1fr;grid-template-areas:"copy" "visual";gap:24px}
+ .about .about-copy,.about .about-visual{order:0}
+ .services .service-area-heading{min-height:0}
+}
+@media(max-width:620px){
+ .hero.hero-clean{min-height:clamp(650px,92svh,790px);align-items:stretch}
+ .hero-clean .hero-photo img{object-position:center 33%}
+ .hero.hero-clean:before{background:linear-gradient(0deg,rgba(3,14,27,.99),rgba(3,14,27,.96) 29%,rgba(3,14,27,.79) 53%,rgba(3,14,27,.16) 93%)}
+ .hero-clean .hero-grid{min-height:inherit;align-items:flex-end;padding-block:192px 32px}
+ .hero-clean .hero-main{max-width:100%}
+ .hero-clean .hero-main>.hero-kicker{font-size:9px;letter-spacing:.06em;margin-bottom:16px;gap:8px}
+ .hero-clean .hero-main>.hero-kicker:before{width:16px;flex-basis:16px}
+ .hero-clean h1{font-size:clamp(34px,9.3vw,43px);line-height:1.17;margin-bottom:17px}
+ .hero-clean .hero-main>.hero-description{font-size:14px;line-height:1.65;margin-bottom:22px}
+ .hero-clean .hero-buttons{display:grid;grid-template-columns:1fr;gap:10px}
+ .hero-clean .hero-buttons .btn{width:100%;min-height:50px;justify-content:center;padding:13px 15px;font-size:14px}
+ .competencies-band .competency{flex-direction:column;gap:5px;padding:12px 3px;font-size:11px}
+ .competencies-band .competency svg{width:18px;height:18px}
+ .about .about-copy h2{font-size:clamp(29px,7.3vw,38px)}
+ .about .about-copy>p:not(.lead){font-size:14px}
+ .services .services-heading h2{font-size:clamp(30px,7.6vw,39px)}
+ .services .services-heading>p{font-size:14px}
+ .services .service-option-copy small{font-size:12.5px}
+}
+@media(max-width:365px){.hero-clean h1{font-size:34px}.hero-clean .hero-grid{padding-top:180px}.competencies-band .competency{font-size:10px}}
+@media(prefers-reduced-motion:no-preference){
+ .hero-clean .hero-main{animation:none}
+ .hero-clean .hero-main>.hero-kicker,.hero-clean .hero-main>h1,.hero-clean .hero-main>.hero-description,.hero-clean .hero-buttons{animation:hero-intro-rise .56s cubic-bezier(.2,.66,.22,1) both}
+ .hero-clean .hero-main>h1{animation-delay:.08s}
+ .hero-clean .hero-main>.hero-description{animation-delay:.16s}
+ .hero-clean .hero-buttons{animation-delay:.24s}
+ @keyframes hero-intro-rise{from{opacity:0;transform:translateY(13px)}to{opacity:1;transform:translateY(0)}}
+}
+@media(prefers-reduced-motion:reduce){.hero-clean .hero-main,.hero-clean .hero-main>.hero-kicker,.hero-clean .hero-main>h1,.hero-clean .hero-main>.hero-description,.hero-clean .hero-buttons{animation:none!important;transition:none!important}}
