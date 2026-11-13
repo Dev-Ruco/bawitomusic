@@ -64,6 +64,13 @@ for (const name of [
   'ar-condicionado-vertical.webp'
 ]) assert.ok(existsSync('dist/images/aluguer/' + name), 'Fotografia de aluguer em falta: ' + name)
 assert.equal((html.match(/class="rental-card reveal"/g) || []).length, 6, 'A secção de aluguer deve apresentar exactamente seis cartões')
+assert.equal((html.match(/data-rental-id="/g) || []).length, 6, 'As seis categorias precisam de identificador responsivo')
+assert.equal((html.match(/data-selected="false"/g) || []).length, 6, 'A selecção inicial do aluguer deve estar limpa')
+assert.ok(read('src/App.tsx').includes("'Incluído no pedido'"), 'O catálogo deve confirmar visualmente a selecção')
+assert.ok(read('src/styles.css').includes('.rentals .rental-card[data-selected="true"]'), 'A selecção de aluguer precisa de feedback visual')
+assert.ok(read('src/styles.css').includes('.artist-section .artist-visual.artist-cutout img'), 'O retrato recortado deve ser preservado')
+assert.ok(read('src/styles.css').includes('.enhanced-motion .artist-section .artist-visual.reveal'), 'Os artistas precisam de entrada suave no scroll')
+
 assert.ok(html.includes('Ecrãs LED e Monitores'), 'O aluguer de ecrãs está ausente')
 assert.ok(html.includes('Sanitários Móveis para Eventos'), 'O aluguer de sanitários está ausente')
 assert.ok(html.includes('PROJECTOS &amp; REALIZAÇÕES') || html.includes('PROJECTOS & REALIZAÇÕES'), 'Portefólio não identificado')

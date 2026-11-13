@@ -608,6 +608,8 @@ function App() {
           <div className="rental-grid">
             {rentals.map((item) => (
               <a key={item.id} className="rental-card reveal" href="#contactos"
+                data-rental-id={item.id}
+                data-selected={selectedServices.includes('Aluguer — ' + item.title) ? 'true' : 'false'}
                 aria-label={`Pedir proposta de aluguer: ${item.title}`}
                 onClick={() => {
                   setPreparedWhatsAppUrl('')
@@ -623,7 +625,12 @@ function App() {
                 </div>
                 <div className="rental-body">
                   <h3>{item.title}</h3><p>{item.description}</p>
-                  <span className="rental-action">Pedir aluguer <ArrowUpRight size={18} aria-hidden="true" /></span>
+                  <span className="rental-action">
+                    <span>{selectedServices.includes('Aluguer — ' + item.title) ? 'Incluído no pedido' : 'Pedir aluguer'}</span>
+                    {selectedServices.includes('Aluguer — ' + item.title)
+                      ? <Check size={18} aria-hidden="true" />
+                      : <ArrowUpRight size={18} aria-hidden="true" />}
+                  </span>
                 </div>
               </a>
             ))}
