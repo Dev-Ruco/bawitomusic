@@ -117,7 +117,8 @@ for (const name of ['about-bawito-desktop.webp','about-bawito-mobile.webp']) {
 }
 assert.ok(html.includes('logo-bawito-header.webp'), 'O logótipo do cabeçalho não está presente no HTML')
 assert.ok(html.includes('class="footer-brand"'), 'A secção de texto do rodapé não foi encontrada')
-assert.ok(html.includes('Abrir o pedido no WhatsApp'), 'O formulário deve oferecer alternativa ao WhatsApp')
+// A alternativa é um elemento condicional: no HTML pré-renderizado, o utilizador ainda não submeteu o formulário.
+assert.ok(read('src/App.tsx').includes('className="form-whatsapp-fallback"'), 'O formulário deve oferecer alternativa ao WhatsApp')
 assert.ok(read('src/App.tsx').includes("menuNavRef.current?.querySelectorAll"), 'Falta controlo de foco no menu')
 assert.ok(read('src/App.tsx').includes('phoneDigits.length < 9'), 'Falta validação do telefone')
 assert.ok(!html.includes('brand-symbol'), 'O logótipo inventado não deve surgir no site')
