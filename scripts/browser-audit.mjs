@@ -93,7 +93,24 @@ try {
         const doc = document.documentElement
         return Math.max(doc.scrollWidth, document.body.scrollWidth) - doc.clientWidth
       })
-      assert(horizontalOverflow <= 2, 'Existe deslocação horizontal inesperada: ' + horizontalOverflow + 'px')
+      if (horizontalOverflow > 2) {
+        const offenders = await page.evaluate(() => [...document.querySelectorAll('body *')].filter(element => {
+          const rect = element.getBoundingClientRect()
+          const style = getComputedStyle(element)
+          return style.display !== 'none' &&
+            (rect.right > document.documentElement.clientWidth + 2 || rect.left < -2) &&
+            rect.width > 0
+        }).slice(0, 25).map(element => ({
+          tag: element.tagName.toLowerCase(),
+          className: typeof element.className === 'string' ? element.className.slice(0, 90) : '',
+          id: element.id,
+          left: Math.round(element.getBoundingClientRect().left),
+          right: Math.round(element.getBoundingClientRect().right),
+          width: Math.round(element.getBoundingClientRect().width),
+        })))
+        console.error('OVERFLOW ' + width + 'px:', JSON.stringify(offenders))
+        failures.push(width + 'px: deslocação horizontal de ' + horizontalOverflow + 'px')
+      }
       const heroLinks = await page.locator('.hero-buttons a').count()
       assert(heroLinks === 2, 'O Hero deve apresentar dois percursos')
       await page.locator('#inicio').screenshot({
@@ -166,8 +183,11 @@ try {
       })
       assert(pageErrors.length === 0, 'Erros de carregamento/JavaScript: ' + pageErrors.join('; '))
       log(width + 'px', 'navegação, filtros, galeria, aluguer e pedido WhatsApp aprovados')
-      if (accessibility.length) console.log('ACESSIBILIDADE ' + width + 'px: ' +
-        accessibility.map(v => v.id + ' (' + v.impact + ')').join(', '))
+      if (accessibility.length) {
+        console.log('ACESSIBILIDADE ' + width + 'px: ' +
+          accessibility.map(v => v.id + ' (' + v.impact + ')').join(', '))
+        console.log('ACESSIBILIDADE DETALHE ' + width + 'px: ' + JSON.stringify(accessibility))
+      }
     } catch (error) {
       recordError(width + 'px', error)
       try {
