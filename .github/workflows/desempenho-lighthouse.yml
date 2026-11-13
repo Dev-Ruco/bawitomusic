@@ -1,0 +1,42 @@
+name: Auditoria de desempenho Lighthouse Bawito
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'scripts/performance-audit.mjs'
+      - 'index.html'
+      - 'public/**'
+      - '.github/workflows/desempenho-lighthouse.yml'
+  workflow_dispatch:
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Obter codigo
+        uses: actions/checkout@v4
+      - name: Preparar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Compilar a versao de producao
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+      - name: Instalar Lighthouse e Chrome de teste
+        run: |
+          npm install --no-save --no-audit --no-fund lighthouse@13.6.0 playwright@1.65.0
+          npx playwright install --with-deps chromium
+      - name: Medir desempenho mobile e desktop
+        run: node scripts/performance-audit.mjs
+      - name: Guardar relatorios Lighthouse
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-bawito-mobile-desktop
+          path: audit-performance/
+          if-no-files-found: warn
+          retention-days: 14
