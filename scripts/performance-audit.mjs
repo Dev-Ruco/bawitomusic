@@ -41,7 +41,13 @@ try {
   ], {stdio:'ignore'})
   await ready('http://127.0.0.1:9222/json/version')
 
-  for (const type of ['mobile','desktop']) {
+  const targets = [
+    {type:'mobile', site:'compilado', url:base},
+    {type:'desktop', site:'compilado', url:base},
+    {type:'mobile', site:'publicado', url:'https://bawitomusic.co.mz/'},
+  ]
+  for (const target of targets) {
+    const {type} = target
     const desktop = type === 'desktop'
     const options = {
       port: 9222,
@@ -49,16 +55,28 @@ try {
       logLevel: 'error',
       onlyCategories: ['performance','accessibility','best-practices','seo'],
       formFactor: type,
+      preset: desktop ? 'desktop' : undefined,
       screenEmulation: desktop
         ? {mobile:false,width:1440,height:900,deviceScaleFactor:1,disabled:false}
         : {mobile:true,width:390,height:844,deviceScaleFactor:2,disabled:false},
       maxWaitForLoad: 45000,
     }
-    const result = await lighthouse(base, options)
-    if (!result?.lhr || result.lhr.runtimeError)
-      throw new Error('Lighthouse ' + type + ': ' + (result?.lhr?.runtimeError?.message ?? 'sem resultado'))
+    let result
+    try {
+      result = await lighthouse(target.url, options)
+      if (!result?.lhr || result.lhr.runtimeError)
+        throw new Error(result?.lhr?.runtimeError?.message ?? 'sem resultado')
+    } catch (error) {
+      if (target.site === 'publicado') {
+        console.warn('LIGHTHOUSE PUBLICADO: acesso ou medição indisponível: ' + error.message)
+        outputResults.push({device:type, target:target.site, unavailable:String(error.message)})
+        continue
+      }
+      throw error
+    }
     const lhr = result.lhr
-    writeFileSync(output + '/lighthouse-' + type + '.json',
+    const label = target.site === 'publicado' ? 'publicado-mobile' : type
+    writeFileSync(output + '/lighthouse-' + label + '.json',
       JSON.stringify(lhr, null, 2) + '\n')
     const metrics = {}
     for (const id of ['first-contentful-paint','largest-contentful-paint','speed-index','total-blocking-time','cumulative-layout-shift']) {
@@ -73,7 +91,7 @@ try {
       .slice(0, 8)
       .map(a => ({id:a.id,title:a.title,potentialSavingsMs:Math.round(a.details.overallSavingsMs)}))
     const summary = {
-      device:type,
+      device:type, target:target.site, url:target.url,
       scores:{
         performance:score(lhr.categories.performance),
         accessibility:score(lhr.categories.accessibility),
@@ -83,7 +101,7 @@ try {
       metrics,opportunities,
     }
     outputResults.push(summary)
-    console.log('LIGHTHOUSE ' + type.toUpperCase() + ': ' + JSON.stringify(summary))
+    console.log('LIGHTHOUSE ' + label.toUpperCase() + ': ' + JSON.stringify(summary))
   }
   writeFileSync(output + '/resumo.json', JSON.stringify({
     measurement:'Lighthouse local lab audit: network and CPU simulation',
@@ -93,5 +111,6 @@ try {
 } finally {
   chrome?.kill('SIGTERM')
   server.kill('SIGTERM')
-  rmSync(profile,{recursive:true,force:true})
+  try { rmSync(profile,{recursive:true,force:true,maxRetries:12,retryDelay:150}) }
+  catch (error) { console.warn('Limpeza de ficheiros temporários:', error.message) }
 }
