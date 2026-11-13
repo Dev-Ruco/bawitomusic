@@ -1,0 +1,43 @@
+name: Auditoria visual e funcional Bawito
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'scripts/**'
+      - 'index.html'
+      - 'public/**'
+      - '.github/workflows/auditoria-browser.yml'
+  workflow_dispatch:
+
+jobs:
+  navegador:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Obter codigo
+        uses: actions/checkout@v4
+      - name: Preparar Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Instalar dependencias e compilar
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+          npm run check:site
+      - name: Preparar Chromium e auditoria de acessibilidade
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.65.0 axe-core@4.10.3
+          npx playwright install --with-deps chromium
+      - name: Testar website compilado e consultar versao publica
+        run: node scripts/browser-audit.mjs
+      - name: Guardar capturas e relatorio
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: auditoria-bawito-mobile-desktop
+          path: audit-browser/
+          if-no-files-found: warn
+          retention-days: 14
