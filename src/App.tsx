@@ -312,6 +312,18 @@ function App() {
     )
   }
 
+  const addSelectedService = (name: string) => {
+    setSelectedServices(current => current.includes(name) ? current : [...current, name])
+    setPreparedWhatsAppUrl('')
+    setFormNotice('')
+  }
+
+  const clearSelectedServices = () => {
+    setSelectedServices([])
+    setPreparedWhatsAppUrl('')
+    setFormNotice('')
+  }
+
   const setField = (field: keyof typeof form, value: string) => {
     setForm((old) => ({ ...old, [field]: value }))
     setFormNotice('')
@@ -321,7 +333,7 @@ function App() {
   const submitQuote = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setPreparedWhatsAppUrl('')
-    if (!form.name.trim() || !form.phone.trim() || !form.city.trim() || !form.event || form.message.trim().length < 10) {
+    if (!form.name.trim() || !form.phone.trim() || form.message.trim().length < 10) {
       setFormNotice('Por favor, verifique os campos obrigatórios antes de continuar.')
       return
     }
@@ -336,16 +348,16 @@ function App() {
       `Nome: ${form.name.trim()}`,
       `Contacto: ${form.phone.trim()}`,
       ...(form.email.trim() ? [`E-mail: ${form.email.trim()}`] : []),
-      `Tipo de evento: ${form.event}`,
+      ...(form.event ? [`Tipo de projecto: ${form.event}`] : []),
       ...(form.date ? [`Data prevista: ${form.date}`] : []),
-      `Local: ${form.city.trim()}`,
+      ...(form.city.trim() ? [`Local: ${form.city.trim()}`] : []),
       ...(selectedServices.length ? [`Serviços pretendidos: ${selectedServices.join(', ')}`] : []),
       `Descrição: ${form.message.trim()}`,
     ]
     const url = `https://wa.me/${PHONE}?text=${encodeURIComponent(lines.join('\n'))}`
     setPreparedWhatsAppUrl(url)
     window.open(url, '_blank', 'noopener,noreferrer')
-    setFormNotice('O pedido está preparado. Se o WhatsApp não tiver aberto, utilize a ligação abaixo. O envio só fica concluído depois de confirmar a mensagem.')
+    setFormNotice('Pedido preparado. Confirme o envio no WhatsApp; se a conversa não abriu, utilize a ligação abaixo.')
   }
 
   const goTo = () => setMenuOpen(false)
@@ -464,7 +476,7 @@ function App() {
                     const Icon = service.icon
                     return <a key={service.id} href="#contactos" className="service-option"
                       aria-label={`Solicitar orçamento para ${service.title}`}
-                      onClick={() => setSelectedServices(current => current.includes(service.title) ? current : [...current, service.title])}>
+                      onClick={() => addSelectedService(service.title)}>
                       <span className="service-option-icon" aria-hidden="true"><Icon size={21} strokeWidth={1.8} /></span>
                       <span className="service-option-copy">
                         <strong>{service.title}</strong>
@@ -612,9 +624,7 @@ function App() {
                 data-selected={selectedServices.includes('Aluguer — ' + item.title) ? 'true' : 'false'}
                 aria-label={`Pedir proposta de aluguer: ${item.title}`}
                 onClick={() => {
-                  setPreparedWhatsAppUrl('')
-                  setFormNotice('')
-                  setSelectedServices(current => current.includes('Aluguer — ' + item.title) ? current : [...current, 'Aluguer — ' + item.title])
+                  addSelectedService('Aluguer — ' + item.title)
                 }}>
                 <div className="rental-media">
                   <img src={item.image}
@@ -675,26 +685,59 @@ function App() {
         </div>
       </div></section>
 
-      <section className="quote-banner"><div className="container quote-banner-inner reveal"><div><span>O SEU PRÓXIMO EVENTO COMEÇA AQUI</span><h2>Tem uma ideia?<br /><em>Nós damos-lhe forma.</em></h2></div><a href="#contactos" className="btn btn-white">Vamos conversar <ArrowUpRight size={20} /></a></div></section>
+      <section className="quote-banner"><div className="container quote-banner-inner reveal"><div><span>O SEU PRÓXIMO EVENTO COMEÇA AQUI</span><h2>Tem uma ideia?<br /><em>Nós damos-lhe forma.</em></h2></div><a href="#contactos" className="btn btn-white">Solicitar proposta <ArrowUpRight size={20} aria-hidden="true" /></a></div></section>
 
       <section id="contactos" className="contact-section section-pad" aria-labelledby="contact-title"><div className="container contact-grid">
-        <div className="contact-copy reveal"><SectionEyebrow>VAMOS CONVERSAR</SectionEyebrow><h2 id="contact-title">Conte-nos o que<br />tem <em>em mente.</em></h2><p>Seja uma conferência, um grande espectáculo ou uma activação de marca, estamos disponíveis para conhecer o seu projecto e preparar uma solução à medida.</p>
+        <div className="contact-copy reveal"><SectionEyebrow>VAMOS CONVERSAR</SectionEyebrow><h2 id="contact-title">Conte-nos o que<br />tem <em>em mente.</em></h2><p>De campanhas de comunicação a conferências e espectáculos, conte-nos o que pretende realizar. A nossa equipa poderá preparar uma proposta adaptada ao seu projecto.</p>
           <div className="contact-details">
             <a href={`tel:+${PHONE}`}><span className="contact-icon"><Phone size={21} /></span><span><small>LIGUE-NOS</small><strong>{PHONE_DISPLAY}</strong></span><ArrowUpRight size={17} /></a>
             <a href={`mailto:${EMAIL}`}><span className="contact-icon"><Mail size={21} /></span><span><small>ESCREVA-NOS</small><strong>{EMAIL}</strong></span><ArrowUpRight size={17} /></a>
             <div><span className="contact-icon"><MapPin size={21} /></span><span><small>VISITE-NOS</small><strong>{ADDRESS}</strong></span></div>
           </div>
-          <div className="contact-note"><MessageCircle size={21} /> Os pedidos são encaminhados directamente para a nossa equipa comercial pelo WhatsApp.</div>
+          <div className="contact-note"><MessageCircle size={21} aria-hidden="true" /> O formulário prepara o seu pedido no WhatsApp. A mensagem só é enviada quando confirmar na aplicação.</div>
+          <a className="contact-quick-whatsapp"
+            href={`https://wa.me/${PHONE}?text=${encodeURIComponent('Olá, Bawito Music & Serviços! Gostaria de conhecer os vossos serviços.')}`}
+            target="_blank" rel="noopener noreferrer"
+            aria-label="Falar directamente com a equipa da Bawito pelo WhatsApp">
+            <MessageCircle size={20} aria-hidden="true" />
+            <span><strong>Prefere falar directamente?</strong><small>Iniciar conversa pelo WhatsApp</small></span>
+            <ArrowUpRight size={19} aria-hidden="true" />
+          </a>
         </div>
-        <form className="quote-form reveal" onSubmit={submitQuote}>
-          <div className="form-top"><div><span className="form-top-kicker">PEDIDO DE ORÇAMENTO</span><h3>Vamos dar vida ao seu evento.</h3></div><span className="form-top-icon"><Send size={25} /></span></div>
+        <form className="quote-form reveal" onSubmit={submitQuote} aria-labelledby="quote-form-title">
+          <div className="form-top">
+            <div>
+              <span className="form-top-kicker">PEDIDO DE PROPOSTA</span>
+              <h3 id="quote-form-title">Vamos conhecer o seu projecto.</h3>
+              <p className="form-top-intro">Partilhe os dados essenciais. Pode acrescentar os restantes detalhes mais tarde.</p>
+            </div>
+            <span className="form-top-icon" aria-hidden="true"><Send size={25} /></span>
+          </div>
+          {selectedServices.length > 0 && (
+            <div className="quote-selection" role="group" aria-label="Serviços e equipamentos seleccionados">
+              <div className="quote-selection-heading">
+                <strong>{selectedServices.length} {selectedServices.length === 1 ? 'solução seleccionada' : 'soluções seleccionadas'}</strong>
+                <button type="button" className="quote-selection-clear" onClick={clearSelectedServices}>Limpar selecção</button>
+              </div>
+              <ul className="quote-selection-list">
+                {selectedServices.map(name => (
+                  <li key={name}>
+                    <span>{name}</span>
+                    <button type="button" onClick={() => toggleService(name)} aria-label={`Retirar ${name} do pedido`}>
+                      <X size={15} aria-hidden="true" />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
           <div className="form-columns">
-            <label>Nome completo <span>*</span><input autoComplete="name" placeholder="O seu nome" type="text" required value={form.name} onChange={e => setField('name', e.target.value)} /></label>
-            <label>Contacto telefónico <span>*</span><input autoComplete="tel" inputMode="tel" minLength={9} placeholder="+258 8X XXX XXXX" type="tel" required value={form.phone} onChange={e => setField('phone', e.target.value)} /></label>
+            <label>Nome completo <span>*</span><input autoComplete="name" placeholder="O seu nome" type="text" required maxLength={100} value={form.name} onChange={e => setField('name', e.target.value)} /></label>
+            <label>Contacto telefónico <span>*</span><input autoComplete="tel" inputMode="tel" minLength={9} maxLength={26} placeholder="+258 8X XXX XXXX" type="tel" required value={form.phone} onChange={e => setField('phone', e.target.value)} /></label>
             <label>E-mail (opcional)<input autoComplete="email" placeholder="oseuemail@exemplo.com" type="email" value={form.email} onChange={e => setField('email', e.target.value)} /></label>
-            <label>Tipo de evento <span>*</span><span className="select-wrap"><select required value={form.event} onChange={e => setField('event', e.target.value)}><option value="" disabled>Seleccione uma opção</option>{eventTypes.map(x => <option key={x}>{x}</option>)}</select><ChevronDown size={16} /></span></label>
+            <label>Tipo de projecto <span className="optional">(opcional)</span><span className="select-wrap"><select value={form.event} onChange={e => setField('event', e.target.value)}><option value="" disabled>Seleccione uma opção</option>{eventTypes.map(x => <option key={x}>{x}</option>)}</select><ChevronDown size={16} /></span></label>
             <label>Data prevista <span className="optional">(opcional)</span><span className="date-wrap"><input type="date" value={form.date} onChange={e => setField('date', e.target.value)} /><CalendarDays size={17} /></span></label>
-            <label>Local do evento <span>*</span><input placeholder="Cidade ou província" required value={form.city} onChange={e => setField('city', e.target.value)} /></label>
+            <label>Local do projecto <span className="optional">(opcional)</span><input autoComplete="address-level2" placeholder="Cidade ou província" value={form.city} onChange={e => setField('city', e.target.value)} /></label>
           </div>
           <fieldset className="form-services"><legend>De que serviços precisa? <span className="optional">(opcional)</span></legend><div className="service-options">{services.map(x => <label key={x.id} className={selectedServices.includes(x.title) ? 'chip selected' : 'chip'}><input type="checkbox" checked={selectedServices.includes(x.title)} onChange={() => toggleService(x.title)} /><span className="chip-check">{selectedServices.includes(x.title) ? <Check size={13} /> : '+'}</span>{x.title}</label>)}</div></fieldset>
           <details className="rental-chooser">
@@ -709,14 +752,14 @@ function App() {
               })}
             </div></fieldset>
           </details>
-          {selectedServices.some(x => x.startsWith('Aluguer — ')) && <p className="rental-choice-note" role="status">Pedido de aluguer: {selectedServices.filter(x => x.startsWith('Aluguer — ')).map(x => x.replace('Aluguer — ', '')).join(', ')}.</p>}
-          <label className="message-label">Fale-nos do seu projecto <span>*</span><textarea rows={4} required minLength={10} placeholder="Descreva o evento, o número aproximado de participantes e as necessidades principais..." value={form.message} onChange={e => setField('message', e.target.value)} /></label>
-          <button className="btn form-submit" type="submit">Enviar pedido pelo WhatsApp <ArrowUpRight size={20} /></button>
-          {formNotice && <p className="form-feedback" role="status">{formNotice}</p>}
+          {/* As escolhas de serviços e equipamentos são apresentadas no resumo do pedido. */}
+          <label className="message-label">Fale-nos do seu projecto <span>*</span><textarea rows={4} required minLength={10} maxLength={2000} placeholder="Explique brevemente o que pretende, os objectivos e, se possível, a data ou outras necessidades..." value={form.message} onChange={e => setField('message', e.target.value)} /></label>
+          <button className="btn form-submit" type="submit">Preparar pedido no WhatsApp <ArrowUpRight size={20} aria-hidden="true" /></button>
+          {formNotice && <p className="form-feedback" role="status" aria-live="polite">{formNotice}</p>}
           {preparedWhatsAppUrl && <a className="form-whatsapp-fallback" href={preparedWhatsAppUrl} target="_blank" rel="noopener noreferrer">
             Abrir o pedido no WhatsApp <ArrowUpRight size={18} aria-hidden="true" />
           </a>}
-          <p className="form-privacy">Ao continuar, será aberta uma conversa de WhatsApp com os dados que preencheu. O envio só fica concluído quando confirmar a mensagem.</p>
+          <p className="form-privacy">Os dados são utilizados para preparar a mensagem no WhatsApp. Nenhum pedido é enviado automaticamente; confirme o envio na conversa.</p>
         </form>
       </div></section>
     </main>
