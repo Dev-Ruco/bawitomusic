@@ -45,7 +45,7 @@ assert.equal((html.match(/class="rental-card reveal"/g) || []).length, 6, 'A sec
 assert.ok(html.includes('Ecrãs LED e Monitores'), 'O aluguer de ecrãs está ausente')
 assert.ok(html.includes('Sanitários Móveis para Eventos'), 'O aluguer de sanitários está ausente')
 assert.ok(html.includes('PROJECTOS &amp; REALIZAÇÕES') || html.includes('PROJECTOS & REALIZAÇÕES'), 'Portefólio não identificado')
-assert.equal((html.match(/class="portfolio-thumb(?: is-current)?"/g) || []).length, 8, 'O portefólio deve ter oito miniaturas')
+assert.equal((html.match(/class="portfolio-thumb(?: is-current)?\s*"/g) || []).length, 8, 'O portefólio deve ter oito miniaturas')
 assert.ok(html.includes('class="portfolio-showcase reveal"'), 'A vitrina fotográfica está ausente')
 assert.ok(html.includes('class="portfolio-feature-photo"'), 'Falta a fotografia em destaque')
 assert.ok(html.includes('Projecto seguinte') && html.includes('Projecto anterior'), 'Faltam controlos de navegação')
