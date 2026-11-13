@@ -29,7 +29,11 @@ assert.ok(html.includes('Estratégia, comunicação'), 'Título Sobre em falta')
 assert.ok(html.includes('A nossa missão'), 'Missão em falta')
 assert.ok(html.includes('O nosso objectivo'), 'Objectivo em falta')
 assert.ok(html.includes('Nos bastidores,'), 'O título do método Bawito não foi encontrado')
-assert.ok(html.includes('bastidores-tecnicos-1200.webp'), 'O método deve apresentar fotografia real dos projectos')
+assert.ok(html.includes('event-production-command-center-1200.webp'), 'O método deve apresentar a nova imagem da central de produção')
+assert.ok(!html.includes('alt="Equipa técnica em produção de evento: mesas de mistura, realização multicâmara e operadores numa sala iluminada."'), 'A descrição da imagem antiga não deve permanecer')
+for (const size of [400, 800, 1200]) {
+  assert.ok(existsSync(`dist/images/projectos/optimizadas/event-production-command-center-${size}.webp`), 'Falta imagem optimizada do método: ' + size)
+}
 assert.ok(!html.includes('alt="Equipa em ambiente profissional de produção de eventos, fotografia ilustrativa"'), 'A fotografia genérica não deve permanecer')
 assert.equal((html.match(/class="method-stage reveal"/g) || []).length, 4, 'O método deve apresentar quatro etapas')
 assert.ok(html.includes('class="method-feature reveal"'), 'A composição panorâmica do método está ausente')

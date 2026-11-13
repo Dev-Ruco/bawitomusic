@@ -492,19 +492,19 @@ function App() {
           <figure className="method-feature reveal">
             <picture>
               <source media="(max-width: 640px)"
-                srcSet="/images/projectos/optimizadas/bastidores-tecnicos-400.webp 400w, /images/projectos/optimizadas/bastidores-tecnicos-800.webp 800w"
+                srcSet="/images/projectos/optimizadas/event-production-command-center-400.webp 400w, /images/projectos/optimizadas/event-production-command-center-800.webp 800w"
                 sizes="(max-width: 640px) 94vw, 100vw"
                 type="image/webp" />
-              <img src="/images/projectos/optimizadas/bastidores-tecnicos-1200.webp"
-                srcSet="/images/projectos/optimizadas/bastidores-tecnicos-800.webp 800w, /images/projectos/optimizadas/bastidores-tecnicos-1200.webp 1200w"
+              <img src="/images/projectos/optimizadas/event-production-command-center-1200.webp"
+                srcSet="/images/projectos/optimizadas/event-production-command-center-800.webp 800w, /images/projectos/optimizadas/event-production-command-center-1200.webp 1200w"
                 sizes="(max-width: 900px) 94vw, 1200px"
                 width={1200} height={800}
-                alt="Equipa técnica em produção de evento: mesas de mistura, realização multicâmara e operadores numa sala iluminada."
+                alt="Imagem conceptual de uma central de coordenação técnica de eventos, com mesas de mistura, monitores de vídeo, iluminação e equipamentos de produção, sem pessoas."
                 loading="lazy" decoding="async" />
             </picture>
             <figcaption className="method-photo-note">
               <span className="method-photo-marker" aria-hidden="true" />
-              BASTIDORES DA PRODUÇÃO
+              COORDENAÇÃO TÉCNICA DE EVENTOS
             </figcaption>
           </figure>
 

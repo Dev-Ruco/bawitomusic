@@ -39,6 +39,10 @@ const photos = [
   {
     "id": "grandes-palcos",
     "name": "estrura de palo bawito music_Easy-Resize.com.jpg"
+  },
+  {
+    "id": "event-production-command-center",
+    "name": "Event Production Command Center.png"
   }
 ]
 for (const photo of photos) {
