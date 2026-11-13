@@ -19,7 +19,10 @@ for (const fragment of [
 ]) assert.ok(html.includes(fragment), `Falta elemento SEO/performance: ${fragment}`)
 assert.ok(robots.includes('Sitemap: https://bawitomusic.co.mz/sitemap.xml'))
 assert.ok(sitemap.includes('<loc>https://bawitomusic.co.mz/</loc>'))
-assert.ok(existsSync('dist/favicon.svg'))
+assert.ok(html.includes('rel="icon" type="image/webp" href="/images/marca/logo-bawito-header.webp"'), 'Deve ser usada a identidade oficial no favicon')
+assert.ok(!html.includes('/favicon.svg') && !html.includes('/og-cover.svg'), 'Não usar símbolos gráficos inventados')
+assert.ok(html.includes('og:image:alt'), 'A imagem de partilha deve ter descrição')
+assert.ok(existsSync('dist/images/hero/Empty-Auditorium-Technical-Rehearsal-_1__Easy-Resize.com.jpg'), 'A fotografia de partilha deve existir')
 assert.ok(existsSync('dist/images/marca/logo-bawito-header.webp'), 'O logótipo optimizado do cabeçalho não foi encontrado')
 for (const imageName of ['hero-bawito-desktop.webp','hero-bawito-tablet.webp','hero-bawito-mobile.webp']) {
   assert.ok(existsSync(`dist/images/hero/${imageName}`), `Falta fotografia hero: ${imageName}`)
@@ -114,6 +117,9 @@ for (const name of ['about-bawito-desktop.webp','about-bawito-mobile.webp']) {
 }
 assert.ok(html.includes('logo-bawito-header.webp'), 'O logótipo do cabeçalho não está presente no HTML')
 assert.ok(html.includes('class="footer-brand"'), 'A secção de texto do rodapé não foi encontrada')
+assert.ok(html.includes('Abrir o pedido no WhatsApp'), 'O formulário deve oferecer alternativa ao WhatsApp')
+assert.ok(read('src/App.tsx').includes("menuNavRef.current?.querySelectorAll"), 'Falta controlo de foco no menu')
+assert.ok(read('src/App.tsx').includes('phoneDigits.length < 9'), 'Falta validação do telefone')
 assert.ok(!html.includes('brand-symbol'), 'O logótipo inventado não deve surgir no site')
 assert.ok(!html.includes('brand-words'), 'A marca fictícia não deve ser desenhada com HTML')
 const footerMarkup = html.slice(html.indexOf('<footer'), html.indexOf('</footer>') + '</footer>'.length)

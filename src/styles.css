@@ -978,3 +978,21 @@ html{scroll-padding-top:100px}
  @keyframes hero-intro-rise{from{opacity:0;transform:translateY(13px)}to{opacity:1;transform:translateY(0)}}
 }
 @media(prefers-reduced-motion:reduce){.hero-clean .hero-main,.hero-clean .hero-main>.hero-kicker,.hero-clean .hero-main>h1,.hero-clean .hero-main>.hero-description,.hero-clean .hero-buttons{animation:none!important;transition:none!important}}
+
+/* Correcções de acessibilidade e legibilidade após auditoria. */
+.form-whatsapp-fallback{display:inline-flex;justify-content:center;align-items:center;gap:10px;width:100%;min-height:48px;margin-top:10px;padding:12px 15px;background:#e4f5fc;border:1px solid #a9d9ef;border-radius:6px;color:#075f91;font-size:14px;font-weight:800;line-height:1.4;text-decoration:none;transition:background-color .2s,color .2s}
+.form-whatsapp-fallback:hover{background:#c9eaf9;color:#063a5c}
+.form-whatsapp-fallback:focus-visible{outline:3px solid #0583bd;outline-offset:3px}
+@media(max-width:620px){
+  .hero-clean .hero-grid{padding-top:clamp(148px,25svh,192px)}
+  .hero-clean .hero-main>.hero-kicker{font-size:10px;line-height:1.55}
+  .hero-clean .hero-main>.hero-description{font-size:14px;line-height:1.7}
+  .about-tenure>span{font-size:11px;line-height:1.4}
+  .rental-disclaimer{font-size:12px;line-height:1.6}
+  .gallery-section .portfolio-card-meta{font-size:11px}
+}
+@media(max-width:620px) and (max-height:700px){
+  .hero.hero-clean{min-height:0}
+  .hero-clean .hero-grid{min-height:0;padding-top:clamp(150px,25svh,180px);padding-bottom:36px}
+}
+@media(prefers-reduced-motion:reduce){.form-whatsapp-fallback{transition:none}}

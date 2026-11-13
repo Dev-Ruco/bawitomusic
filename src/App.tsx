@@ -190,10 +190,12 @@ function App() {
   const [selectedServices, setSelectedServices] = useState<string[]>([])
   const [activeImage, setActiveImage] = useState<(typeof gallery)[number] | null>(null)
   const [formNotice, setFormNotice] = useState('')
+  const [preparedWhatsAppUrl, setPreparedWhatsAppUrl] = useState('')
   const [form, setForm] = useState({ name: '', phone: '', email: '', event: '', date: '', city: '', message: '' })
   const modalCloseRef = useRef<HTMLButtonElement | null>(null)
   const lastFocusedElement = useRef<HTMLElement | null>(null)
   const menuToggleRef = useRef<HTMLButtonElement | null>(null)
+  const menuNavRef = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 28)
@@ -233,11 +235,33 @@ function App() {
   useEffect(() => {
     if (!menuOpen) return
     const previousOverflow = document.body.style.overflow
-    if (window.matchMedia('(max-width: 1050px)').matches) document.body.style.overflow = 'hidden'
+    const mobile = window.matchMedia('(max-width: 1050px)')
+    if (mobile.matches) document.body.style.overflow = 'hidden'
+    const navLinks = Array.from(menuNavRef.current?.querySelectorAll<HTMLAnchorElement>('a[href]') ?? [])
+    const first = navLinks[0]
+    const last = navLinks[navLinks.length - 1]
+    const toggle = menuToggleRef.current
+    if (mobile.matches) first?.focus()
     const onKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setMenuOpen(false)
-        menuToggleRef.current?.focus()
+        toggle?.focus()
+        return
+      }
+      if (event.key !== 'Tab' || !mobile.matches || !first || !last || !toggle) return
+      const active = document.activeElement
+      if (event.shiftKey && active === first) {
+        event.preventDefault()
+        toggle.focus()
+      } else if (event.shiftKey && active === toggle) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault()
+        toggle.focus()
+      } else if (!event.shiftKey && active === toggle) {
+        event.preventDefault()
+        first.focus()
       }
     }
     const desktop = window.matchMedia('(min-width: 1051px)')
@@ -279,19 +303,30 @@ function App() {
     return () => { document.body.style.overflow = previous; window.removeEventListener('keydown', onKey); lastFocusedElement.current?.focus() }
   }, [Boolean(activeImage), filter])
 
-  const toggleService = (name: string) => setSelectedServices((current) =>
-    current.includes(name) ? current.filter((item) => item !== name) : [...current, name],
-  )
+  const toggleService = (name: string) => {
+    setPreparedWhatsAppUrl('')
+    setFormNotice('')
+    setSelectedServices((current) =>
+      current.includes(name) ? current.filter((item) => item !== name) : [...current, name],
+    )
+  }
 
   const setField = (field: keyof typeof form, value: string) => {
     setForm((old) => ({ ...old, [field]: value }))
     setFormNotice('')
+    setPreparedWhatsAppUrl('')
   }
 
   const submitQuote = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    setPreparedWhatsAppUrl('')
     if (!form.name.trim() || !form.phone.trim() || !form.city.trim() || !form.event || form.message.trim().length < 10) {
       setFormNotice('Por favor, verifique os campos obrigatórios antes de continuar.')
+      return
+    }
+    const phoneDigits = form.phone.replace(/\D/g, '')
+    if (phoneDigits.length < 9 || phoneDigits.length > 15) {
+      setFormNotice('Introduza um contacto telefónico válido, com 9 a 15 algarismos.')
       return
     }
     const lines = [
@@ -307,8 +342,9 @@ function App() {
       `Descrição: ${form.message.trim()}`,
     ]
     const url = `https://wa.me/${PHONE}?text=${encodeURIComponent(lines.join('\n'))}`
+    setPreparedWhatsAppUrl(url)
     window.open(url, '_blank', 'noopener,noreferrer')
-    setFormNotice('O seu pedido foi preparado. Confirme o envio na conversa do WhatsApp que foi aberta.')
+    setFormNotice('O pedido está preparado. Se o WhatsApp não tiver aberto, utilize a ligação abaixo. O envio só fica concluído depois de confirmar a mensagem.')
   }
 
   const goTo = () => setMenuOpen(false)
@@ -324,22 +360,22 @@ function App() {
     <header className={`site-header header-light ${scrolled ? 'header-scrolled' : ''} ${menuOpen ? 'menu-active' : ''}`}>
       <div className="header-inner container">
         <WaveMark />
-        <nav className={`main-nav ${menuOpen ? 'nav-open' : ''}`} aria-label="Navegação principal" id="main-navigation">
+        <nav ref={menuNavRef} className={`main-nav ${menuOpen ? 'nav-open' : ''}`} aria-label="Navegação principal" id="main-navigation">
           <a href="#inicio" aria-current={activeSection === 'inicio' ? 'location' : undefined} onClick={goTo}>Início</a>
           <a href="#sobre" aria-current={activeSection === 'sobre' ? 'location' : undefined} onClick={goTo}>A Bawito</a>
           <a href="#servicos" aria-current={activeSection === 'servicos' ? 'location' : undefined} onClick={goTo}>Serviços</a>
           <a href="#solucoes" aria-current={activeSection === 'solucoes' ? 'location' : undefined} onClick={goTo}>Projectos</a>
           <a href="#aluguer" aria-current={activeSection === 'aluguer' ? 'location' : undefined} onClick={goTo}>Aluguer</a>
           <a href="#artistas" aria-current={activeSection === 'artistas' ? 'location' : undefined} onClick={goTo}>Artistas</a>
-          <a href="#contactos" className="nav-mobile-cta" aria-current={activeSection === 'contactos' ? 'location' : undefined} onClick={goTo}>Solicitar orçamento <ArrowUpRight size={17} aria-hidden="true" /></a>
+          <a href="#contactos" className="nav-mobile-cta" aria-current={activeSection === 'contactos' ? 'location' : undefined} onClick={goTo}>Solicitar proposta <ArrowUpRight size={17} aria-hidden="true" /></a>
         </nav>
-        <a className="btn btn-header" href="#contactos">Solicitar orçamento <ArrowUpRight size={18} aria-hidden="true" /></a>
+        <a className="btn btn-header" href="#contactos">Solicitar proposta <ArrowUpRight size={18} aria-hidden="true" /></a>
         <button ref={menuToggleRef} className="menu-button" type="button" aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'} aria-controls="main-navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(open => !open)}>
           {menuOpen ? <X size={25} aria-hidden="true" /> : <Menu size={25} aria-hidden="true" />}
         </button>
       </div>
     </header>
-    <button type="button" aria-label="Fechar navegação" aria-hidden={!menuOpen} tabIndex={menuOpen ? 0 : -1} className={`menu-backdrop ${menuOpen ? 'is-open' : ''}`} onClick={() => setMenuOpen(false)} />
+    <button type="button" aria-label="Fechar navegação" aria-hidden={!menuOpen} tabIndex={menuOpen ? 0 : -1} className={`menu-backdrop ${menuOpen ? 'is-open' : ''}`} onClick={() => { setMenuOpen(false); menuToggleRef.current?.focus() }} />
 
     <main id="principal">
       <section className="hero hero-clean" id="inicio" aria-labelledby="hero-title">
@@ -565,7 +601,11 @@ function App() {
             {rentals.map((item) => (
               <a key={item.id} className="rental-card reveal" href="#contactos"
                 aria-label={`Pedir proposta de aluguer: ${item.title}`}
-                onClick={() => setSelectedServices(current => current.includes('Aluguer — ' + item.title) ? current : [...current, 'Aluguer — ' + item.title])}>
+                onClick={() => {
+                  setPreparedWhatsAppUrl('')
+                  setFormNotice('')
+                  setSelectedServices(current => current.includes('Aluguer — ' + item.title) ? current : [...current, 'Aluguer — ' + item.title])
+                }}>
                 <div className="rental-media">
                   <img src={item.image}
                     srcSet={item.srcSet}
@@ -658,6 +698,9 @@ function App() {
           <label className="message-label">Fale-nos do seu projecto <span>*</span><textarea rows={4} required minLength={10} placeholder="Descreva o evento, o número aproximado de participantes e as necessidades principais..." value={form.message} onChange={e => setField('message', e.target.value)} /></label>
           <button className="btn form-submit" type="submit">Enviar pedido pelo WhatsApp <ArrowUpRight size={20} /></button>
           {formNotice && <p className="form-feedback" role="status">{formNotice}</p>}
+          {preparedWhatsAppUrl && <a className="form-whatsapp-fallback" href={preparedWhatsAppUrl} target="_blank" rel="noopener noreferrer">
+            Abrir o pedido no WhatsApp <ArrowUpRight size={18} aria-hidden="true" />
+          </a>}
           <p className="form-privacy">Ao continuar, será aberta uma conversa de WhatsApp com os dados que preencheu. O envio só fica concluído quando confirmar a mensagem.</p>
         </form>
       </div></section>
