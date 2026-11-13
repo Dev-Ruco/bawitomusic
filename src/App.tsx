@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react'
 import {
   ArrowDown, ArrowUpRight, CalendarDays, Check, ChevronDown, Compass, Target,
   ChevronLeft, ChevronRight, Clapperboard, Headphones, Mail,
-  MapPin, Megaphone, Menu, MessageCircle, MonitorPlay, MousePointerClick, Maximize2, Phone, Radio,
+  MapPin, Megaphone, Menu, MessageCircle, MonitorPlay, Maximize2, Phone, Radio,
   Send, ShieldCheck, X,
   type LucideIcon,
 } from 'lucide-react'
@@ -198,7 +198,6 @@ function App() {
   const [activeSection, setActiveSection] = useState('inicio')
   const [scrolled, setScrolled] = useState(false)
   const [filter, setFilter] = useState<GalleryFilter>('todos')
-  const [selectedProjectId, setSelectedProjectId] = useState(gallery[0].id)
   const [selectedServices, setSelectedServices] = useState<string[]>([])
   const [activeImage, setActiveImage] = useState<(typeof gallery)[number] | null>(null)
   const [formNotice, setFormNotice] = useState('')
@@ -325,13 +324,6 @@ function App() {
 
   const goTo = () => setMenuOpen(false)
   const visibleGallery = filter === 'todos' ? gallery : gallery.filter((item) => item.kind === filter)
-  const featuredProject = visibleGallery.find(item => item.id === selectedProjectId) ?? visibleGallery[0]
-  const changeFeaturedProject = (step: number) => {
-    if (!visibleGallery.length) return
-    const currentIndex = visibleGallery.findIndex(item => item.id === featuredProject.id)
-    const next = visibleGallery[(currentIndex + step + visibleGallery.length) % visibleGallery.length]
-    setSelectedProjectId(next.id)
-  }
   const navigateGallery = (step: number) => setActiveImage(current => {
     if (!current || !visibleGallery.length) return current
     const index = visibleGallery.findIndex(item => item.id === current.id)
@@ -524,70 +516,50 @@ function App() {
               <SectionEyebrow>PROJECTOS & REALIZAÇÕES</SectionEyebrow>
               <h2 id="gallery-title">Cada evento tem<br />a sua <em>dimensão.</em></h2>
             </div>
-            <p>Conheça alguns dos ambientes, montagens e momentos que traduzem o nosso trabalho. Seleccione uma fotografia para explorar os projectos.</p>
+            <p>Explore uma selecção de projectos, montagens e produções que revelam a nossa experiência em conferências, eventos e espectáculos.</p>
           </div>
 
           <div className="gallery-toolbar reveal">
             <div className="gallery-filters" role="group" aria-label="Filtrar projectos">
-              {filters.map(({ id, text }) =>
+              {filters.map(({ id, text }) => (
                 <button type="button" key={id} className={filter === id ? 'active' : ''}
-                  aria-pressed={filter === id}
-                  onClick={() => {
-                    setFilter(id)
-                    setSelectedProjectId((id === 'todos' ? gallery[0] : gallery.find(item => item.kind === id))?.id ?? gallery[0].id)
-                  }}>{text}</button>
-              )}
+                  aria-pressed={filter === id} onClick={() => setFilter(id)}>
+                  {text}
+                </button>
+              ))}
             </div>
-            <span className="gallery-count" aria-live="polite">{String(visibleGallery.length).padStart(2, '0')} {visibleGallery.length === 1 ? 'PROJECTO' : 'PROJECTOS'}</span>
+            <span className="gallery-count" aria-live="polite">
+              {String(visibleGallery.length).padStart(2, '0')} {visibleGallery.length === 1 ? 'PROJECTO' : 'PROJECTOS'}
+            </span>
           </div>
 
-          <div className="portfolio-showcase reveal">
-            <div className="portfolio-main">
-              <button key={featuredProject.id} type="button" className="portfolio-feature-photo"
-                aria-label={`Ampliar fotografia: ${featuredProject.title}`}
-                onClick={() => setActiveImage(featuredProject)}>
-                <img src={projectImage(featuredProject.id, 1200)}
-                  srcSet={projectImageSet(featuredProject.id)}
-                  sizes="(max-width: 800px) 94vw, (max-width: 1100px) 90vw, 65vw"
-                  width={1200} height={800} alt={featuredProject.alt}
-                  loading="lazy" decoding="async" />
-                <span className="portfolio-zoom" aria-hidden="true"><Maximize2 size={18} /> Ver em grande</span>
-              </button>
-              <div className="portfolio-feature-caption" aria-live="polite" aria-atomic="true">
-                <div className="portfolio-feature-copy">
-                  <span>{featuredProject.type}</span>
-                  <h3>{featuredProject.title}</h3>
-                </div>
-                <div className="portfolio-feature-controls">
-                  <span className="portfolio-feature-counter">{String(visibleGallery.findIndex(item => item.id === featuredProject.id) + 1).padStart(2, '0')} <span aria-hidden="true">/</span> {String(visibleGallery.length).padStart(2, '0')}</span>
-                  <button type="button" aria-label="Projecto anterior" onClick={() => changeFeaturedProject(-1)}><ChevronLeft size={21} /></button>
-                  <button type="button" aria-label="Projecto seguinte" onClick={() => changeFeaturedProject(1)}><ChevronRight size={21} /></button>
-                </div>
-              </div>
-            </div>
-
-            <div className="portfolio-explorer">
-              <div className="portfolio-explorer-heading">
-                <strong>Explorar projectos</strong>
-                <span>Seleccione para visualizar</span>
-              </div>
-              <div className="portfolio-thumbnails" role="group" aria-label="Seleccionar fotografia do portefólio">
-                {visibleGallery.map((item, index) =>
-                  <button type="button" key={item.id}
-                    className={`portfolio-thumb ${item.id === featuredProject.id ? 'is-current' : ''}`}
-                    aria-label={`Ver fotografia ${index + 1}: ${item.title}`}
-                    aria-pressed={item.id === featuredProject.id}
-                    onClick={() => setSelectedProjectId(item.id)}>
-                    <img src={projectImage(item.id, 400)} width={400} height={267}
-                      alt="" loading="lazy" decoding="async" />
-                    <span className="portfolio-thumb-label" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-                  </button>
-                )}
-              </div>
-              <p className="portfolio-explorer-hint"><MousePointerClick size={16} aria-hidden="true" /> Escolha uma imagem ou utilize as setas para navegar.</p>
-            </div>
+          <div className="portfolio-cards" aria-label="Fotografias dos projectos da Bawito">
+            {visibleGallery.map((item, index) => (
+              <article className="portfolio-card reveal" key={item.id}>
+                <button type="button" className="portfolio-card-button"
+                  aria-label={`Ampliar fotografia: ${item.title}`}
+                  onClick={() => setActiveImage(item)}>
+                  <span className="portfolio-card-media">
+                    <img src={item.src} srcSet={projectImageSet(item.id)}
+                      sizes="(max-width: 760px) calc(100vw - 38px), (max-width: 1100px) calc((100vw - 76px) / 2), 620px"
+                      width={1200} height={800} alt={item.alt}
+                      loading="lazy" decoding="async" />
+                    <span className="portfolio-card-zoom" aria-hidden="true">
+                      <Maximize2 size={19} strokeWidth={1.8} />
+                    </span>
+                  </span>
+                  <span className="portfolio-card-caption">
+                    <span className="portfolio-card-text">
+                      <span className="portfolio-card-meta">{String(index + 1).padStart(2, '0')} <span aria-hidden="true">/</span> {item.type}</span>
+                      <strong className="portfolio-card-title">{item.title}</strong>
+                    </span>
+                    <span className="portfolio-card-arrow" aria-hidden="true"><ArrowUpRight size={20} strokeWidth={1.9} /></span>
+                  </span>
+                </button>
+              </article>
+            ))}
           </div>
-          <p className="portfolio-footnote">Registos visuais de diferentes formatos de eventos e soluções técnicas.</p>
+          <p className="portfolio-footnote">Fotografias de projectos e soluções técnicas. Seleccione qualquer imagem para a visualizar em grande.</p>
         </div>
       </section>
 

@@ -15,13 +15,13 @@ O script `scripts/optimize-projects.mjs` conserva os originais e cria WebP locai
 - **Grandes palcos** — `estrura de palo bawito music_Easy-Resize.com.jpg`
 
 ## Interface
-- Grelha editorial assimétrica em desktop; compacta e adaptável em tablets e telemóveis.
+- Galeria de cartões fotográficos amplos: duas colunas no desktop e uma coluna no telemóvel, com legendas fora das fotografias.
 - Filtros por conferências, produção/montagem e espectáculos.
 - Ampliação com navegação anterior/seguinte, teclas Escape e setas.
 - Animações suaves com suporte para `prefers-reduced-motion`, foco visível e descrição alternativa de todas as fotografias.
 
 As fotografias incluem imagens tratadas digitalmente. Antes de apresentar a autoria ou participação da Bawito num projecto específico, confirmar autorização e correspondência com os registos da empresa.
 
-## Apresentação visual (Novembro 2026)
+## Apresentação visual (Novembro 2026 — cartões fotográficos)
 
-O antigo mosaico de cartões pequenos foi substituído por uma **vitrina com fotografia principal** em tamanho grande, legenda fora da imagem e oito miniaturas seleccionáveis. O visitante pode percorrer as imagens pelas setas, escolher uma miniatura ou abrir a fotografia em tamanho maior. Filtros e acessibilidade por teclado mantidos. No telemóvel, as miniaturas deslizam horizontalmente com scroll-snap. O enquadramento principal utiliza `object-fit:contain` para evitar cortes da fotografia. Sem bibliotecas adicionais e com WebP responsivo.
+A galeria apresenta as oito fotografias de forma imediata, sem a antiga vitrina de fotografia única e miniaturas. No desktop, os cartões ficam em duas colunas amplas; no telemóvel, uma coluna com fotografias à largura do conteúdo. As imagens usam `object-fit:contain` para manter o enquadramento original, versões WebP 400/800/1200, `srcSet`/`sizes` e carregamento progressivo. Os títulos aparecem sob as fotografias, nunca sobre o evento. Clique ou teclado abrem a ampliação com navegação anterior/seguinte. Os filtros originais continuam disponíveis e as animações respeitam `prefers-reduced-motion`.
