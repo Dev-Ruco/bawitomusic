@@ -49,6 +49,7 @@ assert.equal((html.match(/class="portfolio-card reveal"/g) || []).length, 8, 'O 
 assert.equal((html.match(/class="portfolio-card-media"/g) || []).length, 8, 'Faltam fotografias em destaque')
 assert.equal((html.match(/class="portfolio-card-caption"/g) || []).length, 8, 'Faltam títulos fora das fotografias')
 assert.ok(html.includes('class="portfolio-cards"'), 'A grelha de cartões fotográficos não existe')
+assert.match(read('src/styles.css'), /\.gallery-section \.portfolio-card-media img\{[^}]*object-fit:cover/s, 'As fotografias do portefólio devem preencher integralmente os cartões')
 assert.ok(html.includes('Ampliar fotografia:'), 'As fotografias devem permitir ampliação')
 assert.ok(!html.includes('class="portfolio-showcase reveal"'), 'A vitrina antiga ainda aparece')
 assert.ok(!html.includes('class="portfolio-thumbnails"'), 'As miniaturas antigas ainda aparecem')
