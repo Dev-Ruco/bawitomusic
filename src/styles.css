@@ -391,54 +391,6 @@ html{scroll-padding-top:100px}
 @media(max-width:365px){.rentals .rental-grid{grid-template-columns:1fr}}
 
 
-/* Portefólio Bawito — fotografia real partilhada pelo cliente, grelha editorial e zoom de leitura. */
-.gallery-section .section-heading>p{max-width:460px}
-.gallery-section .section-heading-tight{margin-bottom:34px}
-.gallery-section .gallery-toolbar{margin-bottom:20px}
-.gallery-section .gallery-filters{gap:9px}
-.gallery-section .gallery-filters button{
-  min-height:43px;border:1px solid #dde9ef;border-radius:24px;padding:10px 18px;
-  background:#f7fafc;color:#31536a;font-size:11px;font-weight:800;
-  transition:background-color .24s ease-in-out,color .24s ease-in-out,border-color .24s ease-in-out
-}
-.gallery-section .gallery-filters button.active{background:#103954;color:#fff;border-color:#103954}
-.gallery-section .gallery-filters button:focus-visible{outline:3px solid #168fc5;outline-offset:3px}
-.gallery-section .gallery-count{font-size:11px;letter-spacing:1.2px;color:#58788f}
-.gallery-section .portfolio-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-auto-rows:155px;grid-auto-flow:dense;gap:14px}
-.gallery-section .portfolio-grid .gallery-item{
-  height:auto;min-height:0;grid-column:span 4;grid-row:span 1;border-radius:11px;
-  box-shadow:0 9px 25px rgba(8,49,75,.08);
-  transition:transform .32s ease-in-out,box-shadow .32s ease-in-out
-}
-.gallery-section .portfolio-grid:not(.is-filtered) .gallery-item:nth-child(1){grid-column:span 7;grid-row:span 2}
-.gallery-section .portfolio-grid:not(.is-filtered) .gallery-item:nth-child(2),
-.gallery-section .portfolio-grid:not(.is-filtered) .gallery-item:nth-child(3){grid-column:span 5}
-.gallery-section .portfolio-grid:not(.is-filtered) .gallery-item:nth-child(n+4):nth-child(-n+6){grid-column:span 4}
-.gallery-section .portfolio-grid:not(.is-filtered) .gallery-item:nth-child(n+7){grid-column:span 6}
-.gallery-section .portfolio-grid.is-filtered{grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));grid-auto-rows:265px}
-.gallery-section .portfolio-grid.is-filtered .gallery-item{grid-column:auto;grid-row:auto}
-.gallery-section .portfolio-grid .gallery-item img{
-  display:block;width:100%;height:100%;object-fit:cover;object-position:center;
-  filter:none;transform:scale(1.001);
-  transition:transform .7s cubic-bezier(.22,.7,.16,1),filter .45s ease-in-out
-}
-.gallery-section .portfolio-grid .gallery-shade{
-  background:linear-gradient(to top,rgba(4,22,37,.87),rgba(4,22,37,.2) 49%,transparent 75%);
-  transition:opacity .36s ease-in-out
-}
-.gallery-section .portfolio-grid .gallery-info{bottom:20px;left:22px;right:65px;gap:5px;transition:transform .35s ease-in-out}
-.gallery-section .portfolio-grid .gallery-info small{font-size:9px;letter-spacing:1.35px;color:#9be2ff}
-.gallery-section .portfolio-grid .gallery-info strong{font-size:clamp(15px,1.55vw,21px);line-height:1.28;letter-spacing:-.035em;color:#fff}
-.gallery-section .portfolio-grid .gallery-open{width:38px;height:38px;bottom:18px;right:18px;border:1px solid #ffffffa8;background:#ffffff18;border-radius:50%;transition:background .3s ease-in-out,transform .3s ease-in-out}
-.gallery-section .portfolio-grid .gallery-item:focus-visible{outline:3px solid #048dcc;outline-offset:4px}
-.gallery-section .portfolio-footnote{margin:19px 0 0;font-size:11px;line-height:1.55;color:#728899;text-align:right}
-@media(hover:hover) and (prefers-reduced-motion:no-preference){
-  .gallery-section .portfolio-grid .gallery-item:hover{box-shadow:0 17px 34px rgba(8,49,75,.16)}
-  .gallery-section .portfolio-grid .gallery-item:hover img{transform:scale(1.075)}
-  .gallery-section .portfolio-grid .gallery-item:hover .gallery-shade{opacity:.9}
-  .gallery-section .portfolio-grid .gallery-item:hover .gallery-info{transform:translateY(-5px)}
-  .gallery-section .portfolio-grid .gallery-item:hover .gallery-open{background:#0d91c5;transform:translate(2px,-2px)}
-}
 .portfolio-lightbox{background:rgba(3,13,26,.96)}
 .portfolio-lightbox .lightbox-content{width:min(1180px,100%)}
 .portfolio-lightbox .lightbox-content img{max-height:min(72vh,790px);object-fit:contain;background:#07182c;border-radius:5px}
@@ -450,46 +402,12 @@ html{scroll-padding-top:100px}
 .portfolio-lightbox .portfolio-lightbox-navigation button{display:grid;place-items:center;border:1px solid #89aec666;background:#18364c;color:#fff;width:46px;height:46px;border-radius:50%;cursor:pointer;transition:background .2s ease-in-out}
 .portfolio-lightbox .portfolio-lightbox-navigation button:hover{background:#168dc3}
 .portfolio-lightbox .portfolio-lightbox-navigation button:focus-visible,.portfolio-lightbox .lightbox-close:focus-visible{outline:3px solid #80d9ff;outline-offset:3px}
-@media(max-width:1040px){
-  .gallery-section .portfolio-grid{grid-template-columns:repeat(6,minmax(0,1fr));grid-auto-rows:145px;gap:12px}
-  .gallery-section .portfolio-grid:not(.is-filtered) .gallery-item:nth-child(1){grid-column:span 6;grid-row:span 2}
-  .gallery-section .portfolio-grid:not(.is-filtered) .gallery-item:nth-child(n+2){grid-column:span 3;grid-row:span 2}
-}
 @media(max-width:620px){
-  .gallery-section .section-heading-tight{margin-bottom:20px}
-  .gallery-section .gallery-toolbar{gap:12px;align-items:flex-start}
-  .gallery-section .gallery-filters{display:flex;max-width:100%;gap:6px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin;padding:2px 1px 8px}
-  .gallery-section .gallery-filters button{min-height:41px;flex:none;padding:9px 12px;font-size:10px}
-  .gallery-section .gallery-count{margin-top:0;font-size:10px}
-  .gallery-section .portfolio-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:165px;gap:9px}
-  .gallery-section .portfolio-grid:not(.is-filtered) .gallery-item:nth-child(1){grid-column:span 2;grid-row:span 2}
-  .gallery-section .portfolio-grid:not(.is-filtered) .gallery-item:nth-child(n+2){grid-column:span 1;grid-row:span 1}
-  .gallery-section .portfolio-grid.is-filtered{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:190px;gap:9px}
-  .gallery-section .portfolio-grid .gallery-item{border-radius:8px}
-  .gallery-section .portfolio-grid .gallery-info{bottom:13px;left:12px;right:12px;gap:4px}
-  .gallery-section .portfolio-grid .gallery-info small{font-size:8px;letter-spacing:.5px}
-  .gallery-section .portfolio-grid .gallery-info strong{font-size:13px;line-height:1.22}
-  .gallery-section .portfolio-grid:not(.is-filtered) .gallery-item:nth-child(1) .gallery-info strong{font-size:19px}
-  .gallery-section .portfolio-grid .gallery-open{width:26px;height:26px;top:9px;right:9px;bottom:auto}
-  .gallery-section .portfolio-grid .gallery-open svg{width:15px;height:15px}
-  .gallery-section .portfolio-footnote{font-size:10px;text-align:left;margin-top:14px}
   .portfolio-lightbox{padding:65px 12px 22px}
   .portfolio-lightbox .lightbox-content img{max-height:66vh}
   .portfolio-lightbox .portfolio-lightbox-caption{align-items:flex-start;flex-direction:column;gap:13px}
   .portfolio-lightbox .portfolio-lightbox-navigation{align-self:flex-end}
 }
-@media(max-width:365px){
-  .gallery-section .portfolio-grid{grid-auto-rows:145px}
-  .gallery-section .portfolio-grid.is-filtered{grid-template-columns:1fr;grid-auto-rows:220px}
-}
-@media(prefers-reduced-motion:reduce){
-  .gallery-section .portfolio-grid .gallery-item,
-  .gallery-section .portfolio-grid .gallery-item img,
-  .gallery-section .portfolio-grid .gallery-info,
-  .gallery-section .portfolio-grid .gallery-shade,
-  .gallery-section .portfolio-grid .gallery-open{transition:none!important;transform:none!important}
-}
-
 
 /* Artistas — retrato conjunto, editorial e responsivo. */
 .artist-section{
@@ -777,4 +695,181 @@ html{scroll-padding-top:100px}
   .services .services-conclusion-cta{
     transition:none!important;transform:none!important
   }
+}
+
+
+/* Vitrina editorial: fotografia protagonista, navegação por miniaturas e enquadramento integral. */
+.gallery-section .section-heading-tight{margin-bottom:32px}
+.gallery-section .section-heading>p{max-width:470px}
+.gallery-section .gallery-toolbar{margin-bottom:23px}
+.gallery-section .gallery-filters{gap:8px}
+.gallery-section .gallery-filters button{
+  min-height:44px;padding:10px 17px;border:1px solid #d9e5ec;border-radius:24px;
+  background:#f5f9fb;color:#3c596b;font-weight:800;font-size:11px;
+  transition:background-color .22s,color .22s,border-color .22s
+}
+.gallery-section .gallery-filters button.active{background:#0c3554;border-color:#0c3554;color:#fff}
+.gallery-section .gallery-filters button:focus-visible{outline:3px solid #1396ce;outline-offset:3px}
+.gallery-section .gallery-count{color:#52758a;font-size:11px;letter-spacing:1.2px}
+.gallery-section .portfolio-showcase{
+  display:grid;grid-template-columns:minmax(0,1.85fr) minmax(280px,.9fr);gap:20px;
+  align-items:stretch
+}
+.gallery-section .portfolio-main{
+  min-width:0;overflow:hidden;border:1px solid #e2eaf0;border-radius:14px;
+  background:#f4f8fb;box-shadow:0 18px 45px rgba(17,55,82,.09)
+}
+.gallery-section .portfolio-feature-photo{
+  position:relative;display:flex;align-items:center;justify-content:center;
+  width:100%;aspect-ratio:1.65;min-height:0;padding:0;border:0;
+  overflow:hidden;background:linear-gradient(140deg,#133750,#07203b);
+  cursor:zoom-in
+}
+.gallery-section .portfolio-feature-photo img{
+  display:block;width:100%;height:100%;max-height:100%;
+  object-fit:contain;object-position:center;
+  animation:portfolio-focus-in .46s cubic-bezier(.21,.68,.22,1) both;
+  transition:transform .5s ease
+}
+@keyframes portfolio-focus-in{
+  from{opacity:.35;transform:scale(1.035)}
+  to{opacity:1;transform:scale(1)}
+}
+.gallery-section .portfolio-feature-photo .portfolio-zoom{
+  position:absolute;bottom:17px;right:17px;display:inline-flex;align-items:center;gap:10px;
+  min-height:39px;padding:8px 13px;border-radius:22px;
+  background:rgba(6,30,50,.9);color:#fff;font-size:11px;font-weight:800;
+  border:1px solid rgba(255,255,255,.35);
+  box-shadow:0 7px 25px rgba(0,0,0,.18);transition:background-color .22s
+}
+.gallery-section .portfolio-feature-photo:focus-visible{outline:3px solid #27b3ef;outline-offset:-5px}
+.gallery-section .portfolio-feature-caption{
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  padding:19px 23px 21px
+}
+.gallery-section .portfolio-feature-copy{min-width:0}
+.gallery-section .portfolio-feature-copy>span{
+  display:block;color:#0c8cbe;font-size:10px;font-weight:800;
+  letter-spacing:.14em;margin-bottom:6px
+}
+.gallery-section .portfolio-feature-copy h3{
+  font-size:clamp(18px,1.85vw,24px);color:#0a2e49;
+  line-height:1.32;letter-spacing:-.035em;margin:0
+}
+.gallery-section .portfolio-feature-controls{
+  display:flex;gap:8px;align-items:center;flex:none
+}
+.gallery-section .portfolio-feature-counter{
+  white-space:nowrap;font-size:11px;font-weight:800;color:#42687c;
+  letter-spacing:.09em;margin-right:9px;font-variant-numeric:tabular-nums
+}
+.gallery-section .portfolio-feature-counter span{color:#b4c6d1;padding-inline:3px}
+.gallery-section .portfolio-feature-controls button{
+  width:43px;height:43px;border:1px solid #d2e0e9;border-radius:50%;
+  display:grid;place-items:center;background:#fff;color:#0b567b;
+  transition:background .22s ease,color .22s ease,border-color .22s ease
+}
+.gallery-section .portfolio-feature-controls button:focus-visible{
+  outline:3px solid #159aca;outline-offset:3px
+}
+.gallery-section .portfolio-explorer{
+  display:flex;flex-direction:column;min-width:0;
+  padding:20px;background:#eff5f9;border:1px solid #e0ebf0;border-radius:14px
+}
+.gallery-section .portfolio-explorer-heading{
+  display:flex;align-items:baseline;justify-content:space-between;gap:9px;
+  margin-bottom:16px
+}
+.gallery-section .portfolio-explorer-heading strong{
+  color:#10364f;font-size:14px;font-weight:800;font-family:Manrope,sans-serif
+}
+.gallery-section .portfolio-explorer-heading span{
+  color:#7592a4;font-size:10px;line-height:1.4;text-align:right
+}
+.gallery-section .portfolio-thumbnails{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:1fr;
+  gap:10px;flex:1;min-height:0
+}
+.gallery-section .portfolio-thumb{
+  position:relative;overflow:hidden;min-width:0;min-height:0;
+  padding:0;border:2px solid transparent;border-radius:8px;
+  background:#123a56;cursor:pointer;
+  transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease
+}
+.gallery-section .portfolio-thumb img{display:block;width:100%;height:100%;object-fit:cover}
+.gallery-section .portfolio-thumb:after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(0deg,rgba(5,24,40,.3),transparent 60%);pointer-events:none
+}
+.gallery-section .portfolio-thumb.is-current{
+  border-color:#138ec5;box-shadow:0 0 0 2px #b9e3f5
+}
+.gallery-section .portfolio-thumb-label{
+  position:absolute;bottom:6px;left:8px;z-index:1;
+  color:#fff;font-size:10px;letter-spacing:.08em;font-weight:800;
+  text-shadow:0 1px 4px #061c2b
+}
+.gallery-section .portfolio-thumb:focus-visible{outline:3px solid #0d8fc5;outline-offset:3px}
+.gallery-section .portfolio-explorer-hint{
+  display:flex;align-items:center;gap:7px;
+  font-size:10px;line-height:1.5;color:#5a798b;margin:14px 0 0
+}
+.gallery-section .portfolio-explorer-hint svg{flex:none;color:#2589b8}
+.gallery-section .portfolio-footnote{font-size:11px;line-height:1.6;color:#738798;margin:17px 0 0;text-align:right}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+  .gallery-section .portfolio-feature-photo:hover img{transform:scale(1.015)}
+  .gallery-section .portfolio-feature-photo:hover .portfolio-zoom{background:#117cad}
+  .gallery-section .portfolio-thumb:hover{border-color:#63bde6;transform:translateY(-2px)}
+  .gallery-section .portfolio-feature-controls button:hover{background:#0c4060;color:#fff;border-color:#0c4060}
+}
+@media(max-width:1100px){
+  .gallery-section .portfolio-showcase{grid-template-columns:1fr}
+  .gallery-section .portfolio-explorer{padding:15px}
+  .gallery-section .portfolio-thumbnails{
+    display:flex;gap:9px;overflow-x:auto;overscroll-behavior-inline:contain;
+    scroll-snap-type:x mandatory;scrollbar-width:thin;padding:3px 2px 9px;
+    flex:none
+  }
+  .gallery-section .portfolio-thumb{width:clamp(105px,15vw,156px);aspect-ratio:1.55;flex:none;scroll-snap-align:start}
+  .gallery-section .portfolio-explorer-hint{margin-top:6px}
+}
+@media(max-width:620px){
+  .gallery-section .section-heading-tight{margin-bottom:20px}
+  .gallery-section .gallery-toolbar{align-items:stretch;gap:11px;margin-bottom:15px}
+  .gallery-section .gallery-filters{
+    flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin;
+    max-width:100%;gap:6px;padding:2px 2px 8px
+  }
+  .gallery-section .gallery-filters button{white-space:nowrap;flex:none;font-size:10px;min-height:42px;padding:9px 12px}
+  .gallery-section .gallery-count{font-size:10px}
+  .gallery-section .portfolio-showcase{gap:12px}
+  .gallery-section .portfolio-main,.gallery-section .portfolio-explorer{border-radius:10px}
+  .gallery-section .portfolio-feature-photo{aspect-ratio:1.64}
+  .gallery-section .portfolio-feature-photo .portfolio-zoom{
+    bottom:11px;right:11px;padding:7px 10px;font-size:10px;min-height:34px
+  }
+  .gallery-section .portfolio-feature-caption{
+    padding:15px 13px 17px;gap:10px
+  }
+  .gallery-section .portfolio-feature-copy>span{font-size:8px;letter-spacing:.07em}
+  .gallery-section .portfolio-feature-copy h3{font-size:16px;line-height:1.3}
+  .gallery-section .portfolio-feature-counter{font-size:10px;margin-right:2px}
+  .gallery-section .portfolio-feature-controls{gap:5px}
+  .gallery-section .portfolio-feature-controls button{width:35px;height:35px}
+  .gallery-section .portfolio-feature-controls button svg{width:18px;height:18px}
+  .gallery-section .portfolio-explorer{padding:13px 12px 9px}
+  .gallery-section .portfolio-explorer-heading{margin-bottom:10px}
+  .gallery-section .portfolio-explorer-heading strong{font-size:12px}
+  .gallery-section .portfolio-explorer-heading span{font-size:9px}
+  .gallery-section .portfolio-thumb{width:111px;aspect-ratio:1.52}
+  .gallery-section .portfolio-explorer-hint{font-size:9px}
+  .gallery-section .portfolio-footnote{text-align:left;font-size:10px;margin-top:12px}
+}
+@media(max-width:365px){
+  .gallery-section .portfolio-feature-caption{flex-direction:column;align-items:flex-start}
+  .gallery-section .portfolio-feature-controls{align-self:flex-end}
+}
+@media(prefers-reduced-motion:reduce){
+  .gallery-section .portfolio-feature-photo img{animation:none!important;transition:none!important}
+  .gallery-section .portfolio-thumb,.gallery-section .portfolio-feature-controls button{transition:none!important;transform:none!important}
 }

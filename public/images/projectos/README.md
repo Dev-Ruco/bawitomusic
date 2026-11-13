@@ -21,3 +21,7 @@ O script `scripts/optimize-projects.mjs` conserva os originais e cria WebP locai
 - Animações suaves com suporte para `prefers-reduced-motion`, foco visível e descrição alternativa de todas as fotografias.
 
 As fotografias incluem imagens tratadas digitalmente. Antes de apresentar a autoria ou participação da Bawito num projecto específico, confirmar autorização e correspondência com os registos da empresa.
+
+## Apresentação visual (Novembro 2026)
+
+O antigo mosaico de cartões pequenos foi substituído por uma **vitrina com fotografia principal** em tamanho grande, legenda fora da imagem e oito miniaturas seleccionáveis. O visitante pode percorrer as imagens pelas setas, escolher uma miniatura ou abrir a fotografia em tamanho maior. Filtros e acessibilidade por teclado mantidos. No telemóvel, as miniaturas deslizam horizontalmente com scroll-snap. O enquadramento principal utiliza `object-fit:contain` para evitar cortes da fotografia. Sem bibliotecas adicionais e com WebP responsivo.
