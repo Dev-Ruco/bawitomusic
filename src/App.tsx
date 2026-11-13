@@ -15,10 +15,6 @@ const ADDRESS = 'Av. Paulo Samuel Kamkhomba, n.º 1441, 1.º Andar, Malhangalene
 const image = (id: string, width = 1200) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=72`
 
-// Responsive photos: mobile devices do not download desktop-sized images.
-const imageAt = (url: string, width: number) => url.replace(/([?&])w=\d+/, `$1w=${width}`)
-const imageSet = (url: string) => [400, 680, 960, 1280].map(width => `${imageAt(url, width)} ${width}w`).join(', ')
-
 const photos = {
   // Geradas a partir da imagem original da Bawito carregada em public/images/hero.
   hero: '/images/hero/hero-bawito-desktop.webp',
