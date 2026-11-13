@@ -189,6 +189,8 @@ try {
         console.log('ACESSIBILIDADE ' + width + 'px: ' +
           accessibility.map(v => v.id + ' (' + v.impact + ')').join(', '))
         console.log('ACESSIBILIDADE DETALHE ' + width + 'px: ' + JSON.stringify(accessibility))
+        assert(!accessibility.some(v => v.impact === 'serious' || v.impact === 'critical'),
+          'Foram detectadas violações sérias de WCAG AA no navegador')
       }
     } catch (error) {
       recordError(width + 'px', error)

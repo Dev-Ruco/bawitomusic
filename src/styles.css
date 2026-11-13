@@ -1580,3 +1580,21 @@ html{scroll-padding-top:100px}
     grid-template-columns:minmax(0,1fr)
   }
 }
+
+/* Auditoria WCAG 2.1 AA — contraste de descrições, etiquetas e acções.
+   A marca e a arquitectura visual mantêm-se; os tons deixam de falhar em texto pequeno. */
+.services .service-option-copy small{color:#4f6577}
+.gallery-section .gallery-filter-hint{color:#4c6476}
+.gallery-section .portfolio-card-meta{color:#0b628b}
+.gallery-section .portfolio-footnote{color:#4b6678}
+.rentals .rental-disclaimer{color:#4d6575}
+.why-section .why-index{color:#4c6475}
+.why-section .why-card p{color:#4c6373}
+.quote-banner{background:#096a97}
+.quote-form .optional{color:#506878!important}
+.quote-form .rental-chooser summary span{color:#4d6475}
+.quote-form .form-submit{background:#09658f}
+.quote-form .form-submit:hover{background:#075474}
+.quote-form .form-privacy{color:#496476}
+.whatsapp-float{background:#08784e}
+.whatsapp-float:hover{background:#066944}
