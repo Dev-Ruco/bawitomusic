@@ -28,6 +28,12 @@ assert.ok(html.includes('Produção técnica'), 'Título principal do Hero em fa
 assert.ok(html.includes('Estratégia, comunicação'), 'Título Sobre em falta')
 assert.ok(html.includes('A nossa missão'), 'Missão em falta')
 assert.ok(html.includes('O nosso objectivo'), 'Objectivo em falta')
+assert.ok(html.includes('Nos bastidores,'), 'O título do método Bawito não foi encontrado')
+assert.ok(html.includes('bastidores-tecnicos-1200.webp'), 'O método deve apresentar fotografia real dos projectos')
+assert.ok(!html.includes('alt="Equipa em ambiente profissional de produção de eventos, fotografia ilustrativa"'), 'A fotografia genérica não deve permanecer')
+assert.equal((html.match(/class="method-stage reveal"/g) || []).length, 4, 'O método deve apresentar quatro etapas')
+assert.ok(html.includes('class="method-feature reveal"'), 'A composição panorâmica do método está ausente')
+
 assert.ok(html.includes('Comunicação e marketing'), 'Falta o serviço de comunicação')
 assert.ok(html.includes('Estratégia e activação de marcas'), 'Falta estratégia e activação')
 assert.ok(html.includes('id="aluguer"'), 'Secção de aluguer em falta')

@@ -490,22 +490,51 @@ function App() {
         </div>
       </section>
 
-      <section className="approach section-pad" aria-labelledby="approach-title">
-        <div className="container approach-inner">
-          <div className="approach-copy reveal">
-            <SectionEyebrow light>O NOSSO MÉTODO</SectionEyebrow>
-            <h2 id="approach-title">Um grande evento não acontece por acaso. <em>É construído.</em></h2>
-            <p>Coordenamos pessoas, equipamentos e operações para transformar um briefing numa experiência que funciona.</p>
-            <div className="steps">
-              {[
-                ['01', 'Escutamos a sua ideia', 'Conhecemos o objectivo, o público e as necessidades do evento.'],
-                ['02', 'Desenhamos a solução', 'Definimos os recursos, a logística e o plano técnico.'],
-                ['03', 'Preparamos cada detalhe', 'Articulamos equipas, montagem e ensaios.'],
-                ['04', 'Executamos com rigor', 'Acompanhamos a operação até ao encerramento.'],
-              ].map(([number, title, desc]) => <div className="step" key={number}><span className="step-num">{number}</span><div><strong>{title}</strong><p>{desc}</p></div><ChevronRight size={21} /></div>)}
+      <section className="approach method-section section-pad" aria-labelledby="approach-title">
+        <div className="container method-shell">
+          <header className="method-heading reveal">
+            <div className="method-heading-primary">
+              <SectionEyebrow light>O NOSSO MÉTODO</SectionEyebrow>
+              <h2 id="approach-title">Nos bastidores,<br /><em>cada detalhe conta.</em></h2>
             </div>
-          </div>
-          <div className="approach-photo reveal"><img src={photos.process} srcSet={imageSet(photos.process)} sizes="(max-width: 900px) 100vw, 46vw" width={1100} height={800} alt="Equipa em ambiente profissional de produção de eventos, fotografia ilustrativa" loading="lazy" decoding="async" /><div className="approach-card"><span className="approach-card-icon"><Check size={25} /></span><span><strong>Do início ao fim.</strong><small>O seu projecto acompanhado em todas as etapas.</small></span></div></div>
+            <p>Do primeiro briefing à operação no terreno, articulamos equipas, recursos e tecnologia para transformar cada projecto numa experiência bem executada.</p>
+          </header>
+
+          <figure className="method-feature reveal">
+            <picture>
+              <source media="(max-width: 640px)"
+                srcSet="/images/projectos/optimizadas/bastidores-tecnicos-400.webp 400w, /images/projectos/optimizadas/bastidores-tecnicos-800.webp 800w"
+                sizes="(max-width: 640px) 94vw, 100vw"
+                type="image/webp" />
+              <img src="/images/projectos/optimizadas/bastidores-tecnicos-1200.webp"
+                srcSet="/images/projectos/optimizadas/bastidores-tecnicos-800.webp 800w, /images/projectos/optimizadas/bastidores-tecnicos-1200.webp 1200w"
+                sizes="(max-width: 900px) 94vw, 1200px"
+                width={1200} height={800}
+                alt="Equipa técnica em produção de evento: mesas de mistura, realização multicâmara e operadores numa sala iluminada."
+                loading="lazy" decoding="async" />
+            </picture>
+            <figcaption className="method-photo-note">
+              <span className="method-photo-marker" aria-hidden="true" />
+              BASTIDORES DA PRODUÇÃO
+            </figcaption>
+          </figure>
+
+          <ol className="method-stages" aria-label="Etapas de trabalho da Bawito">
+            {[
+              ['01', 'Escuta e briefing', 'Compreendemos os objectivos, o público e as necessidades.'],
+              ['02', 'Planeamento técnico', 'Definimos recursos, equipas e logística.'],
+              ['03', 'Montagem e ensaios', 'Preparamos os espaços e testamos cada solução.'],
+              ['04', 'Operação e acompanhamento', 'Coordenamos o evento até ao encerramento.'],
+            ].map(([number, title, desc]) => (
+              <li className="method-stage reveal" key={number}>
+                <span className="method-stage-number">{number}</span>
+                <div className="method-stage-copy">
+                  <h3>{title}</h3>
+                  <p>{desc}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
