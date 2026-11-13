@@ -100,6 +100,12 @@ for (const name of ['about-bawito-desktop.webp','about-bawito-mobile.webp']) {
  assert.ok(existsSync('dist/images/equipa/'+name),'Imagem Sobre não encontrada: '+name)
 }
 assert.ok(html.includes('logo-bawito-header.webp'), 'O logótipo do cabeçalho não está presente no HTML')
+assert.ok(html.includes('class="footer-brand"'), 'A secção de texto do rodapé não foi encontrada')
+assert.ok(!html.includes('brand-symbol'), 'O logótipo inventado não deve surgir no site')
+assert.ok(!html.includes('brand-words'), 'A marca fictícia não deve ser desenhada com HTML')
+const footerMarkup = html.slice(html.indexOf('<footer'), html.indexOf('</footer>') + '</footer>'.length)
+assert.ok(!footerMarkup.includes('<img') && !footerMarkup.includes('class="brand'), 'O rodapé não deve apresentar nenhum logótipo')
+
 const assets = readdirSync('dist/assets')
 assert.ok(assets.some(name => name.endsWith('.css')), 'CSS em falta')
 assert.ok(assets.some(name => name.endsWith('.js')), 'JavaScript em falta')
