@@ -171,7 +171,9 @@ try {
             })
             return result.violations.map(v => ({
               id: v.id, impact: v.impact, description: v.description,
-              nodes: v.nodes.slice(0, 3).map(n => n.target.join(' ')),
+              nodes: v.nodes.slice(0, 75).map(n => ({
+                selector: n.target.join(' '), diagnostic: n.failureSummary?.slice(0, 260),
+              })),
             }))
           })
         : []

@@ -1553,3 +1553,30 @@ html{scroll-padding-top:100px}
 @media(prefers-reduced-motion:reduce){
  .contact-quick-whatsapp,.quote-form input:not([type='checkbox']),.quote-form select,.quote-form textarea{transition:none!important;transform:none!important}
 }
+
+/* Auditoria final — correcção de contraste e largura mínima 320px.
+   Sem ocultar o overflow globalmente: os contentores devem caber no viewport. */
+.eyebrow:not(.eyebrow-light){color:#0b5d86}
+.services .service-area-index{color:#0c6088}
+@media(max-width:960px){
+  .contact-section .contact-grid{
+    grid-template-columns:minmax(0,1fr);
+    min-width:0
+  }
+  .contact-section .contact-grid > .contact-copy,
+  .contact-section .contact-grid > .quote-form{
+    min-width:0;max-width:100%;
+  }
+}
+@media(max-width:360px){
+  .contact-section .contact-details,
+  .contact-section .contact-details > a,
+  .contact-section .contact-details > div,
+  .contact-section .contact-note,
+  .contact-section .contact-quick-whatsapp{
+    min-width:0;max-width:100%;overflow-wrap:anywhere
+  }
+  .contact-section .quote-form .form-columns{
+    grid-template-columns:minmax(0,1fr)
+  }
+}
