@@ -193,6 +193,7 @@ function App() {
   const [preparedWhatsAppUrl, setPreparedWhatsAppUrl] = useState('')
   const [form, setForm] = useState({ name: '', phone: '', email: '', event: '', date: '', city: '', message: '' })
   const modalCloseRef = useRef<HTMLButtonElement | null>(null)
+  const galleryTouchStartRef = useRef<{ x: number; y: number } | null>(null)
   const lastFocusedElement = useRef<HTMLElement | null>(null)
   const menuToggleRef = useRef<HTMLButtonElement | null>(null)
   const menuNavRef = useRef<HTMLElement | null>(null)
@@ -499,17 +500,23 @@ function App() {
           </div>
 
           <div className="gallery-toolbar reveal">
-            <div className="gallery-filters" role="group" aria-label="Filtrar projectos">
-              {filters.map(({ id, text }) => (
-                <button type="button" key={id} className={filter === id ? 'active' : ''}
-                  aria-pressed={filter === id} onClick={() => setFilter(id)}>
-                  {text}
-                </button>
-              ))}
+            <div className="gallery-controls">
+              <span className="gallery-filter-label">EXPLORAR POR CATEGORIA</span>
+              <div className="gallery-filters" role="group" aria-label="Filtrar projectos">
+                {filters.map(({ id, text }) => (
+                  <button type="button" key={id} className={filter === id ? 'active' : ''}
+                    aria-pressed={filter === id} onClick={() => setFilter(id)}>
+                    {text}
+                  </button>
+                ))}
+              </div>
             </div>
-            <span className="gallery-count" aria-live="polite">
-              {String(visibleGallery.length).padStart(2, '0')} {visibleGallery.length === 1 ? 'PROJECTO' : 'PROJECTOS'}
-            </span>
+            <div className="gallery-filter-meta">
+              <span className="gallery-filter-hint" aria-hidden="true">Deslize para explorar <ChevronRight size={14} /></span>
+              <span className="gallery-count" role="status" aria-live="polite">
+                {String(visibleGallery.length).padStart(2, '0')} {visibleGallery.length === 1 ? 'PROJECTO' : 'PROJECTOS'}
+              </span>
+            </div>
           </div>
 
           <div className="portfolio-cards" aria-label="Fotografias dos projectos da Bawito">
@@ -525,6 +532,7 @@ function App() {
                       loading="lazy" decoding="async" />
                     <span className="portfolio-card-zoom" aria-hidden="true">
                       <Maximize2 size={19} strokeWidth={1.8} />
+                      <span className="portfolio-card-zoom-label">Ver imagem</span>
                     </span>
                   </span>
                   <span className="portfolio-card-caption">
@@ -712,7 +720,21 @@ function App() {
 
     {activeImage && <div className="lightbox portfolio-lightbox" role="dialog" aria-modal="true" aria-labelledby="portfolio-modal-title" onMouseDown={(event) => { if (event.target === event.currentTarget) setActiveImage(null) }}>
       <button ref={modalCloseRef} type="button" className="lightbox-close" onClick={() => setActiveImage(null)} aria-label="Fechar fotografia"><X size={25} /></button>
-      <div className="lightbox-content">
+      <div className="lightbox-content"
+        onTouchStart={(event) => {
+          const touch = event.touches[0]
+          if (touch) galleryTouchStartRef.current = { x: touch.clientX, y: touch.clientY }
+        }}
+        onTouchEnd={(event) => {
+          const start = galleryTouchStartRef.current
+          galleryTouchStartRef.current = null
+          const touch = event.changedTouches[0]
+          if (!start || !touch) return
+          const deltaX = touch.clientX - start.x
+          const deltaY = touch.clientY - start.y
+          if (Math.abs(deltaX) < 60 || Math.abs(deltaX) < Math.abs(deltaY) * 1.4) return
+          navigateGallery(deltaX < 0 ? 1 : -1)
+        }}>
         <img src={projectImage(activeImage.id, 1200)} alt={activeImage.alt} width={1200} height={800} decoding="async" />
         <div className="portfolio-lightbox-caption">
           <div><span>{activeImage.type} · PORTFÓLIO BAWITO</span><h3 id="portfolio-modal-title">{activeImage.title}</h3></div>

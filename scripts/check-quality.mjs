@@ -68,6 +68,12 @@ assert.ok(html.includes('Ecrãs LED e Monitores'), 'O aluguer de ecrãs está au
 assert.ok(html.includes('Sanitários Móveis para Eventos'), 'O aluguer de sanitários está ausente')
 assert.ok(html.includes('PROJECTOS &amp; REALIZAÇÕES') || html.includes('PROJECTOS & REALIZAÇÕES'), 'Portefólio não identificado')
 assert.equal((html.match(/class="portfolio-card reveal"/g) || []).length, 8, 'O portefólio deve apresentar oito fotografias grandes')
+assert.ok(html.includes('EXPLORAR POR CATEGORIA'), 'O portefólio deve identificar claramente o filtro')
+assert.equal((html.match(/class="portfolio-card-zoom-label"/g) || []).length, 8, 'As fotografias devem ter indicação de ampliação')
+assert.ok(read('src/App.tsx').includes('galleryTouchStartRef.current'), 'A galeria deve suportar gestos horizontais no mobile')
+assert.ok(read('src/styles.css').includes('.method-stage.is-visible:after'), 'A linha temporal deve progredir com a entrada de cada etapa')
+assert.ok(read('src/styles.css').includes('scroll-snap-type:x proximity'), 'Os filtros mobile devem permitir deslocação horizontal controlada')
+
 assert.equal((html.match(/class="portfolio-card-media"/g) || []).length, 8, 'Faltam fotografias em destaque')
 assert.equal((html.match(/class="portfolio-card-caption"/g) || []).length, 8, 'Faltam títulos fora das fotografias')
 assert.ok(html.includes('class="portfolio-cards"'), 'A grelha de cartões fotográficos não existe')
